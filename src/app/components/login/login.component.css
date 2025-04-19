@@ -1,0 +1,286 @@
+/* Base Form Styles */
+.form-group {
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 1.125rem 1rem 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.form-group label {
+  position: absolute;
+  top: 1.125rem;
+  left: 1rem;
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  padding: 0 0.25rem;
+  margin-left: -0.25rem;
+}
+
+/* Floating Label Effect */
+.form-control:focus + label,
+.form-control.has-value + label,
+.form-control:not(:placeholder-shown) + label {
+  top: -0.5px;
+  font-size: 0.8125rem;
+  color: #6b7280;
+  background-color: white;
+  transform: translateY(-50%);
+}
+
+.form-control:focus {
+  border-color: #7c3aed;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1);
+}
+
+/* Layout Structure */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  padding: 1.5rem;
+}
+
+.login-content {
+  display: flex;
+  width: 100%;
+  max-width: 90rem;
+  height: 90vh;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Image Section - Now Larger */
+.login-image {
+  flex: 2; /* Increased space for image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 2.5rem;
+}
+
+.login-image img {
+  max-width: 130%;
+  max-height: 130%;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Form Section - More Compact */
+.login-form-container {
+  flex: 1.5; /* Reduced space for form */
+  padding: 3rem;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Form Elements */
+.heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #111827;
+}
+
+.btn-primary {
+  background-color: #7c3aed;
+  border: none;
+  padding: 0.875rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: #6d28d9;
+}
+
+/* Error Messages */
+.text-danger {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  position: absolute;
+  bottom: -1.25rem;
+}
+
+/* Additional Options */
+.login-extra-options {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.login-extra-options p {
+  margin: 0.75rem 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Remember Me Checkbox */
+.remember-me-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.remember-me-wrapper label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.remember-checkbox {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #7c3aed;
+  cursor: pointer;
+}
+
+/* Links */
+a {
+  color: #7c3aed;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.login-divider {
+  height: 600px; /* adjust based on your container height */
+  width: 1px;
+  background-color: #e0e0e0; /* light gray color */
+  margin: 0 40px; /* adjust spacing as needed */
+}
+
+
+/* Divider Styles */
+.divider-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 5px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #e0e0e0; /* Light gray line */
+}
+
+.divider-text {
+  padding: 0 5px;
+  color: #666; /* Medium gray text */
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/* Adjust your existing button margin */
+.continue-btn {
+  margin-bottom: 0; /* Remove bottom margin since divider handles spacing */
+}
+
+
+/* Social Icons Styling - Brand Icons (Larger) */
+.login-icons {
+  display: flex;
+  gap: 30px; /* Increased gap */
+  justify-content: center;
+  margin: 25px 0;
+}
+
+.login-icons a {
+  font-size: 42px; /* Much larger (was 24px) */
+  transition: all 0.2s ease;
+  width: 60px; /* Bigger click area */
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-decoration: none;
+}
+
+/* Google Icon */
+.login-icons a:nth-child(1) { 
+  color: #DB4437; /* Google Red */
+}
+.login-icons a:nth-child(1):hover {
+  background: rgba(219, 68, 55, 0.1); /* Light red bg on hover */
+}
+
+/* Facebook Icon */
+.login-icons a:nth-child(2) { 
+  color: #1877F2; /* Facebook Blue */
+}
+.login-icons a:nth-child(2):hover {
+  background: rgba(24, 119, 242, 0.1); /* Light blue bg on hover */
+}
+
+/* Apple Icon */
+.login-icons a:nth-child(3) { 
+  color: #000000; /* Apple Black */
+}
+.login-icons a:nth-child(3):hover {
+  background: rgba(0, 0, 0, 0.1); /* Light black bg on hover */
+}
+
+/* Hover effects for all */
+.login-icons a:hover {
+  transform: scale(1.1); 
+}
+
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .login-content {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .login-image {
+    padding: 1.5rem;
+    flex: none;
+    height: 40vh;
+  }
+
+  .login-form-container {
+    padding: 2rem 1.5rem;
+    flex: none;
+  }
+
+  .form-control {
+    padding: 1rem 1rem 0.375rem;
+  }
+
+  .form-group label {
+    top: 1rem;
+  }
+}
+

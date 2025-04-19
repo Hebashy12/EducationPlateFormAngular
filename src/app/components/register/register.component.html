@@ -1,0 +1,120 @@
+<div class="login-wrapper">
+  <div class="login-content">
+    <div class="login-image">
+      <img src="Login.webp" alt="registration illustration" />
+    </div>
+    
+    <div class="login-form-container">
+      <h2 class="heading">Start your learning journey</h2>
+      <form [formGroup]="registerUserForm" (ngSubmit)="submitForm()">
+        <!-- First Name -->
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            formControlName="firstName"
+            placeholder=" "
+            (focus)="firstNameFocused = true"
+            (blur)="firstNameFocused = false"
+            [ngClass]="{'has-value': registerUserForm.get('firstName')?.value || firstNameFocused}"
+          />
+          <label for="firstName" class="bold-label">First Name</label>
+          <div class="text-danger" *ngIf="registerUserForm.get('firstName')?.invalid && (registerUserForm.get('firstName')?.touched || registerUserForm.get('firstName')?.dirty)">
+            {{ firstNameError }}
+          </div>
+        </div>
+        
+        <!-- Last Name -->
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            formControlName="lastName"
+            placeholder=" "
+            (focus)="lastNameFocused = true"
+            (blur)="lastNameFocused = false"
+            [ngClass]="{'has-value': registerUserForm.get('lastName')?.value || lastNameFocused}"
+          />
+          <label for="lastName" class="bold-label">Last Name</label>
+          <div class="text-danger" *ngIf="registerUserForm.get('lastName')?.invalid && (registerUserForm.get('lastName')?.touched || registerUserForm.get('lastName')?.dirty)">
+            {{ lastNameError }}
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            placeholder=" "
+            (focus)="emailFocused = true"
+            (blur)="emailFocused = false"
+            [ngClass]="{'has-value': registerUserForm.get('email')?.value || emailFocused}"
+          />
+          <label for="email" class="bold-label">Email</label>
+          <div class="text-danger" *ngIf="registerUserForm.get('email')?.invalid && (registerUserForm.get('email')?.touched || registerUserForm.get('email')?.dirty)">
+            {{ emailError }}
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder=" "
+            (focus)="passwordFocused = true"
+            (blur)="passwordFocused = false"
+            [ngClass]="{'has-value': registerUserForm.get('password')?.value || passwordFocused}"
+          />
+          <label for="password" class="bold-label">Password</label>
+          <div class="text-danger" *ngIf="registerUserForm.get('password')?.invalid && (registerUserForm.get('password')?.touched || registerUserForm.get('password')?.dirty)">
+            {{ passwordError }}
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            placeholder=" "
+            (focus)="confirmPasswordFocused = true"
+            (blur)="confirmPasswordFocused = false"
+            [ngClass]="{'has-value': registerUserForm.get('confirmPassword')?.value || confirmPasswordFocused}"
+          />
+          <label for="confirmPassword" class="bold-label">Confirm Password</label>
+          <div class="text-danger" *ngIf="(registerUserForm.get('confirmPassword')?.invalid || registerUserForm.hasError('passwordMismatch')) && (registerUserForm.get('confirmPassword')?.touched || registerUserForm.get('confirmPassword')?.dirty)">
+            {{ confirmPasswordError }}
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="!registerUserForm.valid" class="btn-primary w-100">
+          Create Account
+        </button>
+      </form>
+
+      <div class="login-extra-options">
+        <!-- <p>Or sign up with</p>
+        <div class="login-icons">
+          <i class="fab fa-google"></i>
+          <i class="fab fa-facebook"></i>
+          <i class="fab fa-apple"></i>
+        </div> -->
+
+        <p>
+          Already have an account?
+          <a routerLink="/login">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

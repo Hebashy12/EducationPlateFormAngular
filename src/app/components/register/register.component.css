@@ -1,0 +1,207 @@
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 40px 20px;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: row;
+  max-width: 1300px;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.login-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  padding: 30px;
+}
+
+.login-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.login-form-container {
+  flex: 1.4;
+  padding: 60px 50px;
+  background-color: #fff;
+  border-left: 1px solid #eee;
+}
+
+.heading {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #1c1c1c;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 18px 16px 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: transparent;
+  transition: border-color 0.3s ease;
+}
+
+.form-group label {
+  position: absolute;
+  top: 18px;
+  left: 16px;
+  color: #666;
+  font-size: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  background-color: white;
+  padding: 0 4px;
+  margin-left: -4px;
+}
+
+.form-control:focus + label,
+.form-control:not(:placeholder-shown) + label {
+  top: -9px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.form-control:focus {
+  border-color: #8338ec;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(131, 56, 236, 0.1);
+}
+
+.btn-primary {
+  background-color: #8338ec;
+  border: none;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #6f2fc3;
+}
+
+.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.text-danger {
+  color: #ff3b30;
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+  position: absolute;
+  bottom: -20px;
+}
+
+.login-extra-options {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.login-extra-options p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.login-icons i {
+  font-size: 24px;
+  cursor: pointer;
+  color: #444;
+  transition: color 0.3s ease;
+}
+
+.login-icons i:hover {
+  color: #000;
+}
+
+a {
+  color: #5f2eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .login-content {
+    flex-direction: column;
+  }
+
+  .login-image {
+    padding: 20px;
+  }
+
+  .login-form-container {
+    padding: 40px 20px;
+    border-left: none;
+    border-top: 1px solid #eee;
+  }
+  
+  .form-control {
+    padding: 16px 16px 6px;
+  }
+  
+  .form-group label {
+    top: 16px;
+  }
+  
+  .form-control:focus + label,
+  .form-control:not(:placeholder-shown) + label {
+    top: -8px;
+  }
+}
+
+.bold-label {
+  font-weight: 600 !important; 
+}
+
+.form-group label {
+  font-weight: 600;
+}
+
+.form-control:focus + label,
+.form-control.has-value + label {
+  font-weight: 600;
+}

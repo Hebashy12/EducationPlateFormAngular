@@ -1,0 +1,86 @@
+<div class="login-wrapper">
+  <div class="login-content">
+    <div class="login-image">
+      <img src="Login.webp" alt="login illustration" />
+    </div>
+    
+    <div class="login-divider"></div>
+
+    <div class="login-form-container">
+      <h2 class="heading">Log in to continue your learning journey</h2>
+      <form [formGroup]="registerUserForm" (ngSubmit)="submitForm()">
+        <!-- Email with Floating Label -->
+        <div class="form-group">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            placeholder=" "
+            (focus)="emailFocused = true"
+            (blur)="emailFocused = false"
+            [ngClass]="{'has-value': registerUserForm.get('email')?.value || emailFocused}"
+          />
+          <label for="email">Email</label>
+          <div class="text-danger" *ngIf="emailError">
+            {{ emailError }}
+          </div>
+        </div>
+
+        <!-- Password with Floating Label -->
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder=" "
+            (focus)="passwordFocused = true"
+            (blur)="passwordFocused = false"
+            [ngClass]="{'has-value': registerUserForm.get('password')?.value || passwordFocused}"
+          />
+          <label for="password">Password</label>
+          <div class="text-danger" *ngIf="passwordError">
+            {{ passwordError }}
+          </div>
+        </div>
+        
+        <div class="remember-me-wrapper">
+          <label>
+            <input
+              type="checkbox"
+              formControlName="rememberMe"
+              class="remember-checkbox"
+            />
+            Remember Me
+          </label>
+        </div>
+
+        <button type="submit" [disabled]="registerUserForm.invalid" class="btn-primary w-100">
+          Continue with email
+        </button>
+      </form>
+
+      <!-- The new divider -->
+      <div class="divider-container">
+        <div class="divider-line"></div>
+        <span class="divider-text">or</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="login-extra-options">
+        <p>Other log in options</p>
+        <div class="login-icons">
+          <a href="#" class="google-icon"><i class="fab fa-google"></i></a>
+          <a href="#" class="facebook-icon"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="apple-icon"><i class="fab fa-apple"></i></a>
+        </div>
+
+        <p>
+          Don't have an account?
+          <a routerLink="/register">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

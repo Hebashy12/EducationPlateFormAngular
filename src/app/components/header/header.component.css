@@ -1,0 +1,145 @@
+/* Base styles for navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;  /* Full-width navbar */
+  z-index: 1000;  /* Ensures the navbar is above other content */
+  height: 72px;  /* Navbar height */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);  /* Light shadow */
+  background-color: white;  /* White background */
+}
+
+/* Navbar brand/logo */
+.navbar .navbar-brand {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #5624d0;
+  text-decoration: none;
+}
+
+/* Explore button */
+.navbar .nav-item .nav-link {
+  font-weight: bold;
+  color: #5624d0;
+  text-decoration: none;
+}
+
+.navbar .nav-item .nav-link:hover {
+  color: #401cbf;
+}
+
+/* Search Bar */
+.search-container {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  border: 1px solid #a2a2c2;
+  border-radius: 999px;
+  padding: 0 16px;
+  background-color: white;
+  transition: all 0.2s ease;
+  max-width: 600px;
+}
+
+.search-container:focus-within {
+  border-color: #5624d0;
+  box-shadow: 0 2px 6px rgba(86, 36, 208, 0.2);
+}
+
+
+
+.search-icon-button {
+  background: transparent;
+  border: none;
+  color: #5624d0; /* Purple color */
+  cursor: pointer;
+  margin-right: 12px;
+  font-size: 16px;
+  padding: 0;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  border-radius: 50%;
+}
+
+.search-icon-button:hover {
+  background-color: #f4f0fe;
+  color: #401cbf; /* Darker purple on hover */
+}
+
+.search-icon {
+  color: #5624d0;  /* Purple color for the search icon */
+  margin-right: 12px;
+  font-size: 16px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  flex: 1;
+  color: #2d2f31;
+  background-color: transparent;
+  height: 100%;
+}
+
+.search-button {
+  display: none;  /* Search button is hidden */
+  border: none;
+  background: none;
+  color: #5624d0;
+  cursor: pointer;
+}
+
+/* Auth Buttons Styles */
+.auth-buttons {
+  gap: 16px;
+}
+
+.auth-button {
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* Login button */
+.auth-button.login {
+  color: #5624d0;
+  background: transparent;
+  border: 1px solid #5624d0;
+}
+
+.auth-button.login:hover {
+  background-color: #f4f0fe;
+}
+
+/* Signup button */
+.auth-button.signup {
+  color: white;
+  background-color: #5624d0;
+  border: 1px solid #5624d0;
+}
+
+.auth-button.signup:hover {
+  background-color: #401cbf;
+  border-color: #401cbf;
+}
+
+/* Icon button */
+.auth-button.icon {
+  color: #5624d0;
+  background: transparent;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.auth-button.icon:hover {
+  background-color: #f4f0fe;
+}

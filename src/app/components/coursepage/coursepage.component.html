@@ -1,0 +1,82 @@
+<div *ngIf="course" class="course-hero">
+    <div class="hero-container">
+      <!-- Left -->
+      <div class="hero-left">
+        <p class="breadcrumb">{{ category }} > {{ course.topic || course.name }}</p>
+        <h1 class="title">{{ course.name }}</h1>
+        <p class="subtitle">{{ course.description }}</p>
+  
+        <div class="info">
+          <span class="info-item">
+            <i class="fas fa-star"></i> {{ course.rating }}
+          </span>
+          <span class="info-item">
+            <i class="fas fa-user-graduate"></i> {{ course.students }} students
+          </span>
+        </div>
+  
+        <div class="meta">
+          <span><i class="fas fa-clock"></i> Last updated {{ course.lastUpdated }}</span>
+          <span><i class="fas fa-globe"></i> English</span>
+          <span><i class="fas fa-closed-captioning"></i> English (CC)</span>
+        </div>
+      </div>
+  
+      <!-- Right -->
+      <div class="hero-right">
+        <div class="preview-box">
+          <div class="preview-img">
+            <img [src]="course.image" [alt]="course.name" />
+            <div class="play-button">
+              <i class="fas fa-play"></i>
+            </div>
+            <p class="preview-label">Preview this course</p>
+          </div>
+  
+          <div class="price-box">
+            <p class="price">£{{ course.price }}</p>
+            <p class="limited-time">
+              <i class="fas fa-clock"></i> Hours left at this price!
+            </p>
+            <button class="btn purple">Buy now</button>
+            <button class="btn outline">Add to cart</button>
+  
+            <div class="feature-list">
+              <p class="feature-item"><i class="fas fa-video"></i> Hours on-demand video</p>
+              <p class="feature-item"><i class="fas fa-download"></i> Downloadable resources</p>
+              <p class="feature-item"><i class="fas fa-mobile-alt"></i> Access on mobile and TV</p>
+              <p class="feature-item"><i class="fas fa-infinity"></i> Full lifetime access</p>
+              <p class="feature-item"><i class="fas fa-trophy"></i> Certificate of completion</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Course Content Full Width -->
+    <div class="course-content-container">
+      <div class="course-content" *ngIf="course?.sections?.length">
+        <h2 class="content-title">Course content</h2>
+        <p class="content-subtitle">
+          {{ course.sections.length }} sections • {{ getTotalLectures() }} lectures • {{ getTotalLength() }}
+        </p>
+  
+        <div *ngFor="let section of course.sections; let i = index" class="section">
+          <div class="section-header" (click)="toggleSection(i)">
+            <strong>{{ i + 1 }}. {{ section.title }}</strong>
+            <span class="toggle-icon">{{ isSectionVisible(i) ? '-' : '+' }}</span>
+          </div>
+          <ul class="video-list" *ngIf="isSectionVisible(i)">
+            <li *ngFor="let video of section.videos">
+              <span class="video-time">{{ video.time }}</span> {{ video.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="!course">
+    <p>Course data not found.</p>
+  </div>
+  
