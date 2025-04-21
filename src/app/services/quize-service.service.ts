@@ -10,7 +10,7 @@ import { IGetQuiz } from '../models/quize/iget-quiz';
   providedIn: 'root'
 })
 export class QuizeService {
-  private apiUrl=environment.apiUrl+"api/Quiz/"
+  private apiUrl= "api/Quiz/"
   constructor(private _http:HttpClient) { }
   createQuiz(quiz:ICreateQize){
     return this._http.post(this.apiUrl,quiz);

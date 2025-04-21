@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IGetCategory } from '../../models/category/iget-category';
@@ -17,7 +17,10 @@ import { QuizeService } from '../../services/quize-service.service';
 })
 export class CoursesComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router) {this.getAllSectionByCourseIdFromAPI(1)}
+  constructor(private router: Router) {
+  
+    this.getAllCategoryFromAPI()
+  }
 
     categories = [
       {
@@ -107,39 +110,21 @@ export class CoursesComponent implements OnInit, OnDestroy {
     fullCategoryWithCourses:any;
     allCategory:IGetCategory[]=[];
     categorySer=inject(CategoryService);
-    sectionSer=inject(SectionService);
-    quizSer=inject(QuizeService)
-    allSectionInCourse:IGetSection[]=[];
-    sectionsWithVideo:IGetVideo[]=[];
+    
 
-    // getAllCategoryFromAPI(){
-    //   this.categorySer.getAllCategories().subscribe({
-    //     next:(c)=>{
-    //       this.allCategory=c;
-    //       this.fullCategoryWithCourses = [];
+    getAllCategoryFromAPI(){
+      this.categorySer.getAllCategories().subscribe({
+        next:(c)=>{
+          this.allCategory=c;
+          this.allCategory.forEach(c=>console.log(c))
+        },
+        error:(e)=>{
+          console.log("we have some Problem when Fetch Category API "+e)
+        }
+      })
+    }
 
-    //       c.forEach(category => {
-    //         this.courseSer.getCoursesByCategoryId(category.id).subscribe({
-    //           next: (courses) => {
-    //             const fullCategory = {
-    //               ...category,
-    //               courses: courses
-    //             };
-    //     },
-    //     error:(e)=>{
-    //       console.log("we have some Problem when Fetch Category API "+e)
-    //     }
-    //   })
-    // }
-    getAllSectionByCourseIdFromAPI(id:number){
-      this.sectionSer.getSections(id).subscribe({
-        next:(s)=>{
-          this.allSectionInCourse=s;
-          this.allSectionInCourse.forEach(s=>console.log(s))
 
-  }
-  })
-  }
     images: string[] = [
       'https://img-c.udemycdn.com/notices/web_carousel_slide/image/3d5da4b4-da7b-4b66-91db-6ea75f1b82a6.png',
       'https://img-c.udemycdn.com/notices/web_carousel_slide/image/9652f354-5e37-400c-856e-ee28f98f27d6.png',

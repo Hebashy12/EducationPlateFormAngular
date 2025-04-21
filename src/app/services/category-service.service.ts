@@ -9,7 +9,7 @@ import { IGetCategory } from '../models/category/iget-category';
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl=environment.apiUrl+"api/category/"
+  private apiUrl="api/Category"
   constructor(private _http:HttpClient) { }
   addCategory(category:ICreateCategory){
     return this._http.post(this.apiUrl,category);

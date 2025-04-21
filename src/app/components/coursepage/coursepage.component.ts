@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; 
 import { RouterModule } from '@angular/router';
+import { SectionService } from '../../services/section-serivce.service';
+import { QuizeService } from '../../services/quize-service.service';
+import { IGetSection } from '../../models/sectionModel/iget-section';
+import { IGetVideo } from '../../models/videoModel/iget-video';
 
 @Component({
   selector: 'app-coursepage',
@@ -17,11 +21,30 @@ export class CoursepageComponent implements OnInit {
   // Array to hold the visibility state of each section
   visibleSections: boolean[] = [];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.getAllSectionByCourseIdFromAPI(this.route.snapshot.params['id']);
+
     const nav = this.router.getCurrentNavigation();
     // Get course and category from state
     this.course = nav?.extras.state?.['course'];
     this.category = nav?.extras.state?.['categories'];
+  }
+
+  sectionSer=inject(SectionService);
+  quizSer=inject(QuizeService)
+  allSectionInCourse:IGetSection[]=[];
+  sectionsWithVideo:IGetVideo[]=[];
+
+  getAllSectionByCourseIdFromAPI(id:number){
+    this.sectionSer.getSections(id).subscribe({
+      next:(s)=>{
+        this.allSectionInCourse=s;
+        this.allSectionInCourse.forEach(s=>console.log(s))
+      },
+      error:(e)=>{
+        console.log("we have some Problem when Fetch Category API "+e)
+      }
+  })
   }
 
   ngOnInit(): void {
