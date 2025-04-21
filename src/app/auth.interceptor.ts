@@ -4,7 +4,8 @@ import { AuthService, User } from './auth.service';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-const API_URL = import.meta.env.NG_APP_API_URL ?? 'http://127.0.0.1:5000';
+import { environment } from '../environments/environment';
+const API_URL = environment.apiUrl ?? 'https://localhost:7098/';
 
 //{
 //   withCredentials: true,
@@ -59,8 +60,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     withCredentials: true,
     url: API_URL + req.url,
     setHeaders: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+      // 'Content-Type': 'application/json',
+      // Accept: 'application/json',
       ...(auth.userSignal() &&
         auth.userSignal()?.token && {
           Authorization: `Bearer ${auth.userSignal()?.token}`,

@@ -1,107 +1,107 @@
 <div class="courses-container">
 
-    <div class="header-image">
-      <img [src]="currentImage" alt="Learning Header Image" />
-    </div>  
+  <div class="header-image">
+    <img [src]="currentImage" alt="Learning Header Image" />
+  </div>  
 
-    <!-- Heading -->
-    <div class="header">
-      <h2>All the skills you need in one place</h2>
-      <p>From critical skills to technical topics, we support your professional development.</p>
-    </div>
-  
-
-
-    <div style="background-color: #f8f8f8; display: inline-block; width: 100%; min-height: 400px; padding: 30px 0;">
-      <!-- Category Tabs -->
-      <ul class="category-tabs">
-        <li *ngFor="let category of categories" 
-            (click)="selectedCategory = category" 
-            [class.active]="selectedCategory === category">
-          {{ category.name }}
-          <small>{{ category.learners }}</small>
-        </li>
-      </ul>
-      
-      <!-- Course Cards Grid -->
-      <div class="courses-grid">
-        <div *ngFor="let course of selectedCategory?.courses"
-             class="course-card"
-             (click)="goToCourse(course, selectedCategory.name)"
-             style="cursor: pointer;">
-          <img [src]="course.image" [alt]="course.name" class="course-image">
-          <div class="course-body">
-            <h4 class="course-name">{{ course.name }}</h4>
-            <p class="course-description">{{ course.description }}</p>
-            <div class="course-rating">
-              <span class="stars">{{ getStarRating(course.rating).display }}</span>
-              <span *ngIf="course.tag" class="tag">{{ course.tag }}</span>
-            </div>
-            <div class="course-price">{{ course.price }}</div>
-          </div>
-        </div>
-      </div>      
-    </div>
-  
-
-
-    <div class="trusted-by-section">
-      <p class="trusted-text">Trusted by over 16,000 companies and millions of learners around the world</p>
-      <div class="logos-container">
-        <img src="https://cms-images.udemycdn.com/content/tqevknj7om/svg/volkswagen_logo.svg?position=c&quality=80&x.app=portals" alt="Volkswagen Logo">
-        <img src="https://cms-images.udemycdn.com/content/2gevcc0kxt/svg/samsung_logo.svg?position=c&quality=80&x.app=portals" alt="Samsung Logo">
-        <img src="https://cms-images.udemycdn.com/content/mueb2ve09x/svg/cisco_logo.svg?position=c&quality=80&x.app=portals" alt="Cisco Logo">
-        <img src="https://cms-images.udemycdn.com/content/ryaowrcjb2/svg/vimeo_logo_resized-2.svg?position=c&quality=80&x.app=portals" alt="Vimeo Logo">
-        <img src="https://cms-images.udemycdn.com/content/bthyo156te/svg/procter_gamble_logo.svg?position=c&quality=80&x.app=portals" alt="P&G Logo">
-        <img src="https://cms-images.udemycdn.com/content/luqe0d6mx2/svg/hewlett_packard_enterprise_logo.svg?position=c&quality=80&x.app=portals" alt="Hewlett Packard Enterprise Logo">
-        <img src="https://cms-images.udemycdn.com/content/siaewwmkch/svg/citi_logo.svg?position=c&quality=80&x.app=portals" alt="Citi Logo">
-        <img src="https://cms-images.udemycdn.com/content/swmv0okrlh/svg/ericsson_logo.svg?position=c&quality=80&x.app=portals" alt="Ericsson Logo">
-      </div>
-    </div>    
-
-
-    <h2 class="goals-title">Learning focused on your goals</h2>
-
-    <div class="goals-container">
-
-      <!-- Left Side -->
-      <div class="goals-options">
-        <div
-          *ngFor="let goal of goals"
-          class="goal-box"
-          [class.active]="goal.image === selectedImage"
-          (click)="setActive(goal.image)"
-        >
-          <img [src]="goal.icon" class="goal-icon" />
-          <div class="goal-info">
-            <h4>
-              {{ goal.title }}
-              <span *ngIf="goal.badge" class="badge">{{ goal.badge }}</span>
-            </h4>
-            <p>{{ goal.desc }}</p>
-          </div>
-        </div>
-      </div>
-    
-      <!-- Right Side -->
-      <div class="goals-preview">
-        <img [src]="selectedImage" alt="Preview" />
-      </div>
-    </div>    
-    
-    <div class="trends-container">
-      <!-- Left Column: Text Content -->
-      <div class="left-column">
-        <h1>Top trends for the future of work</h1>
-        <p class="subtitle">Our 2025 Global Learning & Skills Trends Report is out now! Find out how to build the skills to keep pace with change.</p>
-        <a class="report-button">Get the report</a>
-      </div>
-    
-      <!-- Right Column: Image -->
-      <div class="right-column">
-        <img src="https://cms-images.udemycdn.com/96883mtakkm8/1qvvR0FDKv9chruIpia6Sc/b2af22a0097e47de4e4354237e3f378c/Onsite_Desktop_GLSTR25.png" alt="2025 Trends Report" class="report-image">
-      </div>
-    </div>
-
+  <!-- Heading -->
+  <div class="header">
+    <h2>All the skills you need in one place</h2>
+    <p>From critical skills to technical topics, we support your professional development.</p>
   </div>
+
+
+
+  <div style="background-color: #f8f8f8; display: inline-block; width: 100%; min-height: 400px; padding: 30px 0;">
+    <!-- Category Tabs -->
+    <ul class="category-tabs">
+      <li *ngFor="let category of categories" 
+          (click)="selectedCategory = category" 
+          [class.active]="selectedCategory === category">
+        {{ category.name }}
+        <small>{{ category.learners }}</small>
+      </li>
+    </ul>
+    
+    <!-- Course Cards Grid -->
+    <div class="courses-grid">
+      <div *ngFor="let course of selectedCategory?.courses"
+           class="course-card"
+           (click)="goToCourse(course, selectedCategory.name)"
+           style="cursor: pointer;">
+        <img [src]="course.image" [alt]="course.name" class="course-image">
+        <div class="course-body">
+          <h4 class="course-name">{{ course.name }}</h4>
+          <p class="course-description">{{ course.description }}</p>
+          <div class="course-rating">
+            <span class="stars">{{ getStarRating(course.rating).display }}</span>
+            <span *ngIf="course.tag" class="tag">{{ course.tag }}</span>
+          </div>
+          <div class="course-price">{{ course.price }}</div>
+        </div>
+      </div>
+    </div>      
+  </div>
+
+
+
+  <div class="trusted-by-section">
+    <p class="trusted-text">Trusted by over 16,000 companies and millions of learners around the world</p>
+    <div class="logos-container">
+      <img src="https://cms-images.udemycdn.com/content/tqevknj7om/svg/volkswagen_logo.svg?position=c&quality=80&x.app=portals" alt="Volkswagen Logo">
+      <img src="https://cms-images.udemycdn.com/content/2gevcc0kxt/svg/samsung_logo.svg?position=c&quality=80&x.app=portals" alt="Samsung Logo">
+      <img src="https://cms-images.udemycdn.com/content/mueb2ve09x/svg/cisco_logo.svg?position=c&quality=80&x.app=portals" alt="Cisco Logo">
+      <img src="https://cms-images.udemycdn.com/content/ryaowrcjb2/svg/vimeo_logo_resized-2.svg?position=c&quality=80&x.app=portals" alt="Vimeo Logo">
+      <img src="https://cms-images.udemycdn.com/content/bthyo156te/svg/procter_gamble_logo.svg?position=c&quality=80&x.app=portals" alt="P&G Logo">
+      <img src="https://cms-images.udemycdn.com/content/luqe0d6mx2/svg/hewlett_packard_enterprise_logo.svg?position=c&quality=80&x.app=portals" alt="Hewlett Packard Enterprise Logo">
+      <img src="https://cms-images.udemycdn.com/content/siaewwmkch/svg/citi_logo.svg?position=c&quality=80&x.app=portals" alt="Citi Logo">
+      <img src="https://cms-images.udemycdn.com/content/swmv0okrlh/svg/ericsson_logo.svg?position=c&quality=80&x.app=portals" alt="Ericsson Logo">
+    </div>
+  </div>    
+
+
+  <h2 class="goals-title">Learning focused on your goals</h2>
+
+  <div class="goals-container">
+
+    <!-- Left Side -->
+    <div class="goals-options">
+      <div
+        *ngFor="let goal of goals"
+        class="goal-box"
+        [class.active]="goal.image === selectedImage"
+        (click)="setActive(goal.image)"
+      >
+        <img [src]="goal.icon" class="goal-icon" />
+        <div class="goal-info">
+          <h4>
+            {{ goal.title }}
+            <span *ngIf="goal.badge" class="badge">{{ goal.badge }}</span>
+          </h4>
+          <p>{{ goal.desc }}</p>
+        </div>
+      </div>
+    </div>
   
+    <!-- Right Side -->
+    <div class="goals-preview">
+      <img [src]="selectedImage" alt="Preview" />
+    </div>
+  </div>    
+  
+  <div class="trends-container">
+    <!-- Left Column: Text Content -->
+    <div class="left-column">
+      <h1>Top trends for the future of work</h1>
+      <p class="subtitle">Our 2025 Global Learning & Skills Trends Report is out now! Find out how to build the skills to keep pace with change.</p>
+      <a class="report-button">Get the report</a>
+    </div>
+  
+    <!-- Right Column: Image -->
+    <div class="right-column">
+      <img src="https://cms-images.udemycdn.com/96883mtakkm8/1qvvR0FDKv9chruIpia6Sc/b2af22a0097e47de4e4354237e3f378c/Onsite_Desktop_GLSTR25.png" alt="2025 Trends Report" class="report-image">
+    </div>
+  </div>
+
+</div>
+

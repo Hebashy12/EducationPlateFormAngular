@@ -1,7 +1,8 @@
 <div>
-    <app-header *ngIf="showHeader"></app-header>
+    <app-header *ngIf="showHeaderAndFooter"></app-header>  <!-- Show only on Courses page -->
     <main>
-        <router-outlet/>
+      <router-outlet></router-outlet>
     </main>
-    <app-footer *ngIf="showHeader"></app-footer>
-</div>
+    <app-footer *ngIf="showHeaderAndFooter"></app-footer>  <!-- Show only on Courses page -->
+  </div>
+  

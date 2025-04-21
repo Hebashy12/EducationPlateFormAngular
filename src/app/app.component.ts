@@ -3,16 +3,16 @@ import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 
-import { AuthService, User } from './auth.service';
-import { jwtDecode } from 'jwt-decode';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { AuthService, User } from './auth.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,         // ✅ Needed for *ngIf, *ngFor
+    CommonModule,
     RouterOutlet,
     HeaderComponent,
     FooterComponent
@@ -21,15 +21,19 @@ import { FooterComponent } from './components/footer/footer.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  showHeader = false;
+  showHeaderAndFooter = false; // Flag to control visibility of header and footer
   auth = inject(AuthService);
 
   constructor(private router: Router) {
-    // ✅ Show header only on /courses or child routes of /courses
+    // Subscribe to router events to check the route
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        this.showHeader = event.urlAfterRedirects === '/courses';
+        // Debug: Check the event URL to ensure it is detecting correctly
+        console.log('Navigation event URL:', event.urlAfterRedirects);
+
+        // Show header and footer only when on the 'Courses' page or root ('')
+        this.showHeaderAndFooter = event.urlAfterRedirects === '/courses' || event.urlAfterRedirects === '/';
       });
   }
 
@@ -47,6 +51,9 @@ export class AppComponent implements OnInit {
         this.auth.userSignal.set(null);
       }
     });
+  }
+}
+
 
     // Optional: localStorage fallback (if you ever enable this)
     // const storedUser = localStorage.getItem('user');
@@ -57,5 +64,3 @@ export class AppComponent implements OnInit {
     // } else {
     //   this.auth.userSignal.set(null);
     // }
-  }
-}

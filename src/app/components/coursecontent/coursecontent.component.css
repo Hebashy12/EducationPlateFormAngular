@@ -1,0 +1,182 @@
+.layout {
+    display: flex;
+    height: 100vh;
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 450px;
+    background-color: #2a2a2a;
+    border-right: 1px solid #444;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+  }
+  
+  .sidebar.collapsed {
+    width: 50px;
+  }
+  
+  .toggle-icon {
+    font-size: 24px;
+    text-align: center;
+    padding: 1rem;
+    cursor: pointer;
+    color: #fff;
+  }
+  
+  .sidebar-content {
+    padding: 1rem;
+  }
+  
+  /* Icon-based Progress Circle */
+  .progress-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  
+  .progress-ring-container {
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .progress-ring {
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .progress-ring-bg {
+    stroke: #333;
+    fill: none;
+    stroke-width: 4;
+  }
+  
+  .progress-ring-fill {
+    stroke: #a435f0;
+    fill: none;
+    stroke-width: 4;
+    transition: stroke-dashoffset 0.35s;
+    transform-origin: center;
+  }
+  
+  .trophy-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 14px;
+  }
+  
+  .progress-text {
+    font-weight: 600;
+    color: #fff;
+    flex: 1;
+  }
+  
+  .dropdown-arrow {
+    color: #aaa;
+    font-size: 12px;
+  }
+  
+  /* Course Section List */
+  .section {
+    margin-bottom: 1rem;
+  }
+  
+  .section-header {
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+  }
+  
+  .section-meta {
+    font-size: 13px;
+    color: #aaa;
+  }
+  
+  .video-list {
+    list-style: none;
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .video-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    font-size: 14px;
+    color: #eee;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .video-item:hover {
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 0 6px rgba(164, 53, 240, 0.4);
+  }  
+  .video-title {
+    flex: 1;
+  }
+  
+  .video-duration {
+    white-space: nowrap;
+    color: #a435f0;
+    font-weight: 600;
+  }
+  
+  /* Content Area */
+  .content {
+    flex: 1;
+    padding: 2rem;
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+  }
+  
+  .trophy-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .trophy-icon {
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .tooltip-progress {
+    position: absolute;
+    bottom: 120%;
+    background-color: #333;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(5px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  
+  .trophy-icon-wrapper:hover .tooltip-progress {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  

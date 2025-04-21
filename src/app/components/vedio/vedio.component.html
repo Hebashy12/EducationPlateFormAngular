@@ -1,0 +1,29 @@
+<!-- <form (ngSubmit)="submit()">
+  <div>
+    <input name="title" placeholder="Title" [(ngModel)]="videoForm.title" required />
+  </div>
+  <div>
+    <input name="description" placeholder="Description" [(ngModel)]="videoForm.description" />
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" name="isFree" [(ngModel)]="videoForm.isFree" /> Is Free
+    </label>
+  </div>
+  <div>
+    <input name="sectionId" type="number" placeholder="Section ID" [(ngModel)]="videoForm.sectionId" required />
+  </div>
+  <div>
+    <label>Video File:</label>
+    <input type="file" (change)="onFileChange($event)" required />
+  </div>
+  <div>
+    <label>Thumbnail Image:</label>
+    <input type="file" (change)="onImageChange($event)" />
+  </div>
+  <button type="submit">Upload</button>
+</form> -->
+@for (section of sections; track section.sectionId) {
+  <h2>{{ section.sectionId }}</h2>
+  <p>{{ section.sectionName }}</p>
+}

@@ -1,7 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common'; 
-import { RouterLink } from '@angular/router'; 
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { IGetCategory } from '../../models/category/iget-category';
+import { CategoryService } from '../../services/category-service.service';
+import { SectionService } from '../../services/section-serivce.service';
+import { IGetSection } from '../../models/sectionModel/iget-section';
+import { IGetVideo } from '../../models/videoModel/iget-video';
+import { QuizeService } from '../../services/quize-service.service';
 
 @Component({
   selector: 'app-courses',
@@ -10,8 +16,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './courses.component.css'
 })
 export class CoursesComponent implements OnInit, OnDestroy {
-  
-  constructor(private router: Router) {}
+
+  constructor(private router: Router) {this.getAllSectionByCourseIdFromAPI(1)}
 
     categories = [
       {
@@ -67,7 +73,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
           }
         ]
       },
-  
+
       {
         name: 'Machine Learning',
         learners: '8M+ learners',
@@ -98,24 +104,63 @@ export class CoursesComponent implements OnInit, OnDestroy {
         ]
       }
     ];
+    fullCategoryWithCourses:any;
+    allCategory:IGetCategory[]=[];
+    categorySer=inject(CategoryService);
+    sectionSer=inject(SectionService);
+    quizSer=inject(QuizeService)
+    allSectionInCourse:IGetSection[]=[];
+    sectionsWithVideo:IGetVideo[]=[];
 
+    // getAllCategoryFromAPI(){
+    //   this.categorySer.getAllCategories().subscribe({
+    //     next:(c)=>{
+    //       this.allCategory=c;
+    //       this.fullCategoryWithCourses = [];
+
+    //       c.forEach(category => {
+    //         this.courseSer.getCoursesByCategoryId(category.id).subscribe({
+    //           next: (courses) => {
+    //             const fullCategory = {
+    //               ...category,
+    //               courses: courses
+    //             };
+    //     },
+    //     error:(e)=>{
+    //       console.log("we have some Problem when Fetch Category API "+e)
+    //     }
+    //   })
+    // }
+    getAllSectionByCourseIdFromAPI(id:number){
+      this.sectionSer.getSections(id).subscribe({
+        next:(s)=>{
+          this.allSectionInCourse=s;
+          this.allSectionInCourse.forEach(s=>console.log(s))
+
+  }
+  })
+  }
     images: string[] = [
       'https://img-c.udemycdn.com/notices/web_carousel_slide/image/3d5da4b4-da7b-4b66-91db-6ea75f1b82a6.png',
       'https://img-c.udemycdn.com/notices/web_carousel_slide/image/9652f354-5e37-400c-856e-ee28f98f27d6.png',
-      'https://i.pinimg.com/originals/dc/55/a7/dc55a7baa9cbd457221ae6d12d9b1b51.jpg'
+      'https://img-c.udemycdn.com/notices/web_carousel_slide/image/e6cc1a30-2dec-4dc5-b0f2-c5b656909d5b.jpg',
+      'https://img-c.udemycdn.com/notices/featured_carousel_slide/image/3176dcbd-af50-456c-b65c-51098943bece.webp',
+      'https://img-c.udemycdn.com/notices/featured_carousel_slide/image/26eddc87-5b5b-4c4c-9adb-8bf99395b480.jpg',
+      'https://img-c.udemycdn.com/notices/featured_carousel_slide/image/a4978aa7-e7dc-43d8-a76e-65a14cf84445.jpg'
     ];
-  
+
     currentImageIndex = 0;
     currentImage = this.images[0];
     private intervalId: any;
-  
+
     ngOnInit(): void {
       this.intervalId = setInterval(() => {
         this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
         this.currentImage = this.images[this.currentImageIndex];
       }, 3000);
+
     }
-  
+
     ngOnDestroy(): void {
       if (this.intervalId) {
         clearInterval(this.intervalId);
@@ -127,13 +172,13 @@ export class CoursesComponent implements OnInit, OnDestroy {
       const fullStars = Math.floor(rating);
       const hasHalfStar = rating % 1 >= 0.5;
       const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-      
+
       let stars = '';
       stars += '★'.repeat(fullStars);
       stars += '☆'.repeat(emptyStars);
-      
+
       const display = `${rating} ${stars}`;
-      
+
       return { stars, display };
     }
 
@@ -167,11 +212,11 @@ export class CoursesComponent implements OnInit, OnDestroy {
         badge: 'Enterprise plan'
       }
     ];
-  
+
     setActive(imagePath: string): void {
       this.selectedImage = imagePath;
     }
-    
+
     goToCourse(course: any, category: string) {
       this.router.navigate(['/courses', course.name], {
         state: {
@@ -179,6 +224,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
           categories: this.categories,
         }
       });
-    }    
+    }
 
   }
