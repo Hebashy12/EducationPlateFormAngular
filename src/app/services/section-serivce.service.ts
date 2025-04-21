@@ -10,7 +10,7 @@ import { IGetSection } from '../models/sectionModel/iget-section';
   providedIn: 'root'
 })
 export class SectionService {
-  private readonly baseUrl = environment.apiUrl; // 'https://localhost:7098'
+  private readonly baseUrl = "api/Section"; // 'https://localhost:7098'
 
   constructor(private http: HttpClient) {}
 

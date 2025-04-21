@@ -6,7 +6,7 @@ import { IGetVideo } from '../models/videoModel/iget-video';
 
 @Injectable({ providedIn: 'root' })
 export class VideoServiceService {
-  private apiUrl = `${environment.apiUrl}api/Video/`;
+  private apiUrl = `api/Video/`;
 
   constructor(private _http: HttpClient) { }
 
