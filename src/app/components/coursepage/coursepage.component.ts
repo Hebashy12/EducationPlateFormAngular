@@ -1,28 +1,39 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SectionService } from '../../services/section-serivce.service';
-import { QuizeService } from '../../services/quize-service.service';
+import { SectionService } from '../../Services/section.service';
+import { QuizeService } from '../../Services/quiz.service';
 import { IGetSection } from '../../models/sectionModel/iget-section';
 import { IGetVideo } from '../../models/videoModel/iget-video';
+import { Course } from '../../Services/course.service';
+import { Category } from '../add-course/add-course.component';
+import { VideoService } from '../../Services/video.service';
 
 @Component({
   selector: 'app-coursepage',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,DatePipe],
   templateUrl: './coursepage.component.html',
   styleUrls: ['./coursepage.component.css']
 })
 export class CoursepageComponent implements OnInit {
 
-  course: any;
-  category: any;
+  course: Course | null = null;
+  category: Category | null = null;
+  sections: IGetSection[] | null = null;
+  videos: IGetVideo[] | null = null;
 
   // Array to hold the visibility state of each section
   visibleSections: boolean[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-    this.getAllSectionByCourseIdFromAPI(this.route.snapshot.params['id']);
+  constructor(private readonly router: Router
+    , private readonly route: ActivatedRoute
+    , private readonly videoService: VideoService) {
+    this.course = this.route.snapshot.data['course']?.data ?? null;
+    this.category = this.route.snapshot.data['category']?.data ?? null;
+    this.sections = this.route.snapshot.data['sections']?.data ?? null;
+
+   // this.getAllSectionByCourseIdFromAPI(this.route.snapshot.params['id']);
 
     const nav = this.router.getCurrentNavigation();
     // Get course and category from state
@@ -35,28 +46,35 @@ export class CoursepageComponent implements OnInit {
   allSectionInCourse:IGetSection[]=[];
   sectionsWithVideo:IGetVideo[]=[];
 
-  getAllSectionByCourseIdFromAPI(id:number){
-    this.sectionSer.getSections(id).subscribe({
-      next:(s)=>{
-        this.allSectionInCourse=s;
-        this.allSectionInCourse.forEach(s=>console.log(s))
-      },
-      error:(e)=>{
-        console.log("we have some Problem when Fetch Category API "+e)
-      }
-  })
-  }
+  // getAllSectionByCourseIdFromAPI(id:number){
+  //   this.sectionSer.getSections(id).subscribe({
+  //     next:(s)=>{
+  //       this.allSectionInCourse=s;
+  //       this.allSectionInCourse.forEach(s=>console.log(s))
+  //     },
+  //     error:(e)=>{
+  //       console.log("we have some Problem when Fetch Category API "+e)
+  //     }
+  // })
+  // }
 
   ngOnInit(): void {
     // Initialize visibility state of sections
-    if (this.course?.sections) {
-      this.visibleSections = Array(this.course.sections.length).fill(false);
-    }
+    // if (this.sections) {
+    //   this.visibleSections = Array(this.course.sections.length).fill(false);
+    // }
   }
 
   // Method to toggle section visibility
-  toggleSection(index: number): void {
-    this.visibleSections[index] = !this.visibleSections[index];
+  toggleSection(id: number): void {
+    //this.visibleSections[index] = !this.visibleSections[index];
+    // this.videoService.getVideosBySectionId(id).subscribe({
+    //   next: (videos) => {
+    //     this.videos = videos.data;
+    //     this.sectionsWithVideo = videos.data;
+    //     console.log(this.videos);
+    //   }
+    //   , error: (error) => {}
   }
 
   // Method to check if a section is visible
@@ -66,29 +84,29 @@ export class CoursepageComponent implements OnInit {
 
   // Get the total number of lectures across all sections
   getTotalLectures(): number {
-    return this.course.sections.reduce((count: number, section: any) => {
-      return count + section.videos.length;
+    return this.sections!.reduce((count: number, section: IGetSection) => {
+      return count + section.videosNum;
     }, 0);
   }
 
   // Get the total duration of all videos in hours and minutes
-  getTotalLength(): string {
-    let totalSeconds = 0;
-    this.course.sections.forEach((section: any) => {
-      section.videos.forEach((video: any) => {
-        const [min, sec] = video.time.split(':').map((v: string) => parseInt(v, 10));
-        totalSeconds += min * 60 + sec;
-      });
-    });
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    return `${hours}h ${minutes}m`;
-  }
+  // getTotalLength(): string {
+  //   let totalSeconds = 0;
+  //   this.sections?.forEach((section: IGetSection) => {
+  //     section.videos.forEach((video: any) => {
+  //       const [min, sec] = video.time.split(':').map((v: string) => parseInt(v, 10));
+  //       totalSeconds += min * 60 + sec;
+  //     });
+  //   });
+    // const hours = Math.floor(totalSeconds / 3600);
+    // const minutes = Math.floor((totalSeconds % 3600) / 60);
+    // return `${hours}h ${minutes}m`;
+  //}
 
   // Navigate to the CourseContentComponent with course sections data
-  navigateToCourseContent(): void {
-    this.router.navigate(['/Coursecontent'], {
-      state: { sections: this.course.sections }
-    });
-  }
+  // navigateToCourseContent(): void {
+  //   this.router.navigate(['/Coursecontent'], {
+  //     state: { sections: this.course.sections }
+  //   });
+  // }
 }

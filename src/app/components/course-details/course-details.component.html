@@ -1,0 +1,85 @@
+@if (this.course === null) {
+  <p>Loading...</p>
+}
+@else {
+<!-- <div class="container my-4">
+  <div class="card shadow-sm">
+    <img [src]="course.courseImage" class="card-img-top" alt="{{ course.title }}" />
+    <div class="card-body">
+      <h3 class="card-title">{{ course.title }}</h3>
+      <p class="text-muted">{{ course.courseStatus }}</p>
+      <p class="card-text">{{ course.description }}</p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Price:</strong> {{ course.price | currency }}
+        </li>
+        <li class="list-group-item">
+          <strong>Discount:</strong> {{ course.discountPercentage }}%
+        </li>
+        <li class="list-group-item">
+          <strong>Sequential Watch:</strong> {{ course.isSequentialWatch ? 'Yes' : 'No' }}
+        </li>
+        <li class="list-group-item" *ngIf="course.rating">
+          <strong>Rating:</strong> {{ course.rating }}/5
+        </li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+
+<div class="container my-4">
+
+
+  <!-- Course details card -->
+  <div *ngIf="(!! course)" class="card shadow-sm " >
+    <!-- Course Image -->
+     <div class="card-image mt-5">
+    <img 
+      [src]="course.courseImage" 
+      class="card-img-top" 
+      alt="{{ course.title }}"
+      style="object-fit: contain;  height: 250px;" 
+    />
+  </div>
+    <div class="card-body">
+      <!-- Course Title and Status -->
+      <h3 class="card-title">{{ course.title }}</h3>
+      <p class="text-muted">{{ course.courseStatus }}</p>
+      
+      <!-- Course Description -->
+      <p class="card-text">{{ course.description }}</p>
+
+      <div class="d-flex justify-content-between">
+        <!-- Course Price -->
+        <div class="badge bg-success">
+          {{ course.price | currency }}
+        </div>
+
+        <!-- Discount -->
+        <div *ngIf="course.discountPercentage" class="badge bg-danger">
+          {{ course.discountPercentage }}% OFF
+        </div>
+      </div>
+
+      <!-- Course Details List -->
+      <ul class="list-group list-group-flush mt-3">
+        <li class="list-group-item">
+          <strong>Sequential Watch:</strong> {{ course.isSequentialWatch ? 'Yes' : 'No' }}
+        </li>
+        <li class="list-group-item" *ngIf="course.rating !== null">
+          <strong>Rating:</strong> {{ course.rating }}/5
+        </li>
+        <li class="list-group-item">
+          <strong>Free Course:</strong> {{ course.isFree ? 'Yes' : 'No' }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Action Buttons (if any) -->
+    <div class="card-footer text-center">
+      <button class="btn btn-primary">Enroll Now</button>
+    </div>
+  </div>
+</div>
+
+}

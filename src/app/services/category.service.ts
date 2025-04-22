@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ICreateCategory } from '../models/category/icreate-category';
 import { Observable } from 'rxjs';
 import { IGetCategory } from '../models/category/iget-category';
+import { Category } from '../components/add-course/add-course.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,11 @@ import { IGetCategory } from '../models/category/iget-category';
 export class CategoryService {
   private apiUrl="api/Category"
   constructor(private _http:HttpClient) { }
+
+  getCategortByCourseId(courseId:number):Observable<(Category|null)>{
+    return this._http.get<(Category|null)>(this.apiUrl+`/course/${courseId}`);
+  }
+
   addCategory(category:ICreateCategory){
     return this._http.post(this.apiUrl,category);
   }

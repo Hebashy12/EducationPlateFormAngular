@@ -22,8 +22,8 @@ export class SectionService {
     return this.http.put(`api/Section/${id}`, section);
   }
 
-  getSections(courseId: number): Observable<IGetSection[]> {
-    return this.http.get<IGetSection[]>(`api/Section/by-course/${courseId}`).pipe(
+  getSections(courseId: number): Observable<(IGetSection[]|null)> {
+    return this.http.get<(IGetSection[]|null)>(`api/Section/by-course/${courseId}`).pipe(
       catchError((error) => {
         console.error('API Error:', error);
         return throwError(() => new Error('Failed to load sections'));

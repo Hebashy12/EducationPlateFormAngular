@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { CommonModule } from '@angular/common'; // ✅ For *ngIf, *ngFor
 import { RouterLink } from '@angular/router'; // ✅ Needed for routerLink in the template
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-login',

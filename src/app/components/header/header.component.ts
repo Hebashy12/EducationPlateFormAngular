@@ -3,7 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { inject } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { AuthService, User } from '../../auth.service';
+import { AuthService, User } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -33,12 +33,16 @@ ApiCall() {
         console.log('Token refreshed successfully',accessToken);
 
         //localStorage.setItem('token', data.accessToken);
-        const decodedToken = jwtDecode<{user: Omit<User,'token'> }>(accessToken);
+        const decodedToken = jwtDecode<{
+          name: string;
+          email: string;
+          id: string;
+          role: ("User"|"Admin");}>(accessToken);
 
-        const  user: User = { ...decodedToken.user, token: accessToken };
+        const  user: User = { ...decodedToken , accessToken: accessToken };
 
         console.log(user);
-        //localStorage.setItem('user', JSON.stringify(user));
+
         this.auth.userSignal.set(user);
       },
       error: (refreshError) => {

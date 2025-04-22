@@ -3,11 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IGetCategory } from '../../models/category/iget-category';
-import { CategoryService } from '../../services/category-service.service';
-import { SectionService } from '../../services/section-serivce.service';
+import { CategoryService } from '../../Services/category.service';
+import { SectionService } from '../../Services/section.service';
 import { IGetSection } from '../../models/sectionModel/iget-section';
 import { IGetVideo } from '../../models/videoModel/iget-video';
-import { QuizeService } from '../../services/quize-service.service';
+import { QuizeService } from '../../Services/quiz.service';
+import { Course } from '../../Services/course.service';
+import { Category } from '../add-course/add-course.component';
 
 @Component({
   selector: 'app-courses',
@@ -17,112 +19,132 @@ import { QuizeService } from '../../services/quize-service.service';
 })
 export class CoursesComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router) {
-  
-    this.getAllCategoryFromAPI()
+  categories: (Category[]|null) = null;
+  courses:(Course[]|null) = null;
+  selectedCategoryId: number| null = null;
+  filteredCourses: Course[]|null = null;
+
+  constructor(private readonly router: Router , private readonly route: ActivatedRoute) {
+
+    this.courses = this.route.snapshot.data['courses']?? null;
+console.log(this.courses);
+    this.categories = this.route.snapshot.data['categories']??null;
+    console.log(this.categories);
+    this.selectedCategoryId = this.categories![0].categorieId;
+    console.log(this.selectedCategoryId);
+    this.filteredCourses = this.courses?.filter((course) => course.categoriesId === this.selectedCategoryId) ?? null;
+console.log(this.filteredCourses);
+    //this.getAllCategoryFromAPI()
   }
 
-    categories = [
-      {
-        name: 'Deep Learning',
-        learners: '2M+ learners',
-        courses: [
-          {
-            name: 'Deep Learning A-Z 2025: Neural Networks, AI & ChatGPT Prize',
-            price: '£449.99',
-            image: 'https://tse2.mm.bing.net/th?id=OIP.l3ehPyHJOAEzxXbNjJAUZgHaEX&pid=Api&P=0&h=220',
-            description: 'Neural Networks, AI & ChatGPT — all in one practical course!',
-            rating: 4.5,
-            tag: 'Bestseller',
-            sections: [
-              {
-                title: 'Introduction to Deep Learning',
-                videos: [
-                  { name: 'What is Deep Learning?', time: '5:12' },
-                  { name: 'Neural Networks Basics', time: '8:45' }
-                ]
-              },
-              {
-                title: 'Building Neural Networks',
-                videos: [
-                  { name: 'Activation Functions', time: '6:34' },
-                  { name: 'Backpropagation Explained', time: '10:22' }
-                ]
-              }
-            ]
-          },
-          {
-            name: 'Python for Deep Learning: Build Neural Networks in Python',
-            price: '£249.99',
-            image: 'https://cienciadedadosbrasil.com.br/wp-content/uploads/2023/08/PYTHON-1024x576.png',
-            description: 'Learn deep learning from scratch using Python.',
-            rating: 4.5,
-            sections: [
-              {
-                title: 'Python Basics',
-                videos: [
-                  { name: 'Installing Python', time: '3:20' },
-                  { name: 'Data Types and Variables', time: '7:10' }
-                ]
-              },
-              {
-                title: 'Deep Learning Models',
-                videos: [
-                  { name: 'Understanding Layers', time: '5:45' },
-                  { name: 'Creating Models with Keras', time: '9:30' }
-                ]
-              }
-            ]
-          }
-        ]
-      },
+  onCategoryChange(categoryId: number) {
+    this.selectedCategoryId = categoryId;
+    this.filteredCourses = this.courses?.filter((course) => course.categoriesId === categoryId) ?? null;
+  }
 
-      {
-        name: 'Machine Learning',
-        learners: '8M+ learners',
-        courses: [
-          {
-            name: 'Complete Machine Learning Bootcamp',
-            price: '£299.99',
-            image: 'https://miro.medium.com/v2/resize:fit:1200/1*ikEB53J-pPJCXy1Ub1XUsQ.jpeg',
-            description: 'A full bootcamp to become a Machine Learning engineer.',
-            rating: 4.7,
-            sections: [
-              {
-                title: 'ML Basics',
-                videos: [
-                  { name: 'What is Machine Learning?', time: '6:12' },
-                  { name: 'Types of Machine Learning', time: '10:50' }
-                ]
-              },
-              {
-                title: 'ML Algorithms',
-                videos: [
-                  { name: 'Linear Regression', time: '12:30' },
-                  { name: 'Decision Trees', time: '11:10' }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    fullCategoryWithCourses:any;
-    allCategory:IGetCategory[]=[];
-    categorySer=inject(CategoryService);
-    
 
-    getAllCategoryFromAPI(){
-      this.categorySer.getAllCategories().subscribe({
-        next:(c)=>{
-          this.allCategory=c;
-          this.allCategory.forEach(c=>console.log(c))
-        },
-        error:(e)=>{
-          console.log("we have some Problem when Fetch Category API "+e)
-        }
-      })
-    }
+
+    // categories = [
+    //   {
+    //     name: 'Deep Learning',
+    //     learners: '2M+ learners',
+    //     courses: [
+    //       {
+    //         name: 'Deep Learning A-Z 2025: Neural Networks, AI & ChatGPT Prize',
+    //         price: '£449.99',
+    //         image: 'https://tse2.mm.bing.net/th?id=OIP.l3ehPyHJOAEzxXbNjJAUZgHaEX&pid=Api&P=0&h=220',
+    //         description: 'Neural Networks, AI & ChatGPT — all in one practical course!',
+    //         rating: 4.5,
+    //         tag: 'Bestseller',
+    //         sections: [
+    //           {
+    //             title: 'Introduction to Deep Learning',
+    //             videos: [
+    //               { name: 'What is Deep Learning?', time: '5:12' },
+    //               { name: 'Neural Networks Basics', time: '8:45' }
+    //             ]
+    //           },
+    //           {
+    //             title: 'Building Neural Networks',
+    //             videos: [
+    //               { name: 'Activation Functions', time: '6:34' },
+    //               { name: 'Backpropagation Explained', time: '10:22' }
+    //             ]
+    //           }
+    //         ]
+    //       },
+    //       {
+    //         name: 'Python for Deep Learning: Build Neural Networks in Python',
+    //         price: '£249.99',
+    //         image: 'https://cienciadedadosbrasil.com.br/wp-content/uploads/2023/08/PYTHON-1024x576.png',
+    //         description: 'Learn deep learning from scratch using Python.',
+    //         rating: 4.5,
+    //         sections: [
+    //           {
+    //             title: 'Python Basics',
+    //             videos: [
+    //               { name: 'Installing Python', time: '3:20' },
+    //               { name: 'Data Types and Variables', time: '7:10' }
+    //             ]
+    //           },
+    //           {
+    //             title: 'Deep Learning Models',
+    //             videos: [
+    //               { name: 'Understanding Layers', time: '5:45' },
+    //               { name: 'Creating Models with Keras', time: '9:30' }
+    //             ]
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   },
+
+    //   {
+    //     name: 'Machine Learning',
+    //     learners: '8M+ learners',
+    //     courses: [
+    //       {
+    //         name: 'Complete Machine Learning Bootcamp',
+    //         price: '£299.99',
+    //         image: 'https://miro.medium.com/v2/resize:fit:1200/1*ikEB53J-pPJCXy1Ub1XUsQ.jpeg',
+    //         description: 'A full bootcamp to become a Machine Learning engineer.',
+    //         rating: 4.7,
+    //         sections: [
+    //           {
+    //             title: 'ML Basics',
+    //             videos: [
+    //               { name: 'What is Machine Learning?', time: '6:12' },
+    //               { name: 'Types of Machine Learning', time: '10:50' }
+    //             ]
+    //           },
+    //           {
+    //             title: 'ML Algorithms',
+    //             videos: [
+    //               { name: 'Linear Regression', time: '12:30' },
+    //               { name: 'Decision Trees', time: '11:10' }
+    //             ]
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // ];
+    // fullCategoryWithCourses:any;
+    // allCategory:IGetCategory[]=[];
+    // categorySer=inject(CategoryService);
+
+
+    // getAllCategoryFromAPI(){
+    //   this.categorySer.getAllCategories().subscribe({
+    //     next:(c)=>{
+    //       this.allCategory=c;
+    //       this.allCategory.forEach(c=>console.log(c))
+    //     },
+    //     error:(e)=>{
+    //       console.log("we have some Problem when Fetch Category API "+e)
+    //     }
+    //   })
+    // }
 
 
     images: string[] = [
@@ -152,7 +174,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
       }
     }
 
-    selectedCategory = this.categories[0];
+   // selectedCategory = this.categories![0];
     getStarRating(rating: number): { stars: string, display: string } {
       const fullStars = Math.floor(rating);
       const hasHalfStar = rating % 1 >= 0.5;

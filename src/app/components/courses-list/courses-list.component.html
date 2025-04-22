@@ -1,0 +1,54 @@
+
+<div class="course-table-container">
+  @if (this.courses === null) {
+    <p>Loading...</p>
+  }
+  @else if(this.courses.length === 0){
+    <p>No courses available.</p>
+  }
+  @else{
+    <!-- <h2 class="text-center">Courses List</h2>
+  
+  <button (click)="addCourse()" class="btn btn-primary mb-3">Add Course</button> -->
+  <table class="course-table table table-striped table-bordered col-sm-12 ">
+    <thead  >
+      <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let course of courses">
+        <td>
+          <img [src]="course.courseImage" class="mini-image" alt="Course Image" class="course-thumbnail" />
+        </td>
+        <td>{{ course.title }}</td>
+        <td>{{ course.courseStatus }}</td>
+        <td>{{ course.isFree ? 'Free' : '$' + course.price }}</td>
+        <td class="actions">
+          <button (click)="updateCourse(course.courseId)">✏️</button>
+          <button (click)="deleteCourse(course.courseId)">🗑️</button>
+          <button (click)="toggleFree(course.courseId ,course.isFree )">{{course.isFree ?'🔒':'🎁'}}</button>
+          <button (click)="viewDetails(course.courseId)">📄</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-controls ">
+    <button (click)="loadCourses(pageNumber - 1)" [disabled]="pageNumber === 1">« Prev</button>
+  
+    <button
+      *ngFor="let page of pages"
+      [class.active]="page === pageNumber"
+      (click)="loadCourses(page)">
+      {{ page }}
+    </button>
+  
+    <button (click)="loadCourses(pageNumber + 1)" [disabled]="pageNumber === totalPages">Next »</button>
+  </div>
+
+  }
+</div>
