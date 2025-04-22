@@ -1,0 +1,117 @@
+<form [formGroup]="updateCourseForm" (ngSubmit)="onSubmit()" novalidate>
+  <!-- Title -->
+  <div class="mb-3">
+    <label for="Title" class="form-label">Title</label>
+    <input
+      type="text"
+      id="Title"
+      class="form-control"
+      formControlName="Title"
+    />
+    <div *ngIf="titleError" class="text-danger">{{ titleError }}</div>
+  </div>
+
+  <!-- Description -->
+  <div class="mb-3">
+    <label for="Description" class="form-label">Description</label>
+    <textarea
+      id="Description"
+      class="form-control"
+      formControlName="Description"
+      rows="3"
+    ></textarea>
+    <div *ngIf="descriptionError" class="text-danger">{{ descriptionError }}</div>
+  </div>
+
+  <!-- Price -->
+  <div class="mb-3">
+    <label for="Price" class="form-label">Price</label>
+    <input
+      type="number"
+      id="Price"
+      class="form-control"
+      formControlName="Price"
+    />
+    <div *ngIf="priceError" class="text-danger">{{ priceError }}</div>
+  </div>
+
+  <!-- Discount -->
+  <div class="mb-3">
+    <label for="DiscountPercentage" class="form-label">Discount %</label>
+    <input
+      type="number"
+      id="DiscountPercentage"
+      class="form-control"
+      formControlName="DiscountPercentage"
+    />
+    <div *ngIf="discountError" class="text-danger">{{ discountError }}</div>
+  </div>
+
+  <!-- Course Status -->
+  <div class="mb-3">
+    <label for="CourseStatus" class="form-label">Course Status</label>
+    <select
+      id="CourseStatus"
+      class="form-select"
+      formControlName="CourseStatus"
+    >
+      <option [ngValue]="null" disabled>Select status</option>
+      <option *ngFor="let status of courseStatuses" [ngValue]="status">
+        {{ status }}
+      </option>
+    </select>
+    <div *ngIf="courseStatusError" class="text-danger">{{ courseStatusError }}</div>
+  </div>
+
+  <!-- Category -->
+  <div class="mb-3">
+    <label for="CategoriesId" class="form-label">Category</label>
+    <select
+      id="CategoriesId"
+      class="form-select"
+      formControlName="CategoriesId"
+    >
+      <option [ngValue]="null" disabled>Select category</option>
+      <option *ngFor="let cat of categories" [ngValue]="cat.categorieId">
+        {{ cat.name }}
+      </option>
+    </select>
+    <div *ngIf="categoriesIdError" class="text-danger">{{ categoriesIdError }}</div>
+  </div>
+
+  <!-- Is Sequential Watch -->
+  <div class="form-check mb-3">
+    <input
+      type="checkbox"
+      id="IsSequentialWatch"
+      class="form-check-input"
+      formControlName="IsSequentialWatch"
+    />
+    <label for="IsSequentialWatch" class="form-check-label">
+      Sequential Watch
+    </label>
+  </div>
+
+  <!-- Course Image -->
+  <div class="mb-3">
+    <label for="CourseImage" class="form-label">Course Image</label>
+    <input
+      type="file"
+      id="CourseImage"
+      class="form-control"
+      (change)="onImageSelected($event)"
+    />
+    <div *ngIf="imagePreview" class="image-preview">
+      <img [height]="
+        150" [width]="200" [src]="imagePreview" alt="Image Preview" class="img-thumbnail" />
+    </div>
+    <div *ngIf="courseImageError" class="text-danger">{{ courseImageError }}</div>
+  </div>
+
+  <!-- Submit -->
+  <button type="submit" class="btn btn-primary" [disabled]="updateCourseForm.invalid">
+    Create Course
+  </button>
+</form>
+
+

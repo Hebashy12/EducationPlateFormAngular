@@ -1,11 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms"; // Added FormsModule
-import { VideoServiceService } from "../../services/video-service.service";
+import { VideoService} from "../../Services/video.service";
 import { ICreateVideo } from "../../models/videoModel/icreate-video";
 
 import { IGetSection } from "../../models/sectionModel/iget-section";
-import { SectionService } from "../../services/section-serivce.service";
+import { SectionService } from "../../Services/section.service";
 
 @Component({
   selector: 'app-vedio',

@@ -1,22 +1,32 @@
+@if(this.category===null||this.course===null||this.sections===null) {
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+}
+
+@else {
+
 <div *ngIf="course" class="course-hero">
   <div class="hero-container">
     <!-- Left -->
     <div class="hero-left">
-      <p class="breadcrumb">{{ category.name }} > {{ course.name }} </p>
-      <h1 class="title">{{ course.name }}</h1>
+      <p class="breadcrumb">{{ category.name }} > {{ course.title }} </p>
+      <h1 class="title">{{ course.title }}</h1>
       <p class="subtitle">{{ course.description }}</p>
 
       <div class="info">
         <span class="info-item">
-          <i class="fas fa-star"></i> {{ course.rating }}
+          <i class="fas fa-star"></i> {{ (course.rating===null)?5:course.rating }}
         </span>
         <span class="info-item">
-          <i class="fas fa-user-graduate"></i> {{ course.students }} students
+          <i class="fas fa-user-graduate"></i> 2K+ students
         </span>
       </div>
 
       <div class="meta">
-        <span><i class="fas fa-clock"></i> Last updated {{ course.lastUpdated }}</span>
+        <span><i class="fas fa-clock"></i> Last updated {{ course.lastUpdateOn|date }}</span>
         <span><i class="fas fa-globe"></i> English</span>
         <span><i class="fas fa-closed-captioning"></i> English (CC)</span>
       </div>
@@ -40,7 +50,7 @@
     <div class="hero-right">
       <div class="preview-box">
         <div class="preview-img">
-          <img [src]="course.image" [alt]="course.name" />
+          <img [src]="course.courseImage" [alt]="course.title" />
           <div class="play-button">
             <i class="fas fa-play"></i>
           </div>
@@ -48,13 +58,13 @@
         </div>
 
         <div class="price-box">
-          <p class="price">£{{ course.price }}</p>
+          <p class="price">{{ course.price }}</p>
           <p class="limited-time">
             <i class="fas fa-clock"></i> Hours left at this price!
           </p>
           <button class="btn purple" (click)="navigateToCourseContent()">
             Buy now
-          </button>            
+          </button>
 
           <button class="btn outline">Add to cart</button>
 
@@ -72,16 +82,17 @@
 
   <!-- Course Content Full Width -->
   <div class="course-content-container">
-    <div class="course-content" *ngIf="course?.sections?.length">
+    <div class="course-content" *ngIf="sections.length">
       <h2 class="content-title">Course content</h2>
       <p class="content-subtitle">
-        {{ course.sections.length }} sections • {{ getTotalLectures() }} lectures • {{ getTotalLength() }}
+        {{ sections.length }} sections • {{ getTotalLectures() }} lectures
+         <!-- {{ getTotalLectures() }} lectures • {{ getTotalLength() }} -->
       </p>
 
-      <div *ngFor="let section of course.sections; let i = index" class="section">
-        <div class="section-header" (click)="toggleSection(i)">
-          <strong>{{ i + 1 }}. {{ section.title }}</strong>
-          <span class="toggle-icon">{{ isSectionVisible(i) ? '-' : '+' }}</span>
+      <div *ngFor="let section of sections; let i = index" class="section">
+        <div class="section-header" (click)="toggleSection(section.sectionId)">
+          <strong>{{ i + 1 }}. {{ section.sectionName }}</strong>
+           <span class="toggle-icon">{{ isSectionVisible(i) ? '-' : '+' }}</span>
         </div>
         <ul class="video-list" *ngIf="isSectionVisible(i)">
           <li *ngFor="let video of section.videos">
@@ -96,3 +107,4 @@
 <div *ngIf="!course">
   <p>Course data not found.</p>
 </div>
+}

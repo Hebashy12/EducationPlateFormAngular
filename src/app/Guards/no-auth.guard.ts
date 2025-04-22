@@ -1,6 +1,6 @@
 import { CanActivateFn, Router} from '@angular/router';
 import { catchError, filter, map, Observable, of } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from '../Services/auth.service';
 import { inject } from '@angular/core';
 
 export const noAuthGuard: CanActivateFn = ($, _):Observable<boolean> => {

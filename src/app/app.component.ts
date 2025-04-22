@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { AuthService, User } from './auth.service';
+import { AuthService, User } from './Services/auth.service';
 import { jwtDecode } from 'jwt-decode';
 
 @Component({
@@ -39,11 +39,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.refreshToken().subscribe({
-      next: (data) => {
-        const token = data.accessToken;
-        const decodedToken = jwtDecode<{ user: Omit<User, 'token'> }>(token);
+      next: ({accessToken}) => {
 
-        const user: User = { ...decodedToken.user, token };
+        const decodedToken = jwtDecode<{
+          name: string;
+          email: string;
+          id: string;
+          role: ("User"|"Admin");}>(accessToken);
+
+        const user: User = { ...decodedToken, accessToken: accessToken };
+        console.log(user);
         this.auth.userSignal.set(user);
       },
       error: (err) => {
@@ -55,12 +60,3 @@ export class AppComponent implements OnInit {
 }
 
 
-    // Optional: localStorage fallback (if you ever enable this)
-    // const storedUser = localStorage.getItem('user');
-    // const storedToken = localStorage.getItem('token');
-    // if (storedUser && storedToken) {
-    //   const user: User = { ...JSON.parse(storedUser), token: storedToken };
-    //   this.auth.userSignal.set(user);
-    // } else {
-    //   this.auth.userSignal.set(null);
-    // }

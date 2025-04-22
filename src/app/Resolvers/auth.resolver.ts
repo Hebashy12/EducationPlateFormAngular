@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { AuthService, User } from './auth.service';
+import { AuthService, User } from '../Services/auth.service';
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
@@ -9,10 +9,14 @@ export const authResolver: ResolveFn<User | null> = ($,_) => {
   const auth = inject(AuthService);
   return auth.refreshToken().pipe(
     map(({accessToken}) => {
-      const decodedUser = jwtDecode<{ user: Omit<User, 'token'> }>(
+      const decodedUser = jwtDecode<{
+        name: string;
+        email: string;
+        id: string;
+        role: ("User"|"Admin");}>(
         accessToken
       );
-      const user: User = { ...decodedUser.user, token: accessToken };
+      const user: User = { ...decodedUser, accessToken: accessToken };
       auth.userSignal.set(user);
       console.log("refresh user from auth resolver", user);
       return user;

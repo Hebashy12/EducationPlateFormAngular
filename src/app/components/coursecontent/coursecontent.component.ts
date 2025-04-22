@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { IGetVideo } from '../../models/videoModel/iget-video';
-import { VideoService } from '../../services/video-service.service';
+import { VideoService } from '../../Services/video.service';
 import { IGetQuiz } from '../../models/quize/iget-quiz';
-import { QuizeService } from '../../services/quize-service.service';
+import { QuizeService } from '../../Services/quiz.service';
 import { IGetQuizWithQuestions } from '../../models/quize/iget-quiz-with-questions';
 
 @Component({

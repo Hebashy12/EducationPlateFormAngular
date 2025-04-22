@@ -1,8 +1,16 @@
+@if(this.courses === null || this.courses === null) {
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+}
+@else{
 <div class="courses-container">
 
   <div class="header-image">
     <img [src]="currentImage" alt="Learning Header Image" />
-  </div>  
+  </div>
 
   <!-- Heading -->
   <div class="header">
@@ -15,32 +23,33 @@
   <div style="background-color: #f8f8f8; display: inline-block; width: 100%; min-height: 400px; padding: 30px 0;">
     <!-- Category Tabs -->
     <ul class="category-tabs">
-      <li *ngFor="let category of categories" 
-          (click)="selectedCategory = category" 
-          [class.active]="selectedCategory === category">
+      <li *ngFor="let category of categories"
+          (click)="onCategoryChange(category.categorieId)"
+          [class.active]="selectedCategoryId === category.categorieId">
         {{ category.name }}
-        <small>{{ category.learners }}</small>
+        <small> 2M+ learners </small>
       </li>
     </ul>
-    
+<!-- // (click)="goToCourse(course, selectedCategory.name)"  -->
     <!-- Course Cards Grid -->
     <div class="courses-grid">
-      <div *ngFor="let course of selectedCategory?.courses"
+      <div *ngFor="let course of filteredCourses"
            class="course-card"
-           (click)="goToCourse(course, selectedCategory.name)"
+
            style="cursor: pointer;">
-        <img [src]="course.image" [alt]="course.name" class="course-image">
+        <img [src]="course.courseImage" [alt]="course.title" class="course-image">
         <div class="course-body">
-          <h4 class="course-name">{{ course.name }}</h4>
+          <h4 class="course-name">{{ course.title }}</h4>
           <p class="course-description">{{ course.description }}</p>
           <div class="course-rating">
-            <span class="stars">{{ getStarRating(course.rating).display }}</span>
-            <span *ngIf="course.tag" class="tag">{{ course.tag }}</span>
+            <span class="stars">{{ getStarRating((course.rating===null)?5:course.rating).display }}</span>
+             <span
+              class="tag"> Best Seller </span>
           </div>
           <div class="course-price">{{ course.price }}</div>
         </div>
       </div>
-    </div>      
+    </div>
   </div>
 
 
@@ -57,7 +66,7 @@
       <img src="https://cms-images.udemycdn.com/content/siaewwmkch/svg/citi_logo.svg?position=c&quality=80&x.app=portals" alt="Citi Logo">
       <img src="https://cms-images.udemycdn.com/content/swmv0okrlh/svg/ericsson_logo.svg?position=c&quality=80&x.app=portals" alt="Ericsson Logo">
     </div>
-  </div>    
+  </div>
 
 
   <h2 class="goals-title">Learning focused on your goals</h2>
@@ -82,13 +91,13 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Right Side -->
     <div class="goals-preview">
       <img [src]="selectedImage" alt="Preview" />
     </div>
-  </div>    
-  
+  </div>
+
   <div class="trends-container">
     <!-- Left Column: Text Content -->
     <div class="left-column">
@@ -96,7 +105,7 @@
       <p class="subtitle">Our 2025 Global Learning & Skills Trends Report is out now! Find out how to build the skills to keep pace with change.</p>
       <a class="report-button">Get the report</a>
     </div>
-  
+
     <!-- Right Column: Image -->
     <div class="right-column">
       <img src="https://cms-images.udemycdn.com/96883mtakkm8/1qvvR0FDKv9chruIpia6Sc/b2af22a0097e47de4e4354237e3f378c/Onsite_Desktop_GLSTR25.png" alt="2025 Trends Report" class="report-image">
@@ -105,3 +114,4 @@
 
 </div>
 
+}

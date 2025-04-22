@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { authGuard } from './auth.guard';
-import { authResolver } from './auth.resolver';
-import { noAuthGuard } from './no-auth.guard';
+import { authGuard } from './Guards/auth.guard';
+import { authResolver } from './Resolvers/auth.resolver';
+import { noAuthGuard } from './Guards/no-auth.guard';
 import { MockComponent } from './components/mock/mock.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { CoursepageComponent } from './components/coursepage/coursepage.component';
@@ -11,18 +11,46 @@ import { RegisterComponent } from './components/register/register.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { VedioComponent } from './components/vedio/vedio.component';
 import { CoursecontentComponent } from './components/coursecontent/coursecontent.component';
+import { CoursesListComponent } from './components/courses-list/courses-list.component';
+import { AddCourseComponent } from './components/add-course/add-course.component';
+import { UpdateCourseComponent } from './components/update-course/update-course.component';
+import { CourseDetailsComponent } from './components/course-details/course-details.component';
+import { courseResolver } from './Resolvers/course.resolver';
+import { coursesResolver } from './Resolvers/courses.resolver';
+import { categoryResolver } from './Resolvers/category.resolver';
+import { courseCategoryResolver } from './Resolvers/courseCategory.resolver';
+import { sectionsResolver } from './Resolvers/sections.resolver';
 
 
 export const routes: Routes = [
-  { path: '', component: CoursesComponent, title: 'Courses', resolve: { user: authResolver } },
-  { path: 'courses', component: CoursesComponent },
-  { path: 'mock', component: MockComponent, title: 'Mock', canActivate: [authGuard], resolve: { user: authResolver } },
-  { path: 'courses/:id', component: CoursepageComponent },
-  { path: 'Coursecontent', component: CoursecontentComponent },
-  { path: 'login', component: LoginComponent, title: 'Login', canActivate: [noAuthGuard] },
-  { path: 'register', component: RegisterComponent, title: 'Register', canActivate: [noAuthGuard] },
-  { path: 'vedio', component: VedioComponent, title: 'Vedio' },
-  { path: 'notfound', component: NotfoundComponent, title: 'Not Found' },
+
+  {path:'', redirectTo: '/courses', pathMatch: 'full'},
+  {
+    path: 'courses', pathMatch:"prefix" ,
+    children: [
+      { path: '', component: CoursesComponent ,title:'Courses' , pathMatch: "full" , resolve: { user: authResolver , courses: coursesResolver , categories:categoryResolver} },
+      { path: 'courseContent', component: CoursecontentComponent , pathMatch: "full" },
+      {path:'list',component:CoursesListComponent,title:'Course List' , pathMatch: "full" },
+      { path: 'add', component: AddCourseComponent , title:'Add Course', pathMatch: "full"  },
+      { path: 'update/:id', component: UpdateCourseComponent, title: 'Update Course' , pathMatch: "full" },
+      { path: 'details/:id', component: CourseDetailsComponent , title: 'Course Details', pathMatch: "full" , resolve: { course: courseResolver } },
+      { path: 'courses/:id', component: CoursepageComponent , pathMatch: "full" , resolve: { course: courseResolver , category: courseCategoryResolver , sections:sectionsResolver } },
+      { path: '**', component: NotfoundComponent, title: 'Page Not Found' }
+    ]
+  },
+
+  // { path: '', component: CoursesComponent, title: 'Courses', resolve: { user: authResolver } },
+  // { path: 'courses', component: CoursesComponent },
+
+
+
+
+
+  { path: 'vedio', component: VedioComponent, title: 'Vedio' ,pathMatch: "full" },
+  { path: 'mock', component: MockComponent, title: 'Mock', canActivate: [authGuard], resolve: { user: authResolver } ,pathMatch: "full"},
+  { path: 'login', component: LoginComponent, title: 'Login', canActivate: [noAuthGuard] ,pathMatch: "full" },
+  { path: 'register', component: RegisterComponent, title: 'Register', canActivate: [noAuthGuard] ,pathMatch: "full" },
+  { path: 'notfound', component: NotfoundComponent, title: 'Not Found' ,pathMatch: "full" },
   { path: '**', component: NotfoundComponent, title: 'Page Not Found' }
 ];
 

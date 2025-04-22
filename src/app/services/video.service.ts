@@ -27,7 +27,7 @@ export class VideoService {
   deleteVideo(id:number){
     return this._http.delete(this.apiUrl+id);
   }
-  getVideoBySectionId(id:number):Observable<IGetVideo[]>{
-    return this._http.get<IGetVideo[]>(this.apiUrl+"section/"+id);
+  getVideoBySectionId(id:number):Observable<(IGetVideo[]|null)>{
+    return this._http.get<(IGetVideo[]|null)>(this.apiUrl+"section/"+id);
   }
 }

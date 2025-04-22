@@ -1,70 +1,29 @@
 import { HttpHeaders, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService, User } from './auth.service';
+import { AuthService, User } from '../Services/auth.service';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { environment } from '../environments/environment';
-const API_URL = environment.apiUrl ?? 'https://localhost:7098/';
+const API_URL = import.meta.env.NG_APP_API_URL ?? 'https://localhost:7098/';
 
-//{
-//   withCredentials: true,
-//   headers: new HttpHeaders(
-//     {
-//       'Content-Type': 'application/json',
-//       'Authorization': token? `Bearer ${token}`:"",
-//       'Accept': 'application/json',
 
-//     }
-//   )
-// setHeaders: {
-//     'Content-Type': 'application/json',
-//     'Accept': 'application/json',
-//   Authorization: token? `Bearer ${token}`:"",
-// },
-// }
-const config = {
-  url: API_URL,
-  // headers: new HttpHeaders({
-  //   'Content-Type':  'application/json',
-  //   'Accept': 'application/json',
-  //   'Authorization': `Bearer ${localStorage.getItem('token')?? ''}`,
-
-  // }),
-  withCredentials: true,
-
-  setHeaders: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-    Authorization: localStorage.getItem('token')
-      ? `Bearer ${localStorage.getItem('token')}`
-      : '',
-  },
-} as const;
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
 
-  const token = auth.userSignal()?.token;
-  // const token = localStorage.getItem('token')??"";
-  // if (token) {
-   //}
-  // if(req.url.includes("/refresh")) {
-  //   console.log(req.url)
-  //   return next(req).pipe(catchError(error => throwError(() => error)));
-  // }
+  const token = auth.userSignal()?.accessToken;
 
 
   const clonedRequest = req.clone({
     withCredentials: true,
     url: API_URL + req.url,
     setHeaders: {
-      // 'Content-Type': 'application/json',
-      // Accept: 'application/json',
+      //'Content-Type': 'application/json',
+      //Accept: 'application/json',
       ...(auth.userSignal() &&
-        auth.userSignal()?.token && {
-          Authorization: `Bearer ${auth.userSignal()?.token}`,
+        auth.userSignal()?.accessToken && {
+          Authorization: `Bearer ${auth.userSignal()?.accessToken}`,
         }),
     },
   });
@@ -83,8 +42,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         return auth.refreshToken().pipe(
           tap(({ accessToken }) =>{
 
-            const decodedToken = jwtDecode<{user:Omit<User,'token'>}>(accessToken);
-            const user:User = {...decodedToken.user,token:accessToken}
+            const decodedToken = jwtDecode<{
+              name: string;
+              email: string;
+              id: string;
+              role: ("User"|"Admin");}>(accessToken);
+            const user:User = {...decodedToken,accessToken:accessToken}
             console.log(user);
             auth.userSignal.set(user);
 
