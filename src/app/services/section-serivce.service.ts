@@ -18,8 +18,8 @@ export class SectionService {
     return this.http.post(`api/Section`, section);
   }
 
-  editSection(section: IUpdateSection): Observable<any> {
-    return this.http.put(`api/Section`, section);
+  editSection(id:number,section: IUpdateSection): Observable<any> {
+    return this.http.put(`api/Section/${id}`, section);
   }
 
   getSections(courseId: number): Observable<IGetSection[]> {

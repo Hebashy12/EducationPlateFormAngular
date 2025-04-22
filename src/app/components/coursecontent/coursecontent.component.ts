@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { IGetVideo } from '../../models/videoModel/iget-video';
+import { VideoService } from '../../services/video-service.service';
+import { IGetQuiz } from '../../models/quize/iget-quiz';
+import { QuizeService } from '../../services/quize-service.service';
 
 @Component({
   selector: 'app-coursecontent',
@@ -13,7 +17,7 @@ import { RouterModule } from '@angular/router';
 export class CoursecontentComponent implements OnInit {
   sections: any[] = [];
   isCollapsed = true;
-  progress = 20; 
+  progress = 20;
   circumference = 2 * Math.PI * 16;
 
 
@@ -23,6 +27,33 @@ export class CoursecontentComponent implements OnInit {
     if (state) {
       this.sections = state['sections'] || [];
     }
+  }
+
+  // Fetch API
+  videosLst:IGetVideo[]=[];
+  videoSer=inject(VideoService);
+  sectionQuiz:IGetQuiz|null=null;
+  quizSer=inject(QuizeService);
+  getVideos(sectionId:number){
+    this.videoSer.getVideoBySectionId(sectionId).subscribe({
+      next:(video)=>{
+        this.videosLst=video;
+      },
+      error:(e)=>{
+        console.log(`We have some Problem when Fetching Video API: `+e);
+      }
+    })
+  }
+
+  getQuiz(sectionId:number){
+    this.quizSer.getQuizBySectionId(sectionId).subscribe({
+      next:(quiz)=>{
+        this.sectionQuiz=quiz
+      },
+      error:(e)=>{
+        console.log(`We have some Problems when Fetching API: `+e);
+      }
+    })
   }
 
   ngOnInit(): void {

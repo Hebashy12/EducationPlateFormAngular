@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { IGetVideo } from '../models/videoModel/iget-video';
+import { IEditVideo } from '../models/videoModel/iedit-video';
 
 @Injectable({ providedIn: 'root' })
-export class VideoServiceService {
-  private apiUrl = `api/Video/`;
+export class VideoService {
+  private apiUrl = `api/Video/`;//section/1
+
 
   constructor(private _http: HttpClient) { }
 
@@ -16,7 +18,16 @@ export class VideoServiceService {
       observe: 'events'
     });
   }
+  editVideo(id:number, updatedVideo:IEditVideo){
+    return this._http.put(`${this.apiUrl}${id}`,updatedVideo)
+  }
   getVideoById(id:number):Observable<IGetVideo>{
     return this._http.get<IGetVideo>(this.apiUrl+id);
+  }
+  deleteVideo(id:number){
+    return this._http.delete(this.apiUrl+id);
+  }
+  getVideoBySectionId(id:number):Observable<IGetVideo[]>{
+    return this._http.get<IGetVideo[]>(this.apiUrl+"section/"+id);
   }
 }
