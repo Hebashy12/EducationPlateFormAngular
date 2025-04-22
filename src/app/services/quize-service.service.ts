@@ -5,6 +5,7 @@ import { ICreateQize } from '../models/quize/icreate-qize';
 import { IUpdateQize } from '../models/quize/iupdate-qize';
 import { Observable } from 'rxjs';
 import { IGetQuiz } from '../models/quize/iget-quiz';
+import { IGetQuizWithQuestions } from '../models/quize/iget-quiz-with-questions';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class QuizeService {
   deleteQuizById(id:number){
     return this._http.delete(this.apiUrl+id);
   }
-  getQuizQustions(id:number){
-    return this._http.get(this.apiUrl+`${id}/questions`);
+  getQuizQustions(id:number):Observable<IGetQuizWithQuestions[]>{
+    return this._http.get<IGetQuizWithQuestions[]>(this.apiUrl+`${id}/questions`);
   }
 }

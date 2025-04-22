@@ -6,6 +6,7 @@ import { IGetVideo } from '../../models/videoModel/iget-video';
 import { VideoService } from '../../services/video-service.service';
 import { IGetQuiz } from '../../models/quize/iget-quiz';
 import { QuizeService } from '../../services/quize-service.service';
+import { IGetQuizWithQuestions } from '../../models/quize/iget-quiz-with-questions';
 
 @Component({
   selector: 'app-coursecontent',
@@ -34,6 +35,7 @@ export class CoursecontentComponent implements OnInit {
   videoSer=inject(VideoService);
   sectionQuiz:IGetQuiz|null=null;
   quizSer=inject(QuizeService);
+  quizWithQestionLst:IGetQuizWithQuestions[]=[]
   getVideos(sectionId:number){
     this.videoSer.getVideoBySectionId(sectionId).subscribe({
       next:(video)=>{
@@ -51,7 +53,17 @@ export class CoursecontentComponent implements OnInit {
         this.sectionQuiz=quiz
       },
       error:(e)=>{
-        console.log(`We have some Problems when Fetching API: `+e);
+        console.log(`We have some Problems when Fetching API: ${e}`);
+      }
+    })
+  }
+  getQuizWithQuestion(quizId:number){
+    this.quizSer.getQuizQustions(quizId).subscribe({
+      next:(q)=>{
+        this.quizWithQestionLst=q;
+      },
+      error:(e)=>{
+        console.log(`We have some Problems when Fetching API: ${e}`)
       }
     })
   }
