@@ -129,7 +129,7 @@ getAllVideoes(id:number){
 
   // Navigate to the CourseContentComponent with course sections data
   navigateToCourseContent(): void {
-    this.router.navigate(['/courseContent'], {
+    this.router.navigate(['courses/courseContent'], {
       state: { sections: this.sections }
     });
   }

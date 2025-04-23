@@ -1,71 +1,88 @@
 <div class="layout">
-    <!-- Sidebar -->
-    <div
-      class="sidebar"
-      [class.collapsed]="isCollapsed"
-      (mouseenter)="isCollapsed = false"
-      (mouseleave)="isCollapsed = true"
-    >
-      <div class="toggle-icon" *ngIf="isCollapsed">
-        &#9776;
-      </div>
-  
-      <div *ngIf="!isCollapsed" class="sidebar-content">
-        <!-- Progress -->
-          
-        <div class="progress-section icon-style">
-            <div class="progress-ring-container">
-              <svg class="progress-ring" width="40" height="40">
-                <circle class="progress-ring-bg" cx="20" cy="20" r="16" />
-                <circle
-                  class="progress-ring-fill"
-                  cx="20"
-                  cy="20"
-                  r="16"
-                  [attr.stroke-dasharray]="circumference"
-                  [attr.stroke-dashoffset]="circumference - (circumference * progress / 100)"
-                />
-              </svg>
-          
-              <!-- Trophy icon with tooltip -->
-              <div class="trophy-icon-wrapper">
-                <i class="fas fa-trophy trophy-icon"></i>
-                <div class="tooltip-progress">{{ progress }}%</div>
-              </div>
-            </div>
-          
-            <span class="progress-text">Your progress</span>
-            <i class="fas fa-chevron-down dropdown-arrow"></i>
-          </div>             
-  
-        <!-- Course Sections -->
-        <div class="course-content-container" *ngIf="sections?.length">
-          <div *ngFor="let section of sections; let i = index" class="section">
-            <div class="section-header" (click)="toggleSection(i)">
-              <span class="section-title">Section {{ i + 1 }}: {{ section.title }}</span>
-              <span class="section-meta">
-                {{ section.videos.length }} lectures • {{ getSectionLength(section) }}
-              </span>
-            </div>
-  
-            <ul *ngIf="isSectionVisible(i)" class="video-list">
-                <li *ngFor="let video of section.videos" class="video-item">
-                  <span class="video-title">{{ video.name }}</span>
-                  <span class="video-duration">{{ video.time }}</span>
-                </li>
-            </ul>              
+  <!-- Sidebar -->
+  <div class="sidebar" [class.collapsed]="isCollapsed" (mouseenter)="isCollapsed = false"
+    (mouseleave)="isCollapsed = true">
+    <div class="toggle-icon" *ngIf="isCollapsed">
+      &#9776;
+    </div>
+
+    <div *ngIf="!isCollapsed" class="sidebar-content">
+      <!-- Progress -->
+
+      <div class="progress-section icon-style">
+        <div class="progress-ring-container">
+          <svg class="progress-ring" width="40" height="40">
+            <circle class="progress-ring-bg" cx="20" cy="20" r="16" />
+            <circle class="progress-ring-fill" cx="20" cy="20" r="16" [attr.stroke-dasharray]="circumference"
+              [attr.stroke-dashoffset]="circumference - (circumference * progress / 100)" />
+          </svg>
+
+          <!-- Trophy icon with tooltip -->
+          <div class="trophy-icon-wrapper">
+            <i class="fas fa-trophy trophy-icon"></i>
+            <div class="tooltip-progress">{{ progress }}%</div>
           </div>
         </div>
-  
-        <div *ngIf="!sections?.length" class="empty-state">
-          <p>No course content available.</p>
+
+        <span class="progress-text">Your progress</span>
+        <i class="fas fa-chevron-down dropdown-arrow"></i>
+      </div>
+
+      <!-- Course Sections -->
+      <div class="course-content-container" *ngIf="sections?.length">
+        <div *ngFor="let section of sections; let i = index" class="section">
+          <div class="section-header" (click)="toggleSection(section.sectionId)">
+            <span class="section-title">Section {{ i + 1 }}: {{ section.sectionName }}</span>
+            <span class="section-meta">
+              {{ section.videosNum }} lectures •
+              <!-- {{ getSectionLength(section) }} -->
+            </span>
+          </div>
+          <!-- &&videosLst!==null&&section.sectionId==videosLst[0].sectionId -->
+          <ul *ngIf="isSectionVisible(section.sectionId)&&videosLst!==null&&section.sectionId==videosLst[0].sectionId"
+            class="video-list">
+            <li *ngFor="let video of videosLst" class="video-item" (click)="showVideo(video.videoId)">
+              <span class="video-title">{{ video.title }}</span>
+              <span class="video-duration">{{ video.videoDuration }}</span>
+            </li>
+            <li class="video-item" (click)="showQuestions()">
+              <span class="video-title">{{ quizWithQestion.title }}</span>
+            </li>
+          </ul>
         </div>
       </div>
-    </div>
-  
-    <!-- Main Content -->
-    <div class="content">
-      <h2>Video Player / Main Content Area</h2>
+
+      <div *ngIf="!sections?.length" class="empty-state">
+        <p>No course content available.</p>
+      </div>
     </div>
   </div>
-  
+
+  <!-- Main Content -->
+  <div class="content">
+    <h2>Video Player / Main Content Area</h2>
+
+    <video *ngIf="currentVideo !== ''&& !showQuest" [src]="currentVideo" controls></video>
+
+    <div *ngIf="showQuest">
+      <form (ngSubmit)="submitAnswers()">
+        <div *ngFor="let item of quizWithQestion.questions; let i = index" class="question-block">
+          <p>{{ item.header }}</p>
+
+          <label>
+            <input type="radio" [name]="'answer' + i" [(ngModel)]="userAnswers[i]" [value]="true">
+            Yes
+          </label>
+
+          <label>
+            <input type="radio" [name]="'answer' + i" [(ngModel)]="userAnswers[i]" [value]="false">
+            No
+          </label>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+</div>

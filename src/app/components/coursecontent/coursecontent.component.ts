@@ -7,11 +7,12 @@ import { VideoService } from '../../Services/video.service';
 import { IGetQuiz } from '../../models/quize/iget-quiz';
 import { QuizeService } from '../../Services/quiz.service';
 import { IGetQuizWithQuestions } from '../../models/quize/iget-quiz-with-questions';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-coursecontent',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './coursecontent.component.html',
   styleUrls: ['./coursecontent.component.css']
 })
@@ -27,6 +28,7 @@ export class CoursecontentComponent implements OnInit {
     const state = navigation?.extras.state;
     if (state) {
       this.sections = state['sections'] || [];
+      console.log(this.sections);
     }
   }
 
@@ -35,17 +37,30 @@ export class CoursecontentComponent implements OnInit {
   videoSer=inject(VideoService);
   sectionQuiz:IGetQuiz|null=null;
   quizSer=inject(QuizeService);
-  quizWithQestionLst:IGetQuizWithQuestions[]=[]
-  getVideos(sectionId:number){
-    this.videoSer.getVideoBySectionId(sectionId).subscribe({
-      next:(video)=>{
-        this.videosLst=video;
+  quizWithQestion!:IGetQuizWithQuestions
+  // getVideos(sectionId:number){
+  //   this.videoSer.getVideoBySectionId(sectionId).subscribe({
+  //     next:(video)=>{
+  //       this.videosLst=video;
+  //     },
+  //     error:(e)=>{
+  //       console.log(`We have some Problem when Fetching Video API: `+e);
+  //     }
+  //   })
+  // }
+
+
+  getVideos(id:number){
+    this.videoSer.getVideoBySectionId(id).subscribe({
+      next:(v)=>{
+        this.videosLst=v;
       },
       error:(e)=>{
-        console.log(`We have some Problem when Fetching Video API: `+e);
+        console.log(`We have Problems when fetch Video API ${e}`);
       }
     })
   }
+
 
   getQuiz(sectionId:number){
     this.quizSer.getQuizBySectionId(sectionId).subscribe({
@@ -60,7 +75,7 @@ export class CoursecontentComponent implements OnInit {
   getQuizWithQuestion(quizId:number){
     this.quizSer.getQuizQustions(quizId).subscribe({
       next:(q)=>{
-        this.quizWithQestionLst=q;
+        this.quizWithQestion=q;
       },
       error:(e)=>{
         console.log(`We have some Problems when Fetching API: ${e}`)
@@ -74,25 +89,62 @@ export class CoursecontentComponent implements OnInit {
     }
   }
 
-  toggleSection(index: number): void {
-    this.sections[index].isVisible = !this.sections[index].isVisible;
+  toggleSection(sectionId: number): void {
+    console.log(sectionId);
+    this.videosLst=[];
+    this.getVideos(sectionId);
+    console.log(this.videosLst)
+    this.getQuizWithQuestion(sectionId);
+    // this.sections[index].isVisible = !this.sections[index].isVisible;
+  }
+// videoLst:IGetVideo|null=null;
+  isSectionVisible(sectionId: number): boolean {
+
+    return this.sections.find((s)=>s.sectionId==sectionId).isPassSection || false;
+    // return true;
+  }
+currentVideo:string|undefined='';
+  showVideo(id:number){
+    this.currentVideo=this.videosLst?.find((v)=>v.videoId==id)?.videoFileUrl
+    this.showQuest=false;
+    console.log(this.currentVideo);
+  }
+  showQuest:boolean=false;
+  showQuestions(){
+    this.currentVideo=''
+    // this.videosLst=[];
+    console.log(this.quizWithQestion.questions)
+    this.showQuest=!this.showQuest
   }
 
-  isSectionVisible(index: number): boolean {
-    return this.sections[index]?.isVisible || false;
-  }
 
-  getSectionLength(section: any): string {
-    let totalSeconds = 0;
-    section.videos.forEach((video: any) => {
-      const parts = video.time.split(':').map((v: string) => parseInt(v, 10));
-      if (parts.length === 2) {
-        totalSeconds += parts[0] * 60 + parts[1];
-      } else {
-        totalSeconds += parts[0] * 60;
+  userAnswers: boolean[] = [];
+
+  submitAnswers() {
+    let correctCount = 0;
+
+    this.quizWithQestion.questions!.forEach((question, index) => {
+      if (this.userAnswers[index] === question.correctAnswer) {
+        correctCount++;
       }
     });
-    const minutes = Math.floor(totalSeconds / 60);
-    return `${minutes}min`;
+
+    const score = (correctCount / this.quizWithQestion.questions!.length) * 100;
+    alert(`Your Score: ${score}%`);
   }
+
+
+  // getSectionLength(section: any): string {
+  //   // let totalSeconds = 0;
+  //   // section.videos.forEach((video: any) => {
+  //   //   const parts = video.time.split(':').map((v: string) => parseInt(v, 10));
+  //   //   if (parts.length === 2) {
+  //   //     totalSeconds += parts[0] * 60 + parts[1];
+  //   //   } else {
+  //   //     totalSeconds += parts[0] * 60;
+  //   //   }
+  //   });
+  //   const minutes = Math.floor(totalSeconds / 60);
+  //   return `${minutes}min`;
+  // }
 }

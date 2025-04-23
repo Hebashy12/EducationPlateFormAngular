@@ -31,7 +31,7 @@ export class QuizeService {
   deleteQuizById(id:number){
     return this._http.delete(this.apiUrl+id);
   }
-  getQuizQustions(id:number):Observable<IGetQuizWithQuestions[]>{
-    return this._http.get<IGetQuizWithQuestions[]>(this.apiUrl+`${id}/questions`);
+  getQuizQustions(id:number):Observable<IGetQuizWithQuestions>{
+    return this._http.get<IGetQuizWithQuestions>(this.apiUrl+`${id}/questions`);
   }
 }
