@@ -31,7 +31,7 @@ export class CoursecontentComponent implements OnInit {
   }
 
   // Fetch API
-  videosLst:IGetVideo[]=[];
+  videosLst:IGetVideo[]|null=[];
   videoSer=inject(VideoService);
   sectionQuiz:IGetQuiz|null=null;
   quizSer=inject(QuizeService);

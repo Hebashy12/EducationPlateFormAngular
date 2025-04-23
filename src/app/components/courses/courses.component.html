@@ -1,9 +1,9 @@
 @if(this.courses === null || this.courses === null) {
-  <div class="d-flex justify-content-center align-items-center">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+<div class="d-flex justify-content-center align-items-center">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
+</div>
 }
 @else{
 <div class="courses-container">
@@ -23,28 +23,24 @@
   <div style="background-color: #f8f8f8; display: inline-block; width: 100%; min-height: 400px; padding: 30px 0;">
     <!-- Category Tabs -->
     <ul class="category-tabs">
-      <li *ngFor="let category of categories"
-          (click)="onCategoryChange(category.categorieId)"
-          [class.active]="selectedCategoryId === category.categorieId">
+      <li *ngFor="let category of categories" (click)="onCategoryChange(category.categorieId)"
+        [class.active]="selectedCategoryId === category.categorieId">
         {{ category.name }}
         <small> 2M+ learners </small>
       </li>
     </ul>
-<!-- // (click)="goToCourse(course, selectedCategory.name)"  -->
+    <!-- (click)="goToCourse(course, selectedCategory.name)" -->
     <!-- Course Cards Grid -->
     <div class="courses-grid">
-      <div *ngFor="let course of filteredCourses"
-           class="course-card"
-
-           style="cursor: pointer;">
+      <div *ngFor="let course of filteredCourses" class="course-card" (click)="goToCourse(course.courseId)"
+        style="cursor: pointer;">
         <img [src]="course.courseImage" [alt]="course.title" class="course-image">
         <div class="course-body">
           <h4 class="course-name">{{ course.title }}</h4>
           <p class="course-description">{{ course.description }}</p>
           <div class="course-rating">
             <span class="stars">{{ getStarRating((course.rating===null)?5:course.rating).display }}</span>
-             <span
-              class="tag"> Best Seller </span>
+            <span class="tag"> Best Seller </span>
           </div>
           <div class="course-price">{{ course.price }}</div>
         </div>
@@ -57,14 +53,30 @@
   <div class="trusted-by-section">
     <p class="trusted-text">Trusted by over 16,000 companies and millions of learners around the world</p>
     <div class="logos-container">
-      <img src="https://cms-images.udemycdn.com/content/tqevknj7om/svg/volkswagen_logo.svg?position=c&quality=80&x.app=portals" alt="Volkswagen Logo">
-      <img src="https://cms-images.udemycdn.com/content/2gevcc0kxt/svg/samsung_logo.svg?position=c&quality=80&x.app=portals" alt="Samsung Logo">
-      <img src="https://cms-images.udemycdn.com/content/mueb2ve09x/svg/cisco_logo.svg?position=c&quality=80&x.app=portals" alt="Cisco Logo">
-      <img src="https://cms-images.udemycdn.com/content/ryaowrcjb2/svg/vimeo_logo_resized-2.svg?position=c&quality=80&x.app=portals" alt="Vimeo Logo">
-      <img src="https://cms-images.udemycdn.com/content/bthyo156te/svg/procter_gamble_logo.svg?position=c&quality=80&x.app=portals" alt="P&G Logo">
-      <img src="https://cms-images.udemycdn.com/content/luqe0d6mx2/svg/hewlett_packard_enterprise_logo.svg?position=c&quality=80&x.app=portals" alt="Hewlett Packard Enterprise Logo">
-      <img src="https://cms-images.udemycdn.com/content/siaewwmkch/svg/citi_logo.svg?position=c&quality=80&x.app=portals" alt="Citi Logo">
-      <img src="https://cms-images.udemycdn.com/content/swmv0okrlh/svg/ericsson_logo.svg?position=c&quality=80&x.app=portals" alt="Ericsson Logo">
+      <img
+        src="https://cms-images.udemycdn.com/content/tqevknj7om/svg/volkswagen_logo.svg?position=c&quality=80&x.app=portals"
+        alt="Volkswagen Logo">
+      <img
+        src="https://cms-images.udemycdn.com/content/2gevcc0kxt/svg/samsung_logo.svg?position=c&quality=80&x.app=portals"
+        alt="Samsung Logo">
+      <img
+        src="https://cms-images.udemycdn.com/content/mueb2ve09x/svg/cisco_logo.svg?position=c&quality=80&x.app=portals"
+        alt="Cisco Logo">
+      <img
+        src="https://cms-images.udemycdn.com/content/ryaowrcjb2/svg/vimeo_logo_resized-2.svg?position=c&quality=80&x.app=portals"
+        alt="Vimeo Logo">
+      <img
+        src="https://cms-images.udemycdn.com/content/bthyo156te/svg/procter_gamble_logo.svg?position=c&quality=80&x.app=portals"
+        alt="P&G Logo">
+      <img
+        src="https://cms-images.udemycdn.com/content/luqe0d6mx2/svg/hewlett_packard_enterprise_logo.svg?position=c&quality=80&x.app=portals"
+        alt="Hewlett Packard Enterprise Logo">
+      <img
+        src="https://cms-images.udemycdn.com/content/siaewwmkch/svg/citi_logo.svg?position=c&quality=80&x.app=portals"
+        alt="Citi Logo">
+      <img
+        src="https://cms-images.udemycdn.com/content/swmv0okrlh/svg/ericsson_logo.svg?position=c&quality=80&x.app=portals"
+        alt="Ericsson Logo">
     </div>
   </div>
 
@@ -75,12 +87,8 @@
 
     <!-- Left Side -->
     <div class="goals-options">
-      <div
-        *ngFor="let goal of goals"
-        class="goal-box"
-        [class.active]="goal.image === selectedImage"
-        (click)="setActive(goal.image)"
-      >
+      <div *ngFor="let goal of goals" class="goal-box" [class.active]="goal.image === selectedImage"
+        (click)="setActive(goal.image)">
         <img [src]="goal.icon" class="goal-icon" />
         <div class="goal-info">
           <h4>
@@ -102,13 +110,16 @@
     <!-- Left Column: Text Content -->
     <div class="left-column">
       <h1>Top trends for the future of work</h1>
-      <p class="subtitle">Our 2025 Global Learning & Skills Trends Report is out now! Find out how to build the skills to keep pace with change.</p>
+      <p class="subtitle">Our 2025 Global Learning & Skills Trends Report is out now! Find out how to build the skills
+        to keep pace with change.</p>
       <a class="report-button">Get the report</a>
     </div>
 
     <!-- Right Column: Image -->
     <div class="right-column">
-      <img src="https://cms-images.udemycdn.com/96883mtakkm8/1qvvR0FDKv9chruIpia6Sc/b2af22a0097e47de4e4354237e3f378c/Onsite_Desktop_GLSTR25.png" alt="2025 Trends Report" class="report-image">
+      <img
+        src="https://cms-images.udemycdn.com/96883mtakkm8/1qvvR0FDKv9chruIpia6Sc/b2af22a0097e47de4e4354237e3f378c/Onsite_Desktop_GLSTR25.png"
+        alt="2025 Trends Report" class="report-image">
     </div>
   </div>
 

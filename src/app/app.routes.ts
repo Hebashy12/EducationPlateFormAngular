@@ -34,7 +34,7 @@ export const routes: Routes = [
       { path: 'add', component: AddCourseComponent , title:'Add Course', pathMatch: "full"  },
       { path: 'update/:id', component: UpdateCourseComponent, title: 'Update Course' , pathMatch: "full" },
       { path: 'details/:id', component: CourseDetailsComponent , title: 'Course Details', pathMatch: "full" , resolve: { course: courseResolver } },
-      { path: 'courses/:id', component: CoursepageComponent , pathMatch: "full" , resolve: { course: courseResolver , category: courseCategoryResolver , sections:sectionsResolver } },
+      { path: 'coursePage/:id', component: CoursepageComponent , pathMatch: "full" , resolve: { course: courseResolver , category: courseCategoryResolver , sections:sectionsResolver } },
       { path: '**', component: NotfoundComponent, title: 'Page Not Found' }
     ]
   },

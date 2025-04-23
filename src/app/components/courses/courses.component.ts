@@ -3,13 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IGetCategory } from '../../models/category/iget-category';
-import { CategoryService } from '../../Services/category.service';
-import { SectionService } from '../../Services/section.service';
 import { IGetSection } from '../../models/sectionModel/iget-section';
 import { IGetVideo } from '../../models/videoModel/iget-video';
-import { QuizeService } from '../../Services/quiz.service';
-import { Course } from '../../Services/course.service';
 import { Category } from '../add-course/add-course.component';
+import { Course } from '../../Services/course.service';
 
 @Component({
   selector: 'app-courses',
@@ -224,13 +221,13 @@ console.log(this.filteredCourses);
       this.selectedImage = imagePath;
     }
 
-    goToCourse(course: any, category: string) {
-      this.router.navigate(['/courses', course.name], {
-        state: {
-          course,
-          categories: this.categories,
-        }
-      });
+    goToCourse(courseId: number) {
+      this.router.navigate(['courses','coursePage', courseId])
+        // state: {
+        //   course,
+        //   categories: this.categories,
+        // }
+      // });
     }
 
   }
