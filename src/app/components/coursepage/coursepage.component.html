@@ -30,7 +30,7 @@
           <span><i class="fas fa-closed-captioning"></i> English (CC)</span>
         </div>
 
-        <div class="what-youll-learn mb-6">
+        <div class="what-youll-learn mt-6">
           <h2>What you'll learn</h2>
           <ul class="learn-list">
             <li>Generative AI: Create content, synthesize information, and learn faster than ever with effective prompt engineering!</li>
@@ -56,9 +56,10 @@
           </div>
 
           <div class="price-box">
+            <p class="price discount"> £ {{ course.price + 200 }}</p>
             <p class="price"> £ {{ course.price }}</p>
             <p class="limited-time">
-              <i class="fas fa-clock"></i> Hours left at this price!
+              <i class="fas fa-clock"></i> <strong> 3</strong> Hours left at this price!
             </p>
             <button class="btn purple" (click)="navigateToCourseContent()">Buy now</button>
             <button class="btn outline" (click)="Payment()">Add to cart</button>

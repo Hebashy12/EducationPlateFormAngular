@@ -18,17 +18,17 @@
     <p>From critical skills to technical topics, we support your professional development.</p>
   </div>
 
-
-
   <div style="background-color: #f8f8f8; display: inline-block; width: 100%; min-height: 400px; padding: 30px 0;">
     <!-- Category Tabs -->
     <ul class="category-tabs">
-      <li *ngFor="let category of categories" (click)="onCategoryChange(category.categorieId)"
-        [class.active]="selectedCategoryId === category.categorieId">
+      <li *ngFor="let category of categories"
+          (click)="onCategoryChange(category.categorieId)"
+          [class.active]="selectedCategoryId === category.categorieId">
         {{ category.name }}
-        <small> 2M+ learners </small>
+        <small>{{ learnerCounts[category.categorieId] }}</small>
       </li>
     </ul>
+    
     <!-- (click)="goToCourse(course, selectedCategory.name)" -->
     <!-- Course Cards Grid -->
     <div class="courses-grid">
@@ -47,8 +47,6 @@
       </div>
     </div>
   </div>
-
-
 
   <div class="trusted-by-section">
     <p class="trusted-text">Trusted by over 16,000 companies and millions of learners around the world</p>
@@ -79,7 +77,6 @@
         alt="Ericsson Logo">
     </div>
   </div>
-
 
   <h2 class="goals-title">Learning focused on your goals</h2>
 
@@ -124,5 +121,4 @@
   </div>
 
 </div>
-
 }

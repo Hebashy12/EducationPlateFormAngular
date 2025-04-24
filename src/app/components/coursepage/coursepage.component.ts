@@ -77,7 +77,6 @@ export class CoursepageComponent implements OnInit {
     }
   }
 
-
   paymentSer=inject(PaymentService)
   // Payment
   Payment(){

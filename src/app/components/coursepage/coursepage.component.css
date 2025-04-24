@@ -417,7 +417,7 @@ h2 {
 
 
 .what-youll-learn {
-  margin-top: 80px; /* Adjust this value for more or less space */
+  margin-top: 140px; /* Adjust this value for more or less space */
   padding: 20px;
   background: #fff;
   border-radius: 8px;
@@ -442,3 +442,8 @@ h2 {
   color: #555;
 }
 
+.discount {
+  color: #999;
+  text-decoration: line-through;
+  margin-right: 10px;
+}
