@@ -62,16 +62,16 @@ export class CoursecontentComponent implements OnInit {
   }
 
 
-  getQuiz(sectionId:number){
-    this.quizSer.getQuizBySectionId(sectionId).subscribe({
-      next:(quiz)=>{
-        this.sectionQuiz=quiz
-      },
-      error:(e)=>{
-        console.log(`We have some Problems when Fetching API: ${e}`);
-      }
-    })
-  }
+  // getQuiz(sectionId:number){
+  //   this.quizSer.getQuizBySectionId(sectionId).subscribe({
+  //     next:(quiz)=>{
+  //       this.sectionQuiz=quiz
+  //     },
+  //     error:(e)=>{
+  //       console.log(`We have some Problems when Fetching API: ${e}`);
+  //     }
+  //   })
+  // }
   getQuizWithQuestion(quizId:number){
     this.quizSer.getQuizQustions(quizId).subscribe({
       next:(q)=>{
@@ -88,10 +88,11 @@ export class CoursecontentComponent implements OnInit {
       console.log('No course content available.');
     }
   }
-
+selectedSectionId!:number
   toggleSection(sectionId: number): void {
     console.log(sectionId);
     this.videosLst=[];
+    this.selectedSectionId=sectionId
     this.getVideos(sectionId);
     console.log(this.videosLst)
     this.getQuizWithQuestion(sectionId);

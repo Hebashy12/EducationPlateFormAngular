@@ -39,7 +39,7 @@
             </span>
           </div>
           <!-- &&videosLst!==null&&section.sectionId==videosLst[0].sectionId -->
-          <ul *ngIf="isSectionVisible(section.sectionId)&&videosLst!==null&&section.sectionId==videosLst[0].sectionId"
+          <ul *ngIf="isSectionVisible(section.sectionId)&&videosLst!==null&&section.sectionId===selectedSectionId"
             class="video-list">
             <li *ngFor="let video of videosLst" class="video-item" (click)="showVideo(video.videoId)">
               <span class="video-title">{{ video.title }}</span>
