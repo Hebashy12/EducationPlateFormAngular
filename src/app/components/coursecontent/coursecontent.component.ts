@@ -8,6 +8,7 @@ import { IGetQuiz } from '../../models/quize/iget-quiz';
 import { QuizeService } from '../../Services/quiz.service';
 import { IGetQuizWithQuestions } from '../../models/quize/iget-quiz-with-questions';
 import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-coursecontent',
@@ -29,6 +30,8 @@ export class CoursecontentComponent implements OnInit {
     if (state) {
       this.sections = state['sections'] || [];
       console.log(this.sections);
+      this.initSelected=this.sections[0].sectionId
+
     }
   }
 
@@ -82,10 +85,20 @@ export class CoursecontentComponent implements OnInit {
       }
     })
   }
-
+initSelected!:number
   ngOnInit(): void {
     if (this.sections.length === 0) {
       console.log('No course content available.');
+    }else{
+
+      console.log("sectionId Init: "+this.initSelected)
+      this.videoSer.getVideoBySectionId(this.initSelected).subscribe({
+      next:(v)=>{
+        this.videosLst=v;
+        if(this.videosLst?.length!==0)
+          this.currentVideo=this.videosLst![0].videoFileUrl
+      }})
+      console.log(this.videosLst)
     }
   }
 selectedSectionId!:number

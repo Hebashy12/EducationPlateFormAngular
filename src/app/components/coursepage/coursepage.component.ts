@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -10,6 +10,8 @@ import { Category } from '../add-course/add-course.component';
 import { VideoService } from '../../Services/video.service';
 import { SectionService } from '../../Services/section.service';
 import { QuizeService } from '../../Services/quiz.service';
+import { PaymentService } from '../../Services/payment.service';
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-coursepage',
@@ -28,7 +30,8 @@ export class CoursepageComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly videoService: VideoService
+    private readonly videoService: VideoService,
+    private authService: AuthService
   ) {
     this.course = this.route.snapshot.data['course'] ?? null;
     this.category = this.route.snapshot.data['category'] ?? null;
@@ -39,8 +42,14 @@ export class CoursepageComponent implements OnInit {
       this.visibleSections = new Array(this.sections.length).fill(false);
     }
   }
+  userId!:string
+  ngOnInit(): void {
+    const currentUser = this.authService.userSignal();
+    if(currentUser?.id!==undefined)
+    this.userId= currentUser?.id;
 
-  ngOnInit(): void {}
+  console.log('Current User ID:', this.userId);
+  }
 
   // Fetch videos for a specific section
   getAllVideoes(sectionId: number): void {
@@ -66,6 +75,16 @@ export class CoursepageComponent implements OnInit {
       // Reset video list when the section is collapsed
       this.videoLst = null;
     }
+  }
+
+
+  paymentSer=inject(PaymentService)
+  // Payment
+  Payment(){
+    if(this.course!==null)
+    this.paymentSer.createCheckoutSession(this.course, this.userId).subscribe(res => {
+      window.location.href = res.url;
+    });
   }
 
   // Check if the section is visible
