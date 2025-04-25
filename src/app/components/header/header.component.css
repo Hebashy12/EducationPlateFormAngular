@@ -84,6 +84,11 @@
   background-color: transparent;
   height: 100%;
 }
+@media (max-width: 750px) {
+  .search-input {
+    width: 0px;
+  }
+}
 
 .search-button {
   display: none;  /* Search button is hidden */

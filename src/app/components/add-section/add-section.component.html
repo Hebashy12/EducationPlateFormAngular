@@ -1,0 +1,73 @@
+<!-- 
+ <form [formGroup]="SectionForm" (ngSubmit)="onSubmit()">
+  <input formControlName="sectionName" placeholder="Section Name" />
+  <div *ngIf="sectionNameError">{{ sectionNameError }}</div>
+
+  <label>
+    <input type="checkbox" formControlName="isPassSection" />
+    Is Pass Section
+  </label>
+
+   <input type="number" formControlName="courseId" placeholder="Course ID" />
+  <div *ngIf="courseIdError">{{ courseIdError }}</div> 
+
+  <select formControlName="courseId">
+    <option [ngValue]="null" disabled>Select a course</option>
+    <option *ngFor="let course of courses" [ngValue]="course.courseId">
+      {{ course.title }}
+    </option>
+  </select>
+  <div *ngIf="courseIdError">{{ courseIdError }}</div>
+
+  <button type="submit" [disabled]="SectionForm.invalid">Add Section</button>
+</form>
+ -->
+
+ 
+<form [formGroup]="SectionForm" (ngSubmit)="onSubmit()" novalidate>
+
+  <!-- Section Name -->
+  <div class="mb-3">
+    <label for="sectionName" class="form-label">Section Name</label>
+    <input
+      type="text"
+      id="sectionName"
+      class="form-control"
+      formControlName="sectionName"
+    />
+    <div *ngIf="sectionNameError" class="text-danger">{{ sectionNameError }}</div>
+  </div>
+
+  <!-- Is Pass Section Checkbox -->
+  <div class="form-check mb-3">
+    <input
+      type="checkbox"
+      id="isPassSection"
+      class="form-check-input"
+      formControlName="isPassSection"
+    />
+    <label for="isPassSection" class="form-check-label">Is Pass Section</label>
+  </div>
+
+  <!-- Course Dropdown -->
+  <div class="mb-3">
+    <label for="courseId" class="form-label">Course</label>
+    <select
+      id="courseId"
+      class="form-select"
+      formControlName="courseId"
+    >
+      <option [ngValue]="null" disabled selected>Select a course</option>
+      <option *ngFor="let course of courses" [ngValue]="course.courseId">
+        {{ course.title }}
+      </option>
+    </select>
+    <div *ngIf="courseIdError" class="text-danger">{{ courseIdError }}</div>
+  </div>
+
+  <!-- Submit Button -->
+  <button type="submit" class="btn btn-primary" [disabled]="SectionForm.invalid">
+    Add Section
+  </button>
+</form>
+

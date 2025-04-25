@@ -1,0 +1,117 @@
+
+<form *ngIf="!quizCreated" [formGroup]="QuizForm" (ngSubmit)="onSubmit()" novalidate>
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input class="form-control" formControlName="title" />
+    <div *ngIf="titleError" class="text-danger">{{ titleError }}</div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Passing Score</label>
+    <input type="number" class="form-control" formControlName="passingScore" />
+    <div *ngIf="passingScoreError" class="text-danger">{{ passingScoreError }}</div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Section</label>
+    <select class="form-select" formControlName="sectionId">
+      <option *ngFor="let s of sections" [value]="s.sectionId">{{ s.sectionName }}</option>
+    </select>
+    <div *ngIf="sectionError" class="text-danger">{{ sectionError }}</div>
+  </div>
+
+  <button class="btn btn-primary" [disabled]="QuizForm.invalid || loading">Create Quiz</button>
+</form>
+
+<hr />
+
+
+
+<div *ngIf="quizCreated">
+  <form #form
+    [formGroup]="questionForm"
+    (ngSubmit)="submitQuestion()"
+    class="border rounded p-3 mt-4 bg-light"
+    novalidate >
+    <h5 class="mb-3">Question {{ currentQuestionNumber }}</h5>
+
+    <!-- Header -->
+    <div class="mb-3">
+      <label for="header" class="form-label">Question Header</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="header"
+        id="header"
+        placeholder="Enter your question text"
+      />
+      <div class="text-danger" *ngIf="questionForm.controls.header.invalid && (questionForm.controls.header.dirty || questionForm.controls.header.touched)">
+        Question must be at least 10 characters
+      </div>
+    </div>
+
+    <!-- Correct Answer -->
+    <!-- <div class="mb-3 form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        formControlName="correctAnswer"
+        id="correctAnswer"
+      />
+      <label class="form-check-label" for="correctAnswer">Correct Answer?</label>
+    </div> -->
+
+    <div class="mb-3">
+      <label class="form-label d-block">Correct Answer</label>
+    
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="correctAnswer"
+          [value]="true"
+          id="correctTrue"
+        />
+        <label class="form-check-label" for="correctTrue">True</label>
+      </div>
+    
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="correctAnswer"
+          [value]="false"
+          id="correctFalse"
+        />
+        <label class="form-check-label" for="correctFalse">False</label>
+      </div>
+    </div>
+    
+
+    <!-- Order (read-only display) -->
+    <div class="mb-3">
+      <label class="form-label">Order</label>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="order"
+     readonly
+        
+      />
+    </div>
+
+    <!-- Submit -->
+    <button
+    
+      type="submit"
+      class="btn btn-success"
+      [disabled]="questionForm.invalid"
+      
+    >
+      Add Question {{ currentQuestionNumber }}
+    </button>
+  </form>
+
+  <!-- Finish button -->
+  <button class="btn btn-secondary mt-3" (click)="onFinishQuiz()">Enough Questions</button>
+</div>

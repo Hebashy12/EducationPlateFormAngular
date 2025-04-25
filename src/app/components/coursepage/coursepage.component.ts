@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -10,12 +10,16 @@ import { Category } from '../add-course/add-course.component';
 import { VideoService } from '../../Services/video.service';
 import { SectionService } from '../../Services/section.service';
 import { QuizeService } from '../../Services/quiz.service';
-import { PaymentService } from '../../Services/payment.service';
+
+
 import { AuthService } from '../../Services/auth.service';
+import { PaymentService } from '../../Services/payment.service';
+import { IGetStudentCourse } from '../../models/studentCourse/iget-student-course';
 
 @Component({
   selector: 'app-coursepage',
-  imports: [CommonModule, RouterModule, DatePipe],
+  imports: [CommonModule, RouterModule, DatePipe,RouterLink],
+
   templateUrl: './coursepage.component.html',
   styleUrls: ['./coursepage.component.css']
 })
@@ -26,7 +30,8 @@ export class CoursepageComponent implements OnInit {
   videoLst: IGetVideo[] | null = null;
   // Array to manage the visibility of each section independently
   visibleSections: boolean[] = [];
-
+  studentCouse!:IGetStudentCourse[];
+  isBuyed:boolean=false;
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
@@ -34,6 +39,11 @@ export class CoursepageComponent implements OnInit {
     private authService: AuthService
   ) {
     this.course = this.route.snapshot.data['course'] ?? null;
+    this.studentCouse = this.route.snapshot.data['studentCourse'] ?? null;
+    this.studentCouse.forEach(element => {
+      if(element.coursesId===this.course?.courseId)
+        this.isBuyed=true;
+    });
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state;
     if (state) {
@@ -41,6 +51,7 @@ export class CoursepageComponent implements OnInit {
     }
     // this.category = this.route.snapshot.data['category'] ?? null;
     this.sections = this.route.snapshot.data['sections'] ?? null;
+
 
     // Initialize visibility state for each section to false (collapsed by default)
     if (this.sections) {
@@ -54,6 +65,9 @@ export class CoursepageComponent implements OnInit {
     this.userId= currentUser?.id;
 
   console.log('Current User ID:', this.userId);
+  }
+  goToCouseContent(){
+    this.router.navigate(['courses','courseContent', this.course?.courseId]);
   }
 
   // Fetch videos for a specific section
@@ -72,6 +86,7 @@ export class CoursepageComponent implements OnInit {
   toggleSection(sectionId: number, index: number): void {
     // Toggle visibility of the clicked section
     this.visibleSections[index] = !this.visibleSections[index];
+
 
     // If the section is expanded, fetch its videos
     if (this.visibleSections[index]) {
