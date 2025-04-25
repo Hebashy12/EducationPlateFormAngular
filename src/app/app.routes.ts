@@ -20,7 +20,10 @@ import { coursesResolver } from './Resolvers/courses.resolver';
 import { categoryResolver } from './Resolvers/category.resolver';
 import { courseCategoryResolver } from './Resolvers/courseCategory.resolver';
 import { sectionsResolver } from './Resolvers/sections.resolver';
+
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
+
+
 import { ProfileComponent } from './components/profile/profile.component';
 import { studentCourseResolver } from './Resolvers/student-course.resolver';
 
@@ -33,15 +36,18 @@ export const routes: Routes = [
     children: [
       { path: '', component: CoursesComponent ,title:'Courses' , pathMatch: "full" , resolve: { user: authResolver , courses: coursesResolver , categories:categoryResolver} },
       { path: 'courseContent/:id', component: CoursecontentComponent , pathMatch: "full",resolve: {course: courseResolver, sections:sectionsResolver } },
+
       { path: 'chat-bot', component: ChatBotComponent , title: 'ITI ChatBot' , pathMatch: "full" },
       { path: 'list',component:CoursesListComponent,title:'Course List' , pathMatch: "full" },
       { path: 'add', component: AddCourseComponent , title:'Add Course', pathMatch: "full"  },
       { path: 'update/:id', component: UpdateCourseComponent, title: 'Update Course' , pathMatch: "full" },
       { path: 'details/:id', component: CourseDetailsComponent , title: 'Course Details', pathMatch: "full" , resolve: { course: courseResolver } },
       { path: 'coursePage/:id', component: CoursepageComponent , pathMatch: "full" , resolve: { course: courseResolver , sections:sectionsResolver , studentCourse:studentCourseResolver} },//, category: courseCategoryResolver,
+
       { path: '**', component: NotfoundComponent, title: 'Page Not Found' }
     ]
   },
+  {path:'profile', component:ProfileComponent, title:'Profile', resolve:{studentCourse:studentCourseResolver}},
 
   // { path: '', component: CoursesComponent, title: 'Courses', resolve: { user: authResolver } },
   // { path: 'courses', component: CoursesComponent },

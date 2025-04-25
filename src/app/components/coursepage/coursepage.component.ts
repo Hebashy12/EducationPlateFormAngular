@@ -11,6 +11,7 @@ import { VideoService } from '../../Services/video.service';
 import { SectionService } from '../../Services/section.service';
 import { QuizeService } from '../../Services/quiz.service';
 
+
 import { AuthService } from '../../Services/auth.service';
 import { PaymentService } from '../../Services/payment.service';
 import { IGetStudentCourse } from '../../models/studentCourse/iget-student-course';
@@ -18,6 +19,7 @@ import { IGetStudentCourse } from '../../models/studentCourse/iget-student-cours
 @Component({
   selector: 'app-coursepage',
   imports: [CommonModule, RouterModule, DatePipe,RouterLink],
+
   templateUrl: './coursepage.component.html',
   styleUrls: ['./coursepage.component.css']
 })
@@ -49,6 +51,7 @@ export class CoursepageComponent implements OnInit {
     }
     // this.category = this.route.snapshot.data['category'] ?? null;
     this.sections = this.route.snapshot.data['sections'] ?? null;
+
 
     // Initialize visibility state for each section to false (collapsed by default)
     if (this.sections) {
@@ -83,6 +86,7 @@ export class CoursepageComponent implements OnInit {
   toggleSection(sectionId: number, index: number): void {
     // Toggle visibility of the clicked section
     this.visibleSections[index] = !this.visibleSections[index];
+
 
     // If the section is expanded, fetch its videos
     if (this.visibleSections[index]) {

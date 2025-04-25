@@ -36,7 +36,7 @@ return formData;
 export type Category = {
   categorieId: number;
   name: string;
-  courses?: Course[] | null;
+  // courses?: Course[] | null;
   isDeleted: boolean;
   createOn: string;
   lastUpdateOn: string | null;

@@ -62,6 +62,7 @@
             <p class="preview-label">Preview this course</p>
           </div>
 
+
           <div class="price-box">
             <p class="price discount"> £ {{ course?.price??0 + 200 }}</p>
             <p class="price"> £ {{ course?.price }}</p>
@@ -82,6 +83,7 @@
             <button class="btn purple" routerLink="/login">Buy now</button>
             <button class="btn outline" (click)="navigateToCourseContent()">Add to cart</button>
             }
+
 
 
             <div class="feature-list">
@@ -120,6 +122,7 @@
             </div>
           </div>
 
+
           <ul *ngIf="isSectionVisible(i) && videoLst && section.sectionId === videoLst[0]?.sectionId"
             class="video-list">
             <li *ngFor="let video of videoLst">
@@ -130,6 +133,7 @@
             </li>
           </ul>
 
+
           <!-- Locked Section Message -->
           <p *ngIf="!section.isPassSection" class="video-time">
             You need to pass the previous section to unlock this one.
@@ -139,4 +143,6 @@
     </div>
 
   </div>
+
 </div>
+

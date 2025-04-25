@@ -1,8 +1,11 @@
+
 import { Component ,ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Message {
@@ -10,6 +13,7 @@ interface Message {
   sender: 'user' | 'bot';
   timestamp: Date;
   isCode?: boolean;
+
 }
 
 @Component({
@@ -19,12 +23,15 @@ interface Message {
   styleUrl: './chat-bot.component.css'
 })
 export class ChatBotComponent {
+
   @ViewChild('chatContainer') private chatContainer!: ElementRef;
+
 
   messages: Message[] = [];
   userInput = '';
   isLoading = false;
   errorMessage: string | null = null;
+
 
   constructor(
     private http: HttpClient,
@@ -47,6 +54,7 @@ export class ChatBotComponent {
   sendMessage() {
     if (!this.userInput.trim() || this.isLoading) return;
 
+
     this.addMessage(this.userInput, 'user');
     const prompt = this.userInput;
     this.userInput = '';
@@ -55,7 +63,9 @@ export class ChatBotComponent {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.apiKey}`,
       'HTTP-Referer': '<YOUR_SITE_URL>',
+
       'X-Title': '<YOUR_SITE_NAME>',
+
       'Content-Type': 'application/json'
     });
 
@@ -71,9 +81,11 @@ export class ChatBotComponent {
 
     this.http.post(this.apiUrl, body, { headers }).subscribe({
       next: (response: any) => {
+
         const reply = response.choices?.[0]?.message?.content || "I didn't get that";
         const formattedReply = this.formatText(reply);
         this.addMessage(formattedReply, 'bot');
+
         this.isLoading = false;
       },
       error: (error) => {
@@ -85,13 +97,16 @@ export class ChatBotComponent {
   }
 
   private addMessage(content: string, sender: 'user' | 'bot') {
+
     const formattedContent = sender === 'bot' ? this.formatText(content) : content;
     this.messages.push({
       content: this.sanitizer.bypassSecurityTrustHtml(formattedContent),
+
       sender,
       timestamp: new Date()
     });
   }
+
 
   private formatText(text: string): string {
     let formatted = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
@@ -145,4 +160,5 @@ export class ChatBotComponent {
       this.sendMessage();
     }
   }
+
 }
