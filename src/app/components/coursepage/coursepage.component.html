@@ -76,33 +76,45 @@
       </div>
     </div>
 
-    <!-- Course Content -->
     <div class="course-content-container">
       <div class="course-content" *ngIf="sections.length">
         <h2 class="content-title">Course content</h2>
         <p class="content-subtitle">
           {{ sections.length }} sections • {{ getTotalLectures() }} lectures
         </p>
-
+    
         <div *ngFor="let section of sections; let i = index" class="section">
           <div class="section-header" (click)="toggleSection(section.sectionId, i)">
-            <strong>{{ i + 1 }}. {{ section.sectionName }}</strong>
-            <span class="toggle-icon">{{ isSectionVisible(i) ? '-' : '+' }}</span>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <!-- Section Title -->
+              <strong>{{ i + 1 }}. {{ section.sectionName }}</strong>
+    
+              <!-- Meta Info Right Aligned -->
+              <div class="d-flex align-items-center" style="gap: 0.5rem;">
+                <span class="text-muted" style="font-size: 0.9rem;">
+                  {{ section.videosNum }} lectures • {{ sectionDurations[section.sectionId] || getSectionTotalDuration(section.sectionId) }}
+                </span>
+                <span class="toggle-icon">{{ isSectionVisible(i) ? '-' : '+' }}</span>
+              </div>
+            </div>
           </div>
-
+    
           <ul *ngIf="isSectionVisible(i) && videoLst && section.sectionId === videoLst[0]?.sectionId" class="video-list">
             <li *ngFor="let video of videoLst">
               <div class="d-flex justify-content-between align-items-center">
                 <span class="video-title">{{ video.title }}</span>
-                <span class="video-time">{{ video.videoDuration }}</span>
+                <span class="video-time">{{ formatDuration(video.videoDuration) }}</span>
               </div>
             </li>
           </ul>
-
-          <!-- Placeholder message for locked sections -->
-          <p *ngIf="!section.isPassSection" class="video-time">You need to pass the previous section to unlock this one.</p>
+    
+          <!-- Locked Section Message -->
+          <p *ngIf="!section.isPassSection" class="video-time">
+            You need to pass the previous section to unlock this one.
+          </p>
         </div>
       </div>
-    </div>
+    </div>    
+    
   </div>
 </div>

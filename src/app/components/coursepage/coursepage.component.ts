@@ -102,4 +102,53 @@ export class CoursepageComponent implements OnInit {
       state: { sections: this.sections }
     });
   }
+
+  formatDuration(duration: number): string {
+    const parts = duration.toString().split(':');
+    const minutes = parseInt(parts[1], 10);
+    const seconds = parseInt(parts[2].split('.')[0], 10);
+
+    const mm = minutes.toString().padStart(2, '0');
+    const ss = seconds.toString().padStart(2, '0');
+  
+    return `${mm}:${ss}`;
+  }
+  
+  sectionDurations: { [sectionId: number]: string } = {};
+  getSectionTotalDuration(sectionId: number): string {
+    if (this.sectionDurations[sectionId]) {
+      return this.sectionDurations[sectionId]; // Return cached value
+    }
+  
+    // Temporary loading indicator
+    this.sectionDurations[sectionId] = '...';
+  
+    this.videoService.getVideoBySectionId(sectionId).subscribe({
+      next: (videos) => {
+        let totalSeconds = 0;
+  
+        videos!.forEach(video => {
+          const parts = video.videoDuration.toString().split(':'); // format: HH:mm:ss
+          const hours = parseInt(parts[0], 10);
+          const minutes = parseInt(parts[1], 10);
+          const seconds = parseInt(parts[2].split('.')[0], 10);
+  
+          totalSeconds += hours * 3600 + minutes * 60 + seconds;
+        });
+  
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+  
+        this.sectionDurations[sectionId] = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      },
+      error: (err) => {
+        console.error(`Error fetching duration for section ${sectionId}: ${err}`);
+        this.sectionDurations[sectionId] = '00:00:00';
+      }
+    });
+  
+    return this.sectionDurations[sectionId]; // Initial value will be '...'
+  }  
+
 }

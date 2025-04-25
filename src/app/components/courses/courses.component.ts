@@ -19,55 +19,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
   filteredCourses: Course[] | null = null;
   learnerCounts: { [categoryId: number]: string } = {};
 
-  constructor(private readonly router: Router, private readonly route: ActivatedRoute) {
-    this.courses = this.route.snapshot.data['courses'] ?? null;
-    this.categories = this.route.snapshot.data['categories'] ?? null;
-
-    if (this.categories && this.categories.length > 0) {
-      this.selectedCategoryId = this.categories[0].categorieId;
-      this.filteredCourses = this.courses?.filter((course) => course.categoriesId === this.selectedCategoryId) ?? null;
-
-      this.generateRandomLearnerCounts();
-    }
-  }
-
-  ngOnInit(): void {
-    this.intervalId = setInterval(() => {
-      this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
-      this.currentImage = this.images[this.currentImageIndex];
-    }, 3000);
-  }
-
-  generateRandomLearnerCounts(): void {
-    if (!this.categories) return;
-
-    this.categories.forEach(category => {
-      const min = 1.5;
-      const max = 5.0;
-      const randomMillions = (Math.random() * (max - min) + min).toFixed(1);
-      this.learnerCounts[category.categorieId] = `${randomMillions}M+ learners`;
-    });
-  }
-
-  onCategoryChange(categoryId: number): void {
-    this.selectedCategoryId = categoryId;
-    this.filteredCourses = this.courses?.filter((course) => course.categoriesId === categoryId) ?? null;
-  }
-
-  getStarRating(rating: number): { stars: string, display: string } {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-
-    let stars = '';
-    stars += '★'.repeat(fullStars);
-    stars += '☆'.repeat(emptyStars);
-
-    const display = `${rating} ${stars}`;
-
-    return { stars, display };
-  }
-
   images: string[] = [
     'https://img-c.udemycdn.com/notices/web_carousel_slide/image/3d5da4b4-da7b-4b66-91db-6ea75f1b82a6.png',
     'https://img-c.udemycdn.com/notices/web_carousel_slide/image/9652f354-5e37-400c-856e-ee28f98f27d6.png',
@@ -111,14 +62,72 @@ export class CoursesComponent implements OnInit, OnDestroy {
     }
   ];
 
-  setActive(imagePath: string): void {
-    this.selectedImage = imagePath;
+  constructor(private readonly router: Router, private readonly route: ActivatedRoute) {
+    this.courses = this.route.snapshot.data['courses'] ?? null;
+    this.categories = this.route.snapshot.data['categories'] ?? null;
+
+    // Assign random rating if null
+    if (this.courses) {
+      this.courses.forEach(course => {
+        if (course.rating == null) {
+          course.rating = this.getRandomRating(3, 5);
+        }
+      });
+    }
+
+    if (this.categories && this.categories.length > 0) {
+      this.selectedCategoryId = this.categories[0].categorieId;
+      this.filteredCourses = this.courses?.filter(course => course.categoriesId === this.selectedCategoryId) ?? null;
+      this.generateRandomLearnerCounts();
+    }
+  }
+
+  ngOnInit(): void {
+    this.intervalId = setInterval(() => {
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+      this.currentImage = this.images[this.currentImageIndex];
+    }, 3000);
   }
 
   ngOnDestroy(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+  }
+
+  getRandomRating(min: number, max: number): number {
+    return +((Math.random() * (max - min) + min).toFixed(1));
+  }
+
+  generateRandomLearnerCounts(): void {
+    if (!this.categories) return;
+
+    this.categories.forEach(category => {
+      const randomMillions = (Math.random() * (5 - 1.5) + 1.5).toFixed(1);
+      this.learnerCounts[category.categorieId] = `${randomMillions}M+ learners`;
+    });
+  }
+
+  onCategoryChange(categoryId: number): void {
+    this.selectedCategoryId = categoryId;
+    this.filteredCourses = this.courses?.filter(course => course.categoriesId === categoryId) ?? null;
+  }
+
+  getStarRating(rating: number): { stars: string, display: string } {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    let stars = '';
+    stars += '★'.repeat(fullStars);
+    stars += '☆'.repeat(emptyStars);
+
+    const display = `${rating} ${stars}`;
+    return { stars, display };
+  }
+
+  setActive(imagePath: string): void {
+    this.selectedImage = imagePath;
   }
 
   goToCourse(courseId: number): void {

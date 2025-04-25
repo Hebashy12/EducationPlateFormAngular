@@ -2,13 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { IGetVideo } from '../../models/videoModel/iget-video';
-import { VideoService } from '../../Services/video.service';
-import { IGetQuiz } from '../../models/quize/iget-quiz';
-import { QuizeService } from '../../Services/quiz.service';
-import { IGetQuizWithQuestions } from '../../models/quize/iget-quiz-with-questions';
 import { FormsModule } from '@angular/forms';
-import { filter } from 'rxjs';
+import { VideoService } from '../../Services/video.service';
+import { QuizeService } from '../../Services/quiz.service';
+import { IGetVideo } from '../../models/videoModel/iget-video';
+import { IGetQuizWithQuestions } from '../../models/quize/iget-quiz-with-questions';
 
 @Component({
   selector: 'app-coursecontent',
@@ -20,145 +18,176 @@ import { filter } from 'rxjs';
 export class CoursecontentComponent implements OnInit {
   sections: any[] = [];
   isCollapsed = true;
-  progress = 20;
-  circumference = 2 * Math.PI * 16;
 
+  // Progress-related
+  progress = 0;
+  circumference = 2 * Math.PI * 16;
+  totalQuizzes = 0;
+  passedQuizzes = 0;
+
+  videosLst: IGetVideo[] | null = [];
+  currentVideo: string | undefined = '';
+  selectedSectionId!: number;
+  showQuest: boolean = false;
+  userAnswers: boolean[] = [];
+
+  initSelected!: number;
+  quizWithQestion!: IGetQuizWithQuestions;
+
+  videoSer = inject(VideoService);
+  quizSer = inject(QuizeService);
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state;
     if (state) {
       this.sections = state['sections'] || [];
-      console.log(this.sections);
-      this.initSelected=this.sections[0].sectionId
-
+      this.initSelected = this.sections[0]?.sectionId;
     }
   }
 
-  // Fetch API
-  videosLst:IGetVideo[]|null=[];
-  videoSer=inject(VideoService);
-  sectionQuiz:IGetQuiz|null=null;
-  quizSer=inject(QuizeService);
-  quizWithQestion!:IGetQuizWithQuestions
-  // getVideos(sectionId:number){
-  //   this.videoSer.getVideoBySectionId(sectionId).subscribe({
-  //     next:(video)=>{
-  //       this.videosLst=video;
-  //     },
-  //     error:(e)=>{
-  //       console.log(`We have some Problem when Fetching Video API: `+e);
-  //     }
-  //   })
-  // }
-
-
-  getVideos(id:number){
-    this.videoSer.getVideoBySectionId(id).subscribe({
-      next:(v)=>{
-        this.videosLst=v;
-      },
-      error:(e)=>{
-        console.log(`We have Problems when fetch Video API ${e}`);
-      }
-    })
-  }
-
-
-  // getQuiz(sectionId:number){
-  //   this.quizSer.getQuizBySectionId(sectionId).subscribe({
-  //     next:(quiz)=>{
-  //       this.sectionQuiz=quiz
-  //     },
-  //     error:(e)=>{
-  //       console.log(`We have some Problems when Fetching API: ${e}`);
-  //     }
-  //   })
-  // }
-  getQuizWithQuestion(quizId:number){
-    this.quizSer.getQuizQustions(quizId).subscribe({
-      next:(q)=>{
-        this.quizWithQestion=q;
-      },
-      error:(e)=>{
-        console.log(`We have some Problems when Fetching API: ${e}`)
-      }
-    })
-  }
-initSelected!:number
   ngOnInit(): void {
     if (this.sections.length === 0) {
       console.log('No course content available.');
-    }else{
-
-      console.log("sectionId Init: "+this.initSelected)
-      this.videoSer.getVideoBySectionId(this.initSelected).subscribe({
-      next:(v)=>{
-        this.videosLst=v;
-        if(this.videosLst?.length!==0)
-          this.currentVideo=this.videosLst![0].videoFileUrl
-      }})
-      console.log(this.videosLst)
+    } else {
+      this.getVideos(this.initSelected);
+      this.updateProgress();
     }
   }
-selectedSectionId!:number
+
+  getVideos(sectionId: number) {
+    this.videoSer.getVideoBySectionId(sectionId).subscribe({
+      next: (v) => {
+        this.videosLst = v;
+        if (this.videosLst?.length !== 0)
+          this.currentVideo = this.videosLst![0].videoFileUrl;
+      },
+      error: (e) => {
+        console.log(`Video API error: ${e}`);
+      }
+    });
+  }
+
+  getQuizWithQuestion(quizId: number) {
+    this.quizSer.getQuizQustions(quizId).subscribe({
+      next: (q) => {
+        this.quizWithQestion = q;
+      },
+      error: (e) => {
+        console.log(`Quiz API error: ${e}`);
+      }
+    });
+  }
+
   toggleSection(sectionId: number): void {
-    console.log(sectionId);
-    this.videosLst=[];
-    this.selectedSectionId=sectionId
+    this.videosLst = [];
+    this.selectedSectionId = sectionId;
     this.getVideos(sectionId);
-    console.log(this.videosLst)
     this.getQuizWithQuestion(sectionId);
-    // this.sections[index].isVisible = !this.sections[index].isVisible;
   }
-// videoLst:IGetVideo|null=null;
+
   isSectionVisible(sectionId: number): boolean {
-
-    return this.sections.find((s)=>s.sectionId==sectionId).isPassSection || false;
-    // return true;
-  }
-currentVideo:string|undefined='';
-  showVideo(id:number){
-    this.currentVideo=this.videosLst?.find((v)=>v.videoId==id)?.videoFileUrl
-    this.showQuest=false;
-    console.log(this.currentVideo);
-  }
-  showQuest:boolean=false;
-  showQuestions(){
-    this.currentVideo=''
-    // this.videosLst=[];
-    console.log(this.quizWithQestion.questions)
-    this.showQuest=!this.showQuest
+    return this.sections.find(s => s.sectionId == sectionId)?.isPassSection || false;
   }
 
+  showVideo(videoId: number) {
+    this.currentVideo = this.videosLst?.find(v => v.videoId == videoId)?.videoFileUrl;
+    this.showQuest = false;
+  }
 
-  userAnswers: boolean[] = [];
+  showQuestions() {
+    this.currentVideo = '';
+    this.showQuest = true;
+  }
+
+  score: number | null = null;
 
   submitAnswers() {
     let correctCount = 0;
-
+  
     this.quizWithQestion.questions!.forEach((question, index) => {
       if (this.userAnswers[index] === question.correctAnswer) {
         correctCount++;
       }
     });
+  
+    this.score = Math.round((correctCount / this.quizWithQestion.questions!.length) * 100);
+  
+    // Mark quiz as passed if score >= 60%
+    if (this.score >= 60) {
+      const sectionIndex = this.sections.findIndex(s => s.sectionId === this.selectedSectionId);
+      if (sectionIndex !== -1) {
+        this.sections[sectionIndex].isQuizPassed = true;
+        this.updateProgress();
+      }
+    }
+  }  
 
-    const score = (correctCount / this.quizWithQestion.questions!.length) * 100;
-    alert(`Your Score: ${score}%`);
+  updateProgress() {
+    this.totalQuizzes = 0;
+    this.passedQuizzes = 0;
+
+    this.sections.forEach(section => {
+      if (section.quizId) {
+        this.totalQuizzes++;
+        if (section.isQuizPassed) {
+          this.passedQuizzes++;
+        }
+      }
+    });
+
+    this.progress = this.totalQuizzes > 0
+      ? Math.round((this.passedQuizzes / this.totalQuizzes) * 100)
+      : 0;
   }
 
+  formatDuration(duration: number): string {
+    const parts = duration.toString().split(':');
+    const minutes = parseInt(parts[1], 10);
+    const seconds = parseInt(parts[2].split('.')[0], 10);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+  
+  sectionDurations: { [sectionId: number]: string } = {};
 
-  // getSectionLength(section: any): string {
-  //   // let totalSeconds = 0;
-  //   // section.videos.forEach((video: any) => {
-  //   //   const parts = video.time.split(':').map((v: string) => parseInt(v, 10));
-  //   //   if (parts.length === 2) {
-  //   //     totalSeconds += parts[0] * 60 + parts[1];
-  //   //   } else {
-  //   //     totalSeconds += parts[0] * 60;
-  //   //   }
-  //   });
-  //   const minutes = Math.floor(totalSeconds / 60);
-  //   return `${minutes}min`;
-  // }
+  getSectionTotalDuration(sectionId: number): string {
+    if (this.sectionDurations[sectionId]) {
+      return this.sectionDurations[sectionId]; // Return cached value if available
+    }
+  
+    // Start with placeholder
+    this.sectionDurations[sectionId] = '...';
+  
+    this.videoSer.getVideoBySectionId(sectionId).subscribe({
+      next: (videos) => {
+        let totalSeconds = 0;
+  
+        videos!.forEach(video => {
+          const parts = video.videoDuration.toString().split(':');
+          const hours = parseInt(parts[0], 10);
+          const minutes = parseInt(parts[1], 10);
+          const seconds = parseInt(parts[2].split('.')[0], 10);
+  
+          totalSeconds += hours * 3600 + minutes * 60 + seconds;
+        });
+  
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+  
+        const durationStr = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        this.sectionDurations[sectionId] = durationStr;
+      },
+      error: (e) => {
+        console.log(`Error calculating section duration: ${e}`);
+        this.sectionDurations[sectionId] = '00:00:00';
+      }
+    });
+  
+    return this.sectionDurations[sectionId]; // This will show '...' initially then update when ready
+  }
+  
+  goToAIAssistant(): void {
+    this.router.navigate(['/courses/chat-bot']);
+  }
 }

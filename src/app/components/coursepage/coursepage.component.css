@@ -447,3 +447,22 @@ h2 {
   text-decoration: line-through;
   margin-right: 10px;
 }
+
+.section-header {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.toggle-icon {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-left: 0.25rem;
+}
+
+.video-time,
+.video-title {
+  font-size: 0.95rem;
+}

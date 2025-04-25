@@ -20,6 +20,7 @@ import { coursesResolver } from './Resolvers/courses.resolver';
 import { categoryResolver } from './Resolvers/category.resolver';
 import { courseCategoryResolver } from './Resolvers/courseCategory.resolver';
 import { sectionsResolver } from './Resolvers/sections.resolver';
+import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 
 
 export const routes: Routes = [
@@ -30,7 +31,8 @@ export const routes: Routes = [
     children: [
       { path: '', component: CoursesComponent ,title:'Courses' , pathMatch: "full" , resolve: { user: authResolver , courses: coursesResolver , categories:categoryResolver} },
       { path: 'courseContent', component: CoursecontentComponent , pathMatch: "full" },
-      {path:'list',component:CoursesListComponent,title:'Course List' , pathMatch: "full" },
+      { path: 'chat-bot', component: ChatBotComponent , title: 'ITI ChatBot' , pathMatch: "full" },
+      { path: 'list',component:CoursesListComponent,title:'Course List' , pathMatch: "full" },
       { path: 'add', component: AddCourseComponent , title:'Add Course', pathMatch: "full"  },
       { path: 'update/:id', component: UpdateCourseComponent, title: 'Update Course' , pathMatch: "full" },
       { path: 'details/:id', component: CourseDetailsComponent , title: 'Course Details', pathMatch: "full" , resolve: { course: courseResolver } },

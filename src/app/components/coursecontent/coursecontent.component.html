@@ -35,15 +35,15 @@
             <span class="section-title">Section {{ i + 1 }}: {{ section.sectionName }}</span>
             <span class="section-meta">
               {{ section.videosNum }} lectures •
-              <!-- {{ getSectionLength(section) }} -->
-            </span>
+              {{ sectionDurations[section.sectionId] || getSectionTotalDuration(section.sectionId) }}
+            </span>            
           </div>
           <!-- &&videosLst!==null&&section.sectionId==videosLst[0].sectionId -->
           <ul *ngIf="isSectionVisible(section.sectionId)&&videosLst!==null&&section.sectionId===selectedSectionId"
             class="video-list">
             <li *ngFor="let video of videosLst" class="video-item" (click)="showVideo(video.videoId)">
               <span class="video-title">{{ video.title }}</span>
-              <span class="video-duration">{{ video.videoDuration }}</span>
+              <span class="video-duration">{{ formatDuration(video.videoDuration) }}</span>
             </li>
             <li class="video-item" (click)="showQuestions()">
               <span class="video-title">{{ quizWithQestion.title }}</span>
@@ -60,6 +60,40 @@
 
   <!-- Main Content -->
   <div class="content" [ngClass]="{ 'white-bg': showQuest, 'dark-bg': !showQuest }">
+
+    <!-- Right-side Navbar -->
+    <div class="right-navbar">
+      <div class="nav-item">Course Title</div>
+
+      <!-- Score Bar and Status Message -->
+      <div *ngIf="showQuest" class="score-bar-container">
+        <div class="score-bar-wrapper">
+          <div
+            class="score-bar"
+            [ngClass]="{ 'animate-fill': score !== null }"
+            [style.width.%]="score !== null ? score : 0"
+          ></div>
+        </div>
+        <span class="score-text">{{ score !== null ? score + '%' : '' }}</span>
+
+        <!-- Pass/Fail Message with Font Awesome -->
+        <div *ngIf="score !== null" class="score-status">
+          <p *ngIf="score >= 60" class="text-success">
+            <i class="fas fa-smile"></i> You Passed!
+          </p>
+          <p *ngIf="score < 60" class="text-danger">
+            <i class="fas fa-sad-cry"></i> Try Again!
+          </p>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-btn" (click)="goToAIAssistant()">
+          <i class="fas fa-robot"></i>
+          <span><strong> AI</strong> Assistant</span>
+        </button>
+      </div>      
+    </div>
 
     <video *ngIf="currentVideo !== '' && !showQuest" [src]="currentVideo" controls></video>
 
@@ -82,7 +116,7 @@
         <button type="submit">Submit</button>
       </form>
     </div>
-  
   </div>
 
+  
 </div>

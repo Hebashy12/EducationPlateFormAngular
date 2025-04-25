@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl="api/payment/create-checkout-session"
+  private apiUrl="api/Stripe/create-checkout-session"
   constructor(private _http:HttpClient) { }
   createCheckoutSession(course: Course, userId: string) {
     return this._http.post<{ url: string }>(this.apiUrl, {
