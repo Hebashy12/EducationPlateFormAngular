@@ -8,6 +8,8 @@ import { QuizeService } from '../../Services/quiz.service';
 import { IGetVideo } from '../../models/videoModel/iget-video';
 import { IGetQuizWithQuestions } from '../../models/quize/iget-quiz-with-questions';
 import { Course } from '../../Services/course.service';
+import { IGetSection } from '../../models/sectionModel/iget-section';
+import { IGetQuiz } from '../../models/quize/iget-quiz';
 
 @Component({
   selector: 'app-coursecontent',
@@ -17,7 +19,7 @@ import { Course } from '../../Services/course.service';
   styleUrls: ['./coursecontent.component.css']
 })
 export class CoursecontentComponent implements OnInit {
-  sections: any[] = [];
+  sections: IGetSection[] = [];
   isCollapsed = true;
 
   // Progress-related
@@ -62,8 +64,11 @@ export class CoursecontentComponent implements OnInit {
       this.getVideos(this.initSelected);
       this.updateProgress();
     }
+    this.sections.forEach((S)=>{
+    (this.getQuizWithQuestion(S.sectionId))
+    })
   }
-
+quizs:IGetQuiz[]=[]
   getVideos(sectionId: number) {
     this.videoSer.getVideoBySectionId(sectionId).subscribe({
       next: (v) => {
@@ -81,6 +86,8 @@ export class CoursecontentComponent implements OnInit {
     this.quizSer.getQuizQustions(quizId).subscribe({
       next: (q) => {
         this.quizWithQestion = q;
+        // if(q.id!=null)
+          this.quizs!.push(q)
       },
       error: (e) => {
         console.log(`Quiz API error: ${e}`);
@@ -90,6 +97,8 @@ export class CoursecontentComponent implements OnInit {
 
   toggleSection(sectionId: number): void {
     this.videosLst = [];
+    this.showQuest = false;
+    this.quizWithQestion={title:'',questions:null, id:0, userQuizzes:[], section:null, numOfQuestion:0, sectionId:0,passingScore:0 }
     this.selectedSectionId = sectionId;
     this.getVideos(sectionId);
     this.getQuizWithQuestion(sectionId);
@@ -126,23 +135,23 @@ export class CoursecontentComponent implements OnInit {
     if (this.score >= 60) {
       const sectionIndex = this.sections.findIndex(s => s.sectionId === this.selectedSectionId);
       if (sectionIndex !== -1) {
-        this.sections[sectionIndex].isQuizPassed = true;
+        this.sections[sectionIndex].isPassSection = true;
         this.updateProgress();
       }
     }
   }
 
   updateProgress() {
-    this.totalQuizzes = 0;
-    this.passedQuizzes = 0;
 
+    this.totalQuizzes=0
     this.sections.forEach(section => {
-      if (section.quizId) {
-        this.totalQuizzes++;
-        if (section.isQuizPassed) {
+
+        this.totalQuizzes= this.quizs.length;
+        if (section.isPassSection) {
+          if(this.passedQuizzes/this.totalQuizzes<=1)
           this.passedQuizzes++;
         }
-      }
+
     });
 
     this.progress = this.totalQuizzes > 0

@@ -45,9 +45,15 @@
               <span class="video-title">{{ video.title }}</span>
               <span class="video-duration">{{ formatDuration(video.videoDuration) }}</span>
             </li>
+            @if(quizWithQestion.title !==""){
             <li class="video-item" (click)="showQuestions()">
               <span class="video-title">{{ quizWithQestion.title }}</span>
             </li>
+            }@else {
+            <li class="video-item">
+              <span class="video-title" style="color: #777;">No Quiz Yet</span>
+            </li>
+            }
           </ul>
         </div>
       </div>
