@@ -1,0 +1,106 @@
+<form [formGroup]="updateVideoForm" (ngSubmit)="onSubmit()" novalidate>
+  <!-- Title -->
+  <div class="mb-3">
+    <label for="Title" class="form-label">Title</label>
+    <input
+      type="text"
+      id="Title"
+      class="form-control"
+      formControlName="Title"
+    />
+    <div *ngIf="titleError" class="text-danger">{{ titleError }}</div>
+  </div>
+
+  <!-- Description -->
+  <div class="mb-3">
+    <label for="Description" class="form-label">Description</label>
+    <textarea
+      id="Description"
+      class="form-control"
+      formControlName="Description"
+      rows="3"
+    ></textarea>
+    <div *ngIf="descriptionError" class="text-danger">{{ descriptionError }}</div>
+  </div>
+
+
+
+
+  <!-- Section -->
+  <!-- <div class="mb-3">
+    <label for="SectionId" class="form-label">Section</label>
+    <select
+      id="SectionId"
+      class="form-select"
+      formControlName="SectionId"
+    >
+      <option [ngValue]="null" disabled>Select Section</option>
+      <option *ngFor="let sec of sections" [ngValue]="sec.sectionId">
+        {{ sec.sectionName }}
+      </option>
+    </select>
+    <div *ngIf="sectionIdError" class="text-danger">{{ sectionIdError }}</div>
+  </div> -->
+
+  <!-- Is Free -->
+  <div class="form-check mb-3">
+    <input
+      type="checkbox"
+      id="IsFree"
+      class="form-check-input"
+      formControlName="IsFree"
+    />
+    <label for="IsFree" class="form-check-label">
+      Free
+    </label>
+  </div>
+
+  <!-- Thumbnail Image -->
+  <div class="mb-3">
+    <label for="ThumbnailImage" class="form-label">Thumbnail Image</label>
+    <input
+    #imageInput
+      type="file"
+      id="ThumbnailImage"
+      class="form-control"
+      (change)="onImageSelected($event)"
+    />
+    <div *ngIf="imagePreview" class="image-preview">
+      <img [height]="
+        150" [width]="200" [src]="imagePreview" alt="Image Preview" class="img-thumbnail" />
+    </div>
+    <div *ngIf="thumbnailImageError" class="text-danger">{{ thumbnailImageError }}</div>
+  </div>
+
+  <!-- Video File -->
+  <div class="mb-3">
+    <label for="VideoFile" class="form-label">Video File</label>
+    <input
+      #videoInput
+      type="file"
+      id="VideoFile"
+      class="form-control"
+      (change)="onVideoSelected($event)"
+    />
+    <div *ngIf="videoPreview" class="video-preview">
+      <video [height]="150" [width]="250" controls>
+        <source [src]="videoPreview" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <!-- <video *ngIf="videoPreview" [src]="videoPreview" controls width="300"></video> -->
+    <div *ngIf="videoFileError" class="text-danger">{{ videoFileError }}</div>
+  </div>
+
+  <!-- Submit -->
+  <!-- <button type="submit" class="btn btn-primary" [disabled]="updateVideoForm.invalid">
+    Add Video
+  </button> -->
+
+  <button class="btn btn-primary" [disabled]="loading || updateVideoForm.invalid" type="submit">
+    {{ loading ? 'Uploading...' : 'Update Video' }}
+  </button>
+</form>
+
+
+

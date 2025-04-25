@@ -4,6 +4,8 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { IGetVideo } from '../models/videoModel/iget-video';
 import { IEditVideo } from '../models/videoModel/iedit-video';
+import { getVideoFormData2, Section, Video, VideoDTO2 } from '../components/update-video/update-video.component';
+import { getVideoFormData, VideoDTO } from '../components/add-video/add-video.component';
 
 @Injectable({ providedIn: 'root' })
 export class VideoService {
@@ -12,6 +14,26 @@ export class VideoService {
 
   constructor(private _http: HttpClient) { }
 
+
+  getSectionsByCourseId(courseId: number) {
+    return this._http.get<Section[]>(`api/Section/by-course/${courseId}`);
+  }
+
+  _getVideoById(videoId: number) {
+    return this._http.get<(Video|null)>(`api/Video/${videoId}`);
+  }
+  add(video :VideoDTO) {
+
+    const videoFormData = getVideoFormData(video);
+
+    return this._http.post<Video>('api/Video' ,videoFormData );
+   }
+
+   update(videoId:number,video: VideoDTO2) {
+    const videoFormData = getVideoFormData2(video);
+
+    return this._http.put<Video>(`api/Video/${videoId}` ,videoFormData );
+   }
   uploadVideo(formData: FormData): Observable<HttpEvent<any>> {
     return this._http.post(this.apiUrl, formData, {
       reportProgress: true,

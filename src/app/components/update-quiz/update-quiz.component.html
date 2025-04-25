@@ -1,0 +1,113 @@
+<div class="container mt-4">
+  <!-- 1) — Quiz Update Form — -->
+  <form
+    *ngIf="!quizSaved"
+    [formGroup]="quizForm"
+    (ngSubmit)="onSubmitQuiz()"
+    class="mb-5"
+    novalidate
+  >
+    <h4>Edit Quiz</h4>
+
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input class="form-control" formControlName="title" />
+      <div *ngIf="titleError" class="text-danger">{{ titleError }}</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Passing Score</label>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="passingScore"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="quizForm.invalid || loadingQuiz"
+    >
+      {{ loadingQuiz ? "Saving…" : "Save Quiz" }}
+    </button>
+  </form>
+
+  <hr />
+
+  <!-- 2) — Question Update Form (sequential) — -->
+  <div *ngIf="quizSaved  && idx < questions.length">
+    <h3>Question {{ currentQuestionNumber }} of {{ questions.length }}</h3>
+    <form
+      [formGroup]="questionForm"
+      (ngSubmit)="onSubmitQuestion()"
+      class="border p-4 rounded bg-light"
+      novalidate
+    >
+      <h5 class="mb-3">
+        Question {{ questions[idx].order }} of {{ questions.length }}
+      </h5>
+
+      <div class="mb-3">
+        <label class="form-label">Header</label>
+        <input class="form-control" formControlName="header" />
+      </div>
+
+      <div class="form-check form-check-inline mb-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="correctAnswer"
+          [value]="true"
+          id="trueAnswer"
+        />
+        <label class="form-check-label" for="trueAnswer">True</label>
+      </div>
+      <div class="form-check form-check-inline mb-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="correctAnswer"
+          [value]="false"
+          id="falseAnswer"
+        />
+        <label class="form-check-label" for="falseAnswer">False</label>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Order</label>
+        <input
+          class="form-control"
+          type="number"
+          formControlName="order"
+          readonly
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="questionForm.invalid || loadingQuestion"
+      >
+        {{ loadingQuestion ? "Updating…" : "Update Question" }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning ms-2"
+        (click)="onSkipQuestion()"
+        [disabled]="loadingQuestion"
+      >
+        Skip Question
+      </button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="onFinish()">
+        Finish
+      </button>
+    </form>
+  </div>
+
+  <!-- 3) — Done message — -->
+  <div *ngIf="quizSaved && idx >= questions.length" class="alert alert-info">
+    All questions updated.
+    <button class="btn btn-link" (click)="onFinish()">Back to Courses</button>
+  </div>
+</div>

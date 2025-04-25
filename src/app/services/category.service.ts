@@ -5,6 +5,7 @@ import { ICreateCategory } from '../models/category/icreate-category';
 import { Observable } from 'rxjs';
 import { IGetCategory } from '../models/category/iget-category';
 import { Category } from '../components/add-course/add-course.component';
+import { CategoryDTO } from '../components/add-category/add-category.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,26 @@ import { Category } from '../components/add-course/add-course.component';
 export class CategoryService {
   private apiUrl="api/Category"
   constructor(private _http:HttpClient) { }
+
+  _getAllCategories() {
+    return this._http.get<Category[]>('api/Category');
+  }
+
+  _getCategoryById(categoryId: number) {
+    return this._http.get<(Category|null)>(`api/Category/${categoryId}`);
+  }
+
+  add(category: CategoryDTO) {
+    return this._http.post<Category>('api/Category', category);
+  }
+
+  update(categoryId: number, category: CategoryDTO) {
+    return this._http.put<Category>(`api/Category/${categoryId}`, category);
+  }
+
+  delete(categoryId: number) {
+    return this._http.delete(`api/Category/${categoryId}`);
+  }
 
   getCategortByCourseId(courseId:number):Observable<(Category|null)>{
     return this._http.get<(Category|null)>(this.apiUrl+`/course/${courseId}`);
