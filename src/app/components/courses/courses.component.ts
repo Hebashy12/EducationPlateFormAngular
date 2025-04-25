@@ -131,6 +131,11 @@ export class CoursesComponent implements OnInit, OnDestroy {
   }
 
   goToCourse(courseId: number): void {
-    this.router.navigate(['courses', 'coursePage', courseId]);
+    this.router.navigate(['courses','coursePage', courseId],{
+      state: {
+      //   course,
+        categories: this.selectedCategoryId,
+      }
+    });
   }
 }

@@ -1,0 +1,38 @@
+<div class="courses-container">
+  <div class="header">
+    <h2>All the skills you need in one place</h2>
+    <p>From critical skills to technical topics, we support your professional development.</p>
+  </div>
+
+  <div style="background-color: #f8f8f8; display: inline-block; width: 100%; min-height: 400px; padding: 30px 0;">
+    <!-- Category Tabs -->
+    <!-- <ul class="category-tabs">
+    <li *ngFor="let category of categories"
+        (click)="onCategoryChange(category.categorieId)"
+        [class.active]="selectedCategoryId === category.categorieId">
+      {{ category.name }}
+      <small>{{ learnerCounts[category.categorieId] }}</small>
+    </li>
+  </ul> -->
+
+    <!-- (click)="goToCourse(course, selectedCategory.name)" -->
+    <!-- Course Cards Grid -->
+    <div class="courses-grid">
+      @if(userCourses!==null){
+      <div *ngFor="let course of userCourses" class="course-card" (click)="goToCourse(course.coursesId)"
+        style="cursor: pointer;">
+        <img [src]="course.courseImg" [alt]="course.courseTitle" class="course-image">
+        <div class="course-body">
+          <h4 class="course-name">{{ course.courseTitle }}</h4>
+          <p class="course-description">{{ course.enrollmentDate |date}} </p>
+          <div class="course-rating">
+            <!-- <span class="stars">{{ getStarRating(course.rating!).display }}</span> -->
+            <span class="tag"> Best Seller </span>
+          </div>
+          <div class="course-price">Completed?: {{ course.isCompleted }}</div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
