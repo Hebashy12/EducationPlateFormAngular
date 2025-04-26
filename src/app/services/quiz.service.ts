@@ -20,7 +20,7 @@ export class QuizeService {
   getSectionsByCourseId(courseId: number) {
     return this._http.get<Section[]>(`api/Section/by-course/${courseId}`);
   }
- 
+
   add(quiz: QuizDTO) {
     return this._http.post<Quiz>('api/Quiz', quiz);
   }
@@ -62,7 +62,7 @@ export class QuizeService {
   deleteQuizById(id:number){
     return this._http.delete(this.apiUrl+id);
   }
-  getQuizQustions(id:number):Observable<IGetQuizWithQuestions[]>{
-    return this._http.get<IGetQuizWithQuestions[]>(this.apiUrl+`${id}/questions`);
+  getQuizQustions(id:number):Observable<IGetQuizWithQuestions>{
+    return this._http.get<IGetQuizWithQuestions>(this.apiUrl+`${id}/questions`);
   }
 }

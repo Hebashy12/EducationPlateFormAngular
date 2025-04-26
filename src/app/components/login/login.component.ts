@@ -108,7 +108,7 @@ export class LoginComponent {
       passwordControl?.hasError('pattern') &&
       (passwordControl?.dirty || passwordControl?.touched)
     )
-      return 'Invalid password format. Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
+      return 'Invalid password format. ';
     return '';
   }
 }

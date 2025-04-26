@@ -23,7 +23,7 @@ export class VedioComponent implements OnInit {
   //   videoFile: null,
   //   videoImage: null
   // };
-  sections:IGetSection[]=[];
+  sections:IGetSection[]|null=[];
 
   constructor(private videoService: SectionService) {
 

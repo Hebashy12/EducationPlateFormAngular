@@ -32,7 +32,11 @@
   height: auto;
   object-fit: contain;
 }
-
+@media (max-width: 768px) {
+  .login-image img {
+    display: none;
+  }
+}
 .login-form-container {
   flex: 1.4;
   padding: 60px 50px;
@@ -178,15 +182,15 @@ a:hover {
     border-left: none;
     border-top: 1px solid #eee;
   }
-  
+
   .form-control {
     padding: 16px 16px 6px;
   }
-  
+
   .form-group label {
     top: 16px;
   }
-  
+
   .form-control:focus + label,
   .form-control:not(:placeholder-shown) + label {
     top: -8px;
@@ -194,7 +198,7 @@ a:hover {
 }
 
 .bold-label {
-  font-weight: 600 !important; 
+  font-weight: 600 !important;
 }
 
 .form-group label {

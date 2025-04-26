@@ -1,112 +1,174 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SectionService } from '../../Services/section.service';
-import { QuizeService } from '../../Services/quiz.service';
+
 import { IGetSection } from '../../models/sectionModel/iget-section';
 import { IGetVideo } from '../../models/videoModel/iget-video';
 import { Course } from '../../Services/course.service';
 import { Category } from '../add-course/add-course.component';
 import { VideoService } from '../../Services/video.service';
+import { SectionService } from '../../Services/section.service';
+import { QuizeService } from '../../Services/quiz.service';
+
+
+import { AuthService } from '../../Services/auth.service';
+import { PaymentService } from '../../Services/payment.service';
+import { IGetStudentCourse } from '../../models/studentCourse/iget-student-course';
 
 @Component({
   selector: 'app-coursepage',
-  imports: [CommonModule, RouterModule,DatePipe],
+  imports: [CommonModule, RouterModule, DatePipe,RouterLink],
+
   templateUrl: './coursepage.component.html',
   styleUrls: ['./coursepage.component.css']
 })
 export class CoursepageComponent implements OnInit {
-
   course: Course | null = null;
   category: Category | null = null;
   sections: IGetSection[] | null = null;
-  videos: IGetVideo[] | null = null;
-
-  // Array to hold the visibility state of each section
+  videoLst: IGetVideo[] | null = null;
+  // Array to manage the visibility of each section independently
   visibleSections: boolean[] = [];
+  studentCouse!:IGetStudentCourse[];
+  isBuyed:boolean=false;
+  constructor(
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly videoService: VideoService,
+    private authService: AuthService
+  ) {
+    this.course = this.route.snapshot.data['course'] ?? null;
+    this.studentCouse = this.route.snapshot.data['studentCourse'] ?? null;
+    this.studentCouse.forEach(element => {
+      if(element.coursesId===this.course?.courseId)
+        this.isBuyed=true;
+    });
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state;
+    if (state) {
+      this.category = state['categories'] || null;
+    }
+    // this.category = this.route.snapshot.data['category'] ?? null;
+    this.sections = this.route.snapshot.data['sections'] ?? null;
 
-  constructor(private readonly router: Router
-    , private readonly route: ActivatedRoute
-    , private readonly videoService: VideoService) {
-    this.course = this.route.snapshot.data['course']?.data ?? null;
-    this.category = this.route.snapshot.data['category']?.data ?? null;
-    this.sections = this.route.snapshot.data['sections']?.data ?? null;
 
-   // this.getAllSectionByCourseIdFromAPI(this.route.snapshot.params['id']);
-
-    const nav = this.router.getCurrentNavigation();
-    // Get course and category from state
-    this.course = nav?.extras.state?.['course'];
-    this.category = nav?.extras.state?.['categories'];
+    // Initialize visibility state for each section to false (collapsed by default)
+    if (this.sections) {
+      this.visibleSections = new Array(this.sections.length).fill(false);
+    }
   }
-
-  sectionSer=inject(SectionService);
-  quizSer=inject(QuizeService)
-  allSectionInCourse:IGetSection[]=[];
-  sectionsWithVideo:IGetVideo[]=[];
-
-  // getAllSectionByCourseIdFromAPI(id:number){
-  //   this.sectionSer.getSections(id).subscribe({
-  //     next:(s)=>{
-  //       this.allSectionInCourse=s;
-  //       this.allSectionInCourse.forEach(s=>console.log(s))
-  //     },
-  //     error:(e)=>{
-  //       console.log("we have some Problem when Fetch Category API "+e)
-  //     }
-  // })
-  // }
-
+  userId!:string
   ngOnInit(): void {
-    // Initialize visibility state of sections
-    // if (this.sections) {
-    //   this.visibleSections = Array(this.course.sections.length).fill(false);
-    // }
+    const currentUser = this.authService.userSignal();
+    if(currentUser?.id!==undefined)
+    this.userId= currentUser?.id;
+
+  console.log('Current User ID:', this.userId);
+  }
+  goToCouseContent(){
+    this.router.navigate(['courses','courseContent', this.course?.courseId]);
   }
 
-  // Method to toggle section visibility
-  toggleSection(id: number): void {
-    //this.visibleSections[index] = !this.visibleSections[index];
-    // this.videoService.getVideosBySectionId(id).subscribe({
-    //   next: (videos) => {
-    //     this.videos = videos.data;
-    //     this.sectionsWithVideo = videos.data;
-    //     console.log(this.videos);
-    //   }
-    //   , error: (error) => {}
+  // Fetch videos for a specific section
+  getAllVideoes(sectionId: number): void {
+    this.videoService.getVideoBySectionId(sectionId).subscribe({
+      next: (videos) => {
+        this.videoLst = videos;
+      },
+      error: (error) => {
+        console.error(`Error fetching videos: ${error}`);
+      }
+    });
   }
 
-  // Method to check if a section is visible
+  // Toggle the visibility of a section (without affecting other sections)
+  toggleSection(sectionId: number, index: number): void {
+    // Toggle visibility of the clicked section
+    this.visibleSections[index] = !this.visibleSections[index];
+
+
+    // If the section is expanded, fetch its videos
+    if (this.visibleSections[index]) {
+      this.getAllVideoes(sectionId);
+    } else {
+      // Reset video list when the section is collapsed
+      this.videoLst = null;
+    }
+  }
+
+  paymentSer=inject(PaymentService)
+  // Payment
+  Payment(){
+    if(this.course!==null)
+    this.paymentSer.createCheckoutSession(this.course, this.userId).subscribe(res => {
+      window.location.href = res.url;
+    });
+  }
+
+  // Check if the section is visible
   isSectionVisible(index: number): boolean {
     return this.visibleSections[index];
   }
 
-  // Get the total number of lectures across all sections
+  // Get total number of lectures in the course
   getTotalLectures(): number {
-    return this.sections!.reduce((count: number, section: IGetSection) => {
-      return count + section.videosNum;
-    }, 0);
+    return this.sections!.reduce((total, section) => total + section.videosNum, 0);
   }
 
-  // Get the total duration of all videos in hours and minutes
-  // getTotalLength(): string {
-  //   let totalSeconds = 0;
-  //   this.sections?.forEach((section: IGetSection) => {
-  //     section.videos.forEach((video: any) => {
-  //       const [min, sec] = video.time.split(':').map((v: string) => parseInt(v, 10));
-  //       totalSeconds += min * 60 + sec;
-  //     });
-  //   });
-    // const hours = Math.floor(totalSeconds / 3600);
-    // const minutes = Math.floor((totalSeconds % 3600) / 60);
-    // return `${hours}h ${minutes}m`;
-  //}
+  // Navigate to the course content page
+  navigateToCourseContent(): void {
+    this.router.navigate(['courses/card'], { //'courses/courseContent'
+      state: { sections: this.sections }
+    });
+  }
 
-  // Navigate to the CourseContentComponent with course sections data
-  // navigateToCourseContent(): void {
-  //   this.router.navigate(['/Coursecontent'], {
-  //     state: { sections: this.course.sections }
-  //   });
-  // }
+  formatDuration(duration: number): string {
+    const parts = duration.toString().split(':');
+    const minutes = parseInt(parts[1], 10);
+    const seconds = parseInt(parts[2].split('.')[0], 10);
+
+    const mm = minutes.toString().padStart(2, '0');
+    const ss = seconds.toString().padStart(2, '0');
+
+    return `${mm}:${ss}`;
+  }
+
+  sectionDurations: { [sectionId: number]: string } = {};
+  getSectionTotalDuration(sectionId: number): string {
+    if (this.sectionDurations[sectionId]) {
+      return this.sectionDurations[sectionId]; // Return cached value
+    }
+
+    // Temporary loading indicator
+    this.sectionDurations[sectionId] = '...';
+
+    this.videoService.getVideoBySectionId(sectionId).subscribe({
+      next: (videos) => {
+        let totalSeconds = 0;
+
+        videos!.forEach(video => {
+          const parts = video.videoDuration.toString().split(':'); // format: HH:mm:ss
+          const hours = parseInt(parts[0], 10);
+          const minutes = parseInt(parts[1], 10);
+          const seconds = parseInt(parts[2].split('.')[0], 10);
+
+          totalSeconds += hours * 3600 + minutes * 60 + seconds;
+        });
+
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+
+        this.sectionDurations[sectionId] = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      },
+      error: (err) => {
+        console.error(`Error fetching duration for section ${sectionId}: ${err}`);
+        this.sectionDurations[sectionId] = '00:00:00';
+      }
+    });
+
+    return this.sectionDurations[sectionId]; // Initial value will be '...'
+  }
+
 }

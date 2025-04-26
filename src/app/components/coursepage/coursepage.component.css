@@ -417,7 +417,7 @@ h2 {
 
 
 .what-youll-learn {
-  margin-top: 80px; /* Adjust this value for more or less space */
+  margin-top: 140px; /* Adjust this value for more or less space */
   padding: 20px;
   background: #fff;
   border-radius: 8px;
@@ -440,4 +440,29 @@ h2 {
   font-size: 1rem;
   line-height: 1.6;
   color: #555;
+}
+
+.discount {
+  color: #999;
+  text-decoration: line-through;
+  margin-right: 10px;
+}
+
+.section-header {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.toggle-icon {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-left: 0.25rem;
+}
+
+.video-time,
+.video-title {
+  font-size: 0.95rem;
 }
