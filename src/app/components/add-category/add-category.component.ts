@@ -26,6 +26,7 @@ export type CategoryForm = {
   styleUrl: './add-category.component.css'
 })
 export class AddCategoryComponent {
+nameFocused: any;
   constructor(private categoryService: CategoryService) { }
 
 

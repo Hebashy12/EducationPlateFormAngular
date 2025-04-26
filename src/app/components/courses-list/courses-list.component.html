@@ -8,8 +8,9 @@
   }
   @else{
     <!-- <h2 class="text-center">Courses List</h2>
-  
+
   <button (click)="addCourse()" class="btn btn-primary mb-3">Add Course</button> -->
+  <button class="actions" (click)="addCourse()">➕</button>
   <table class="course-table table table-striped table-bordered col-sm-12 ">
     <thead  >
       <tr>
@@ -32,21 +33,24 @@
           <button (click)="updateCourse(course.courseId)">✏️</button>
           <button (click)="deleteCourse(course.courseId)">🗑️</button>
           <button (click)="toggleFree(course.courseId ,course.isFree )">{{course.isFree ?'🔒':'🎁'}}</button>
-          <button (click)="viewDetails(course.courseId)">📄</button>
+          <button (click)="viewDetails(course.courseId)">👀</button>
+          <button (click)="addVideo(course.courseId)">📹</button>
+          <button (click)="addQuiz(course.courseId)">📝</button>
+          <button (click)="addSection()">📚</button>
         </td>
       </tr>
     </tbody>
   </table>
   <div class="pagination-controls ">
     <button (click)="loadCourses(pageNumber - 1)" [disabled]="pageNumber === 1">« Prev</button>
-  
+
     <button
       *ngFor="let page of pages"
       [class.active]="page === pageNumber"
       (click)="loadCourses(page)">
       {{ page }}
     </button>
-  
+
     <button (click)="loadCourses(pageNumber + 1)" [disabled]="pageNumber === totalPages">Next »</button>
   </div>
 

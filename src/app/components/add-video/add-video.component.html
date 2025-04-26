@@ -1,44 +1,54 @@
-<form [formGroup]="addVideoForm" (ngSubmit)="onSubmit()" novalidate>
+<form [formGroup]="addVideoForm" (ngSubmit)="onSubmit()" novalidate class="modern-form">
+  <h2 class="heading">Add New Video</h2>
+
   <!-- Title -->
-  <div class="mb-3">
-    <label for="Title" class="form-label">Title</label>
+  <div class="form-group">
     <input
       type="text"
       id="Title"
       class="form-control"
       formControlName="Title"
+      placeholder=" "
+      (focus)="titleFocused = true"
+      (blur)="titleFocused = false"
+      [ngClass]="{'has-value': addVideoForm.get('Title')?.value || titleFocused}"
     />
+    <label for="Title">Title</label>
     <div *ngIf="titleError" class="text-danger">{{ titleError }}</div>
   </div>
 
   <!-- Description -->
-  <div class="mb-3">
-    <label for="Description" class="form-label">Description</label>
+  <div class="form-group">
     <textarea
       id="Description"
       class="form-control"
       formControlName="Description"
       rows="3"
+      placeholder=" "
+      (focus)="descriptionFocused = true"
+      (blur)="descriptionFocused = false"
+      [ngClass]="{'has-value': addVideoForm.get('Description')?.value || descriptionFocused}"
     ></textarea>
+    <label for="Description">Description</label>
     <div *ngIf="descriptionError" class="text-danger">{{ descriptionError }}</div>
   </div>
 
-
-
-
   <!-- Section -->
-  <div class="mb-3">
-    <label for="SectionId" class="form-label">Section</label>
+  <div class="form-group select-group">
     <select
       id="SectionId"
-      class="form-select"
+      class="form-control"
       formControlName="SectionId"
+      (focus)="sectionFocused = true"
+      (blur)="sectionFocused = false"
+      [ngClass]="{'has-value': addVideoForm.get('SectionId')?.value || sectionFocused}"
     >
       <option [ngValue]="null" disabled>Select Section</option>
       <option *ngFor="let sec of sections" [ngValue]="sec.sectionId">
         {{ sec.sectionName }}
       </option>
     </select>
+    <label for="SectionId">Section</label>
     <div *ngIf="sectionIdError" class="text-danger">{{ sectionIdError }}</div>
   </div>
 
@@ -56,24 +66,23 @@
   </div>
 
   <!-- Thumbnail Image -->
-  <div class="mb-3">
+  <div class="form-group">
     <label for="ThumbnailImage" class="form-label">Thumbnail Image</label>
     <input
-    #imageInput
+      #imageInput
       type="file"
       id="ThumbnailImage"
       class="form-control"
       (change)="onImageSelected($event)"
     />
     <div *ngIf="imagePreview" class="image-preview">
-      <img [height]="
-        150" [width]="200" [src]="imagePreview" alt="Image Preview" class="img-thumbnail" />
+      <img [height]="150" [width]="200" [src]="imagePreview" alt="Image Preview" class="img-thumbnail" />
     </div>
     <div *ngIf="thumbnailImageError" class="text-danger">{{ thumbnailImageError }}</div>
   </div>
 
   <!-- Video File -->
-  <div class="mb-3">
+  <div class="form-group">
     <label for="VideoFile" class="form-label">Video File</label>
     <input
       #videoInput
@@ -88,18 +97,11 @@
         Your browser does not support the video tag.
       </video>
     </div>
-    <!-- <video *ngIf="videoPreview" [src]="videoPreview" controls width="300"></video> -->
     <div *ngIf="videoFileError" class="text-danger">{{ videoFileError }}</div>
   </div>
 
   <!-- Submit -->
-  <!-- <button type="submit" class="btn btn-primary" [disabled]="addVideoForm.invalid">
-    Add Video
-  </button> -->
-
-  <button class="btn btn-primary" [disabled]="loading || addVideoForm.invalid" type="submit">
+  <button class="btn-primary" [disabled]="loading || addVideoForm.invalid" type="submit">
     {{ loading ? 'Uploading...' : 'Add Video' }}
   </button>
 </form>
-
-

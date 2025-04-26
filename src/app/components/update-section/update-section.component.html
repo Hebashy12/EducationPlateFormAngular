@@ -1,32 +1,33 @@
-<form [formGroup]="SectionForm" (ngSubmit)="onSubmit()" novalidate>
-
+<form [formGroup]="SectionForm" (ngSubmit)="onSubmit()" novalidate class="modern-form">
   <!-- Section Name -->
-  <div class="mb-3">
-    <label for="sectionName" class="form-label">Section Name</label>
+  <div class="form-group">
     <input
       type="text"
       id="sectionName"
       class="form-control"
       formControlName="sectionName"
+      placeholder=" "
     />
-    <div *ngIf="" class="text-danger">{{ sectionNameError }}</div>
+    <label for="sectionName">Section Name</label>
+    <div *ngIf="sectionNameError" class="text-danger">{{ sectionNameError }}</div>
   </div>
 
   <!-- Is Pass Section Checkbox -->
-  <div class="form-check mb-3">
-    <input
-      type="checkbox"
-      id="isPassSection"
-      class="form-check-input"
-      formControlName="isPassSection"
-    />
-    <label for="isPassSection" class="form-check-label">Is Pass Section</label>
+  <div class="form-group">
+    <div class="form-check">
+      <input
+        type="checkbox"
+        id="isPassSection"
+        class="form-check-input"
+        formControlName="isPassSection"
+      />
+      <label for="isPassSection" class="form-check-label">Is Pass Section</label>
+    </div>
   </div>
-
-
 
   <!-- Submit Button -->
   <button type="submit" class="btn btn-primary" [disabled]="SectionForm.invalid">
     Add Section
   </button>
 </form>
+

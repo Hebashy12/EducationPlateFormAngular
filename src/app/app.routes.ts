@@ -26,9 +26,19 @@ import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 
 import { ProfileComponent } from './components/profile/profile.component';
 import { studentCourseResolver } from './Resolvers/student-course.resolver';
+import { AddVideoComponent } from './components/add-video/add-video.component';
+import { UpdateVideoComponent } from './components/update-video/update-video.component';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { UpdateCategoryComponent } from './components/update-category/update-category.component';
+import { AddQuizComponent } from './components/add-quiz/add-quiz.component';
+import { AddSectionComponent } from './components/add-section/add-section.component';
+import { UpdateQuizComponent } from './components/update-quiz/update-quiz.component';
+import { UpdateSectionComponent } from './components/update-section/update-section.component';
 
 
 export const routes: Routes = [
+
+  {path:'addQuiz/:courseId',component:AddQuizComponent,title:'Add Quiz' , pathMatch: "full" },
 
   {path:'', redirectTo: '/courses', pathMatch: 'full'},
   {
@@ -56,6 +66,14 @@ export const routes: Routes = [
   {path:'profile', component:ProfileComponent, title:'Profile', resolve:{studentCourse:studentCourseResolver}},
 
 
+  { path: 'addVideo/:courseId', component: AddVideoComponent, title: 'Add Video' , pathMatch: "full" },
+  { path: 'updateVideo/:videoId', component: UpdateVideoComponent, title: 'Update Video' , pathMatch: "full" },
+  { path: 'addCategory', component: AddCategoryComponent, title: 'Add Category' , pathMatch: "full" },
+  { path: 'updateCategory/:CategoryId', component: UpdateCategoryComponent, title: 'Update Category' , pathMatch: "full" },
+  { path: 'addSection', component: AddSectionComponent, title: 'Add Section' , pathMatch: "full" },
+  { path: 'updateSection/:sectionId', component: UpdateSectionComponent, title: 'Update Section' , pathMatch: "full" },
+
+  {path:'updateQuiz/:quizId',component:UpdateQuizComponent,title:'Update Quiz' , pathMatch: "full" },
 
 
   { path: 'vedio', component: VedioComponent, title: 'Vedio' ,pathMatch: "full" },

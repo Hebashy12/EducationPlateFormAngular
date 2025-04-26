@@ -17,6 +17,14 @@ export class UpdateCourseComponent implements OnInit {
   private readonly courses = inject(CourseService);
   protected  courseStatuses = Object.values(CourseStatus);
   imagePreview: string | ArrayBuffer | null = null;
+courseStatusFocused: any;
+discountFocused: any;
+priceFocused: any;
+descriptionFocused: any;
+titleFocused: any;
+categoriesIdFocused: any;
+
+
 
 
 onSubmit() {

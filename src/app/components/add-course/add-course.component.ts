@@ -3,6 +3,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Course, CourseService } from '../../Services/course.service';
 
+import {  ToastrService } from 'ngx-toastr';
+
 export type PaginatedResponse<T> = {
   pageNumber: number;
   pageSize: number;
@@ -72,11 +74,26 @@ export type CourseForm ={
 
 @Component({
   selector: 'app-add-course',
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule ],
   templateUrl: './add-course.component.html',
   styleUrl: './add-course.component.css'
 })
 export class AddCourseComponent implements OnInit{
+  toastr: ToastrService = inject(ToastrService);
+
+
+// Add these properties to your component class
+titleFocused = false;
+descriptionFocused = false;
+priceFocused = false;
+discountFocused = false;
+statusFocused = false;
+categoryFocused = false;
+isSubmitting = false;
+
+// Add this to your onSubmit method
+
+
   private readonly courses = inject(CourseService);
   protected  courseStatuses = Object.values(CourseStatus);
   imagePreview: string | ArrayBuffer | null=null;
@@ -91,19 +108,23 @@ onSubmit() {
 const {CategoriesId,CourseStatus,CourseImage,Description,IsSequentialWatch,Title, DiscountPercentage, Price}  = this.addCourseForm.value;
 if(CategoriesId&&CourseStatus&&CourseImage&&Description&&DiscountPercentage&&Price&&IsSequentialWatch!==null&&IsSequentialWatch!==undefined&&Title)
 {
+  this.isSubmitting = true;
    const course:CourseDTO = {CategoriesId,CourseStatus,CourseImage,Description,IsSequentialWatch,Title, DiscountPercentage, Price}
 if(CourseImage.size>0)
 
    console.log(course)
   this.courses.add(course).subscribe({
     next: (data) => {
+      this.isSubmitting = false;
       this.addCourseForm.reset();
+      this.toastr.success("Course added successfully", "Success");
         console.log("course added succesfully", data)
     }
     ,
-    error:(error)=>console.log("error while adding the course",error)
+    error:(error)=>{
+      this.isSubmitting = false;
+      console.log("error while adding the course",error)}
   })
-
 
   }
 }

@@ -34,6 +34,20 @@ this.loadCourses(this.pageNumber);
 
   }
 
+  addCategory() {
+    this.router.navigate(['/addCategory']);
+  }
+  addQuiz(courseId: number) {
+    this.router.navigate(['/addQuiz', courseId]);
+  }
+  addSection() {
+    this.router.navigate(['/addSection']);
+  }
+
+
+  addVideo(courseId: number){
+    this.router.navigate(['/addVideo' ,courseId]);
+  }
   addCourse() {
     this.router.navigate(['/courses/add']);
   }

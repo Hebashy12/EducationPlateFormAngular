@@ -57,7 +57,10 @@ export type Question = {
   styleUrl: './add-quiz.component.css'
 })
 export class AddQuizComponent implements OnInit {
-  
+
+  titleFocused = false;
+  passingScoreFocused = false;
+  sectionFocused = false;
 
   onFinishQuiz() {
 
@@ -75,7 +78,7 @@ protected sections: Section[]|null = null;
   protected quizId: number | null = null;
  protected currentQuestionNumber:number = 1;
 
- @ViewChild('form') quizFormElement!: FormGroupDirective;
+ //@ViewChild('form') quizFormElement!: FormGroupDirective;
  quizCreated = false;
   questionForm = new FormGroup<QuestionForm>({
     header: new FormControl<string | null>("", [Validators.required, Validators.minLength(10), Validators.maxLength(100)]),
@@ -90,14 +93,14 @@ protected sections: Section[]|null = null;
     const {correctAnswer,header,order} = this.questionForm.value
 
    if(correctAnswer!==null && correctAnswer!==undefined&& header && order && this.quizId) {
-    const dto: QuestionDTO = {correctAnswer,header,order,quizId: this.quizId}; 
+    const dto: QuestionDTO = {correctAnswer,header,order,quizId: this.quizId};
 
     this.questionService.add(dto).subscribe({
       next: () => {
         console.log('Question added successfully');
-       
+
         this.currentQuestionNumber++;
-       
+
         this.questionForm.reset({
           header: '',
           correctAnswer: false,
@@ -105,7 +108,7 @@ protected sections: Section[]|null = null;
         });
         this.questionForm.markAsPristine();
         this.questionForm.markAsUntouched();
-        
+
       },
       error: (err) => console.error('Question failed', err)
     });
@@ -124,7 +127,7 @@ this.quizService.getSectionsByCourseId(this.route.snapshot.params['courseId']).s
   },
   error: (error) => {
     console.log('Error while getting sections', error);
-    this.router.navigate(['/notFound']);   
+    this.router.navigate(['/notFound']);
   }
 
   });
@@ -152,12 +155,12 @@ this.quizService.getSectionsByCourseId(this.route.snapshot.params['courseId']).s
             console.log('Quiz created', res);
             this.quiz = res;
             this.quizId = res.id;
-        
+
             this.QuizForm.reset();
             this.quizCreated = true;
-        
+
             this.loading = false;
-           
+
           },
           error: (err) => {
             console.error('Error creating quiz', err);
@@ -196,7 +199,7 @@ this.quizService.getSectionsByCourseId(this.route.snapshot.params['courseId']).s
     }
     return '';
   }
- 
+
   get sectionError() {
     const control = this.QuizForm.controls.sectionId;
     if (control?.hasError('required') && (control.dirty || control.touched)) {

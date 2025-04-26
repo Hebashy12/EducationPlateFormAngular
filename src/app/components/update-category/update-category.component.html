@@ -1,17 +1,16 @@
-
-<form [formGroup]="CategoryForm" (ngSubmit)="onSubmit()" novalidate>
-  <!-- Title -->
-  <div class="mb-3">
-    <label for="name" class="form-label">Name</label>
+<form [formGroup]="CategoryForm" (ngSubmit)="onSubmit()" class="modern-form" novalidate>
+  <!-- Name -->
+  <div class="form-group">
     <input
       type="text"
       id="name"
       class="form-control"
       formControlName="name"
+      [class.has-value]="CategoryForm.get('name')?.value"
     />
+    <label for="name">Name</label>
     <div *ngIf="nameError" class="text-danger">{{ nameError }}</div>
   </div>
-
 
   <!-- Submit -->
   <button type="submit" class="btn btn-primary" [disabled]="CategoryForm.invalid">

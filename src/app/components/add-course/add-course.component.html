@@ -1,116 +1,145 @@
-<form [formGroup]="addCourseForm" (ngSubmit)="onSubmit()" novalidate>
+<!-- HTML Part -->
+<form [formGroup]="addCourseForm" (ngSubmit)="onSubmit()" novalidate class="modern-form">
+  <h2 class="heading">Create New Course</h2>
+
   <!-- Title -->
-  <div class="mb-3">
-    <label for="Title" class="form-label">Title</label>
+  <div class="form-group">
     <input
       type="text"
       id="Title"
       class="form-control"
       formControlName="Title"
+      placeholder=" "
+      (focus)="titleFocused = true"
+      (blur)="titleFocused = false"
+      [ngClass]="{'has-value': addCourseForm.get('Title')?.value || titleFocused}"
     />
-    <div *ngIf="titleError" class="text-danger">{{ titleError }}</div>
+    <label for="Title">Title</label>
+    <div class="text-danger" *ngIf="titleError">{{ titleError }}</div>
   </div>
 
   <!-- Description -->
-  <div class="mb-3">
-    <label for="Description" class="form-label">Description</label>
+  <div class="form-group">
     <textarea
       id="Description"
       class="form-control"
       formControlName="Description"
       rows="3"
+      placeholder=" "
+      (focus)="descriptionFocused = true"
+      (blur)="descriptionFocused = false"
+      [ngClass]="{'has-value': addCourseForm.get('Description')?.value || descriptionFocused}"
     ></textarea>
-    <div *ngIf="descriptionError" class="text-danger">{{ descriptionError }}</div>
+    <label for="Description">Description</label>
+    <div class="text-danger" *ngIf="descriptionError">{{ descriptionError }}</div>
   </div>
 
   <!-- Price -->
-  <div class="mb-3">
-    <label for="Price" class="form-label">Price</label>
+  <div class="form-group">
     <input
       type="number"
       id="Price"
       class="form-control"
       formControlName="Price"
+      placeholder=" "
+      (focus)="priceFocused = true"
+      (blur)="priceFocused = false"
+      [ngClass]="{'has-value': addCourseForm.get('Price')?.value || priceFocused}"
     />
-    <div *ngIf="priceError" class="text-danger">{{ priceError }}</div>
+    <label for="Price">Price</label>
+    <div class="text-danger" *ngIf="priceError">{{ priceError }}</div>
   </div>
 
   <!-- Discount -->
-  <div class="mb-3">
-    <label for="DiscountPercentage" class="form-label">Discount %</label>
+  <div class="form-group">
     <input
       type="number"
       id="DiscountPercentage"
       class="form-control"
       formControlName="DiscountPercentage"
+      placeholder=" "
+      (focus)="discountFocused = true"
+      (blur)="discountFocused = false"
+      [ngClass]="{'has-value': addCourseForm.get('DiscountPercentage')?.value || discountFocused}"
     />
-    <div *ngIf="discountError" class="text-danger">{{ discountError }}</div>
+    <label for="DiscountPercentage">Discount %</label>
+    <div class="text-danger" *ngIf="discountError">{{ discountError }}</div>
   </div>
 
   <!-- Course Status -->
-  <div class="mb-3">
-    <label for="CourseStatus" class="form-label">Course Status</label>
+  <div class="form-group select-group">
     <select
       id="CourseStatus"
-      class="form-select"
+      class="form-control"
       formControlName="CourseStatus"
+      (focus)="statusFocused = true"
+      (blur)="statusFocused = false"
+      [ngClass]="{'has-value': addCourseForm.get('CourseStatus')?.value || statusFocused}"
     >
       <option [ngValue]="null" disabled>Select status</option>
       <option *ngFor="let status of courseStatuses" [ngValue]="status">
         {{ status }}
       </option>
     </select>
-    <div *ngIf="courseStatusError" class="text-danger">{{ courseStatusError }}</div>
+    <label for="CourseStatus">Course Status</label>
+    <div class="text-danger" *ngIf="courseStatusError">{{ courseStatusError }}</div>
   </div>
 
   <!-- Category -->
-  <div class="mb-3">
-    <label for="CategoriesId" class="form-label">Category</label>
+  <div class="form-group select-group">
     <select
       id="CategoriesId"
-      class="form-select"
+      class="form-control"
       formControlName="CategoriesId"
+      (focus)="categoryFocused = true"
+      (blur)="categoryFocused = false"
+      [ngClass]="{'has-value': addCourseForm.get('CategoriesId')?.value || categoryFocused}"
     >
       <option [ngValue]="null" disabled>Select category</option>
       <option *ngFor="let cat of categories" [ngValue]="cat.categorieId">
         {{ cat.name }}
       </option>
     </select>
-    <div *ngIf="categoriesIdError" class="text-danger">{{ categoriesIdError }}</div>
+    <label for="CategoriesId">Category</label>
+    <div class="text-danger" *ngIf="categoriesIdError">{{ categoriesIdError }}</div>
   </div>
 
   <!-- Is Sequential Watch -->
-  <div class="form-check mb-3">
-    <input
-      type="checkbox"
-      id="IsSequentialWatch"
-      class="form-check-input"
-      formControlName="IsSequentialWatch"
-    />
-    <label for="IsSequentialWatch" class="form-check-label">
-      Sequential Watch
+  <div class="modern-checkbox-wrapper">
+    <label>
+      <input
+        type="checkbox"
+        id="IsSequentialWatch"
+        class="modern-checkbox"
+        formControlName="IsSequentialWatch"
+      />
+      <span>Sequential Watch</span>
     </label>
   </div>
 
   <!-- Course Image -->
-  <div class="mb-3">
-    <label for="CourseImage" class="form-label">Course Image</label>
-    <input
-      type="file"
-      id="CourseImage"
-      class="form-control"
-      (change)="onImageSelected($event)"
-    />
-    <div *ngIf="imagePreview" class="image-preview">
-      <img [height]="
-        150" [width]="200" [src]="imagePreview" alt="Image Preview" class="img-thumbnail" />
+  <div class="form-group">
+    <div class="file-upload-container">
+      <div class="file-input-wrapper">
+        <input
+          type="file"
+          id="CourseImage"
+          class="form-control"
+          (change)="onImageSelected($event)"
+          placeholder=" "
+        />
+        <label for="CourseImage">Course Image</label>
+        <div class="text-danger" *ngIf="courseImageError">{{ courseImageError }}</div>
+      </div>
+
+      <div class="image-preview-container" *ngIf="imagePreview">
+        <img [src]="imagePreview" alt="Image Preview" class="preview-image" />
+      </div>
     </div>
-    <div *ngIf="courseImageError" class="text-danger">{{ courseImageError }}</div>
   </div>
 
   <!-- Submit -->
-  <button type="submit" class="btn btn-primary" [disabled]="addCourseForm.invalid">
+  <button type="submit" class="btn-primary" [disabled]="addCourseForm.invalid">
     Create Course
   </button>
 </form>
-

@@ -1,21 +1,24 @@
+<form [formGroup]="CategoryForm" (ngSubmit)="onSubmit()" novalidate class="modern-form">
+  <h2 class="heading">Add New Category</h2>
 
-
-<form [formGroup]="CategoryForm" (ngSubmit)="onSubmit()" novalidate>
-  <!-- Title -->
-  <div class="mb-3">
-    <label for="name" class="form-label">Name</label>
+  <!-- Name -->
+  <div class="form-group">
     <input
       type="text"
       id="name"
       class="form-control"
       formControlName="name"
+      placeholder=" "
+      (focus)="nameFocused = true"
+      (blur)="nameFocused = false"
+      [ngClass]="{'has-value': CategoryForm.get('name')?.value || nameFocused}"
     />
-    <div *ngIf="nameError" class="text-danger">{{ nameError }}</div>
+    <label for="name">Name</label>
+    <div class="text-danger" *ngIf="nameError">{{ nameError }}</div>
   </div>
 
-
   <!-- Submit -->
-  <button type="submit" class="btn btn-primary" [disabled]="CategoryForm.invalid">
+  <button type="submit" class="btn-primary" [disabled]="CategoryForm.invalid">
     Add Category
   </button>
 </form>

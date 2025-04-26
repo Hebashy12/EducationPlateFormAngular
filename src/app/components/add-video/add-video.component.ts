@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VideoService } from '../../Services/video.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 export type Section = {
   sectionId: number;
   sectionName: string;
@@ -60,6 +60,17 @@ return formData;
   styleUrl: './add-video.component.css'
 })
 export class AddVideoComponent implements OnInit {
+
+  titleFocused = false;
+  descriptionFocused = false;
+  videoFileFocused = false;
+  thumbnailImageFocused = false;
+  sectionFocused = false;
+
+  constructor() {}
+
+  private readonly router = inject(Router);
+ 
 private readonly route = inject(ActivatedRoute);
 loading:boolean = false;
 

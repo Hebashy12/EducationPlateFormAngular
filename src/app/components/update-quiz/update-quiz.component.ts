@@ -11,6 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QuizeService } from '../../Services/quiz.service';
 import { QuestionsService } from '../../Services/questions.service';
 import { Question,Quiz } from '../add-quiz/add-quiz.component';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 export type QuizForm = {
   title: FormControl<string | null>;
@@ -36,6 +38,7 @@ export class UpdateQuizComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
+  private cdr = inject(ChangeDetectorRef);
   quizId!: number;
   quiz!: Quiz;
   questions: Question[] = [];
@@ -150,18 +153,21 @@ export class UpdateQuizComponent implements OnInit {
     const { header, correctAnswer, order } = this.questionForm.value;
     const current = this.questions[this.idx];
 
-    if (!header || !correctAnswer || !order) return;
+    if (!header || !correctAnswer || !order){
+      console.error('Invalid question form', { header, correctAnswer, order });
+      this.loadingQuestion = false;
+      return;}
     console.log('Question form', { header, correctAnswer, order });
     const dto = { header, correctAnswer, order };
-   
-    this.questionService.update(current.id, dto).subscribe({
+
+    this.questionService.update(this.questions[this.idx].id,dto ).subscribe({
       next: () => {
         console.log('Question updated successfully');
 
         this.loadingQuestion = false;
-        current.header = header;
-      current.correctAnswer = correctAnswer;
-      current.order = order;
+      //   current.header = header;
+      // current.correctAnswer = correctAnswer;
+      // current.order = order;
       // then move on
       this.advance();
       },
@@ -170,12 +176,16 @@ export class UpdateQuizComponent implements OnInit {
       },
     });
   }
+
+
   private advance() {
     this.idx++;
     this.currentQuestionNumber++;
     if (this.idx < this.questions.length) {
-   
+
+
       this.patchCurrentQuestion();
+      this.cdr.detectChanges();
       this.questionForm.markAsPristine();
       this.questionForm.markAsUntouched();
     }
@@ -188,7 +198,7 @@ export class UpdateQuizComponent implements OnInit {
       correctAnswer: q.correctAnswer,
       order: q.order
     });
-    
+
   }
 
   onFinish() {

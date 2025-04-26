@@ -1,73 +1,55 @@
-<!-- 
- <form [formGroup]="SectionForm" (ngSubmit)="onSubmit()">
-  <input formControlName="sectionName" placeholder="Section Name" />
-  <div *ngIf="sectionNameError">{{ sectionNameError }}</div>
-
-  <label>
-    <input type="checkbox" formControlName="isPassSection" />
-    Is Pass Section
-  </label>
-
-   <input type="number" formControlName="courseId" placeholder="Course ID" />
-  <div *ngIf="courseIdError">{{ courseIdError }}</div> 
-
-  <select formControlName="courseId">
-    <option [ngValue]="null" disabled>Select a course</option>
-    <option *ngFor="let course of courses" [ngValue]="course.courseId">
-      {{ course.title }}
-    </option>
-  </select>
-  <div *ngIf="courseIdError">{{ courseIdError }}</div>
-
-  <button type="submit" [disabled]="SectionForm.invalid">Add Section</button>
-</form>
- -->
-
- 
-<form [formGroup]="SectionForm" (ngSubmit)="onSubmit()" novalidate>
+<form [formGroup]="SectionForm" (ngSubmit)="onSubmit()" novalidate class="modern-form">
+  <h2 class="heading">Add New Section</h2>
 
   <!-- Section Name -->
-  <div class="mb-3">
-    <label for="sectionName" class="form-label">Section Name</label>
+  <div class="form-group">
     <input
       type="text"
       id="sectionName"
       class="form-control"
       formControlName="sectionName"
+      placeholder=" "
+      (focus)="sectionNameFocused = true"
+      (blur)="sectionNameFocused = false"
+      [ngClass]="{'has-value': SectionForm.get('sectionName')?.value || sectionNameFocused}"
     />
+    <label for="sectionName">Section Name</label>
     <div *ngIf="sectionNameError" class="text-danger">{{ sectionNameError }}</div>
   </div>
 
   <!-- Is Pass Section Checkbox -->
-  <div class="form-check mb-3">
-    <input
-      type="checkbox"
-      id="isPassSection"
-      class="form-check-input"
-      formControlName="isPassSection"
-    />
-    <label for="isPassSection" class="form-check-label">Is Pass Section</label>
+  <div class="form-group">
+    <div class="form-check form-check-inline">
+      <input
+        type="checkbox"
+        id="isPassSection"
+        class="form-check-input"
+        formControlName="isPassSection"
+      />
+      <label for="isPassSection" class="form-check-label">Is Pass Section</label>
+    </div>
   </div>
 
   <!-- Course Dropdown -->
-  <div class="mb-3">
-    <label for="courseId" class="form-label">Course</label>
+  <div class="form-group select-group">
     <select
       id="courseId"
-      class="form-select"
+      class="form-control"
       formControlName="courseId"
+      (focus)="courseFocused = true"
+      (blur)="courseFocused = false"
+      [ngClass]="{'has-value': SectionForm.get('courseId')?.value || courseFocused}"
     >
-      <option [ngValue]="null" disabled selected>Select a course</option>
-      <option *ngFor="let course of courses" [ngValue]="course.courseId">
-        {{ course.title }}
-      </option>
+      <option [ngValue]="null" disabled>Select a course</option>
+      <option *ngFor="let course of courses" [ngValue]="course.courseId">{{ course.title }}</option>
     </select>
+    <label for="courseId">Course</label>
     <div *ngIf="courseIdError" class="text-danger">{{ courseIdError }}</div>
   </div>
 
   <!-- Submit Button -->
-  <button type="submit" class="btn btn-primary" [disabled]="SectionForm.invalid">
+  <button type="submit" class="btn-primary" [disabled]="SectionForm.invalid">
     Add Section
   </button>
 </form>
-
+``

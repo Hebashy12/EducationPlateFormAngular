@@ -4,24 +4,29 @@
     *ngIf="!quizSaved"
     [formGroup]="quizForm"
     (ngSubmit)="onSubmitQuiz()"
-    class="mb-5"
+    class="modern-form mb-5"
     novalidate
   >
     <h4>Edit Quiz</h4>
 
-    <div class="mb-3">
-      <label class="form-label">Title</label>
-      <input class="form-control" formControlName="title" />
+    <div class="form-group">
+      <input
+        class="form-control"
+        formControlName="title"
+        placeholder=" "
+      />
+      <label for="title" class="form-label">Title</label>
       <div *ngIf="titleError" class="text-danger">{{ titleError }}</div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Passing Score</label>
+    <div class="form-group">
       <input
         type="number"
         class="form-control"
         formControlName="passingScore"
+        placeholder=" "
       />
+      <label for="passingScore" class="form-label">Passing Score</label>
     </div>
 
     <button
@@ -36,21 +41,25 @@
   <hr />
 
   <!-- 2) — Question Update Form (sequential) — -->
-  <div *ngIf="quizSaved  && idx < questions.length">
+  <div *ngIf="quizSaved && idx < questions.length">
     <h3>Question {{ currentQuestionNumber }} of {{ questions.length }}</h3>
     <form
       [formGroup]="questionForm"
       (ngSubmit)="onSubmitQuestion()"
-      class="border p-4 rounded bg-light"
+      class="form-group bg-light border p-4 rounded"
       novalidate
     >
       <h5 class="mb-3">
         Question {{ questions[idx].order }} of {{ questions.length }}
       </h5>
 
-      <div class="mb-3">
-        <label class="form-label">Header</label>
-        <input class="form-control" formControlName="header" />
+      <div class="form-group">
+        <input
+          class="form-control"
+          formControlName="header"
+          placeholder=" "
+        />
+        <label for="header" class="form-label">Header</label>
       </div>
 
       <div class="form-check form-check-inline mb-3">
@@ -74,14 +83,15 @@
         <label class="form-check-label" for="falseAnswer">False</label>
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">Order</label>
+      <div class="form-group">
         <input
           class="form-control"
           type="number"
           formControlName="order"
           readonly
+          placeholder=" "
         />
+        <label for="order" class="form-label">Order</label>
       </div>
 
       <button

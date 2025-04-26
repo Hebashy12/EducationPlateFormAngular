@@ -24,6 +24,11 @@ export type SectionForm = {
   styleUrl: './add-section.component.css'
 })
 export class AddSectionComponent implements OnInit{
+
+  sectionNameFocused = false;
+courseFocused = false;
+
+
   courses: Course[]|null = null;
   constructor(private sectionService: SectionService , private router:Router, private route:ActivatedRoute) {}
 
@@ -34,7 +39,8 @@ export class AddSectionComponent implements OnInit{
           this.router.navigate(['/notFound']);
           return;
         }
-        this.courses = data.sort((a, b) => a.title.localeCompare(b.title));
+        this.courses = data.sort((a, b) => a.courseId-b.courseId); // Sort by courseId
+        //.sort((a, b) => a.title.localeCompare(b.title));
       },
       error: (error) => {
         console.log('Error while getting courses', error);

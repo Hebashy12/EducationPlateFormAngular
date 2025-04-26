@@ -1,0 +1,378 @@
+.modern-form {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.modern-form .heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #111827;
+}
+
+/* Form Group Styles */
+.form-group {
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 1.125rem 1rem 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.form-group label {
+  position: absolute;
+  top: 1.125rem;
+  left: 1rem;
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  padding: 0 0.25rem;
+  margin-left: -0.25rem;
+}
+
+/* Floating Label Effect */
+.form-control:focus + label,
+.form-control.has-value + label,
+.form-control:not(:placeholder-shown) + label {
+  top: -0.5px;
+  font-size: 0.8125rem;
+  color: #6b7280;
+  background-color: white;
+  transform: translateY(-50%);
+}
+
+.form-control:focus {
+  border-color: #7c3aed;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1);
+}
+
+/* Textarea specific styles */
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Select element specific styles */
+.select-group select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l4.5-4.5H3.5L8 10.5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* Modern checkbox */
+.modern-checkbox-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.modern-checkbox-wrapper label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.modern-checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: #7c3aed;
+  cursor: pointer;
+}
+
+/* File input styling */
+.file-input-group {
+  margin-bottom: 2rem;
+}
+
+.file-input-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.file-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.file-input-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 1px dashed #d1d5db;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-input-label:hover {
+  background-color: #e5e7eb;
+  border-color: #7c3aed;
+}
+
+.file-input-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Image preview styling */
+.image-preview {
+  margin-top: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: inline-block;
+}
+
+.img-thumbnail {
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: #7c3aed;
+  border: none;
+  padding: 0.875rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: #6d28d9;
+}
+
+.btn-primary:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Error Messages */
+.text-danger {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  position: absolute;
+  bottom: -1.25rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .modern-form {
+    padding: 1.5rem;
+  }
+
+  .form-control {
+    padding: 1rem 1rem 0.375rem;
+  }
+
+  .form-group label {
+    top: 1rem;
+  }
+}
+.file-input-container {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Maintain standard form-control styling for file inputs */
+input[type="file"].form-control {
+  padding-top: 1.125rem;
+  color: #4b5563;
+}
+
+/* Add some extra spacing for the label with file inputs */
+input[type="file"].form-control + label {
+  background-color: white;
+  top: -0.5px;
+  font-size: 0.8125rem;
+  transform: translateY(-50%);
+}
+
+/* Image preview styling */
+.image-preview {
+  margin-top: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: inline-block;
+}
+
+.img-thumbnail {
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+/* File upload container with side preview */
+.file-upload-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.file-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+/* Maintain standard form-control styling for file inputs */
+input[type="file"].form-control {
+  padding-top: 1.125rem;
+  color: #4b5563;
+  width: 100%;
+}
+
+/* Add some extra spacing for the label with file inputs */
+input[type="file"].form-control + label {
+  background-color: white;
+  top: -0.5px;
+  font-size: 0.8125rem;
+  transform: translateY(-50%);
+}
+
+/* Image preview container */
+.image-preview-container {
+  width: 200px;
+  height: 150px;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9fafb;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Error message positioning for file input */
+.file-input-wrapper .text-danger {
+  position: absolute;
+  bottom: -1.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .file-upload-container {
+    flex-direction: column;
+  }
+
+  .image-preview-container {
+    margin-top: 1.5rem;
+    width: 100%;
+  }
+}
+
+/* File upload container with centered side preview */
+.file-upload-container {
+  display: flex;
+  align-items: center; /* Changed from flex-start to center */
+  justify-content: center; /* Added center alignment */
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.file-input-wrapper {
+  flex: 1;
+  position: relative;
+  max-width: 400px; /* Added max-width to prevent stretching */
+}
+
+/* Maintain standard form-control styling for file inputs */
+input[type="file"].form-control {
+  padding-top: 1.125rem;
+  color: #4b5563;
+  width: 100%;
+}
+
+/* Add some extra spacing for the label with file inputs */
+input[type="file"].form-control + label {
+  background-color: white;
+  top: -0.5px;
+  font-size: 0.8125rem;
+  transform: translateY(-50%);
+}
+
+/* Image preview container */
+.image-preview-container {
+  width: 200px;
+  height: 150px;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9fafb;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Error message positioning for file input */
+.file-input-wrapper .text-danger {
+  position: absolute;
+  bottom: -1.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .file-upload-container {
+    flex-direction: column;
+  }
+
+  .image-preview-container {
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 300px; /* Prevent full width on mobile */
+  }
+}
+
+
