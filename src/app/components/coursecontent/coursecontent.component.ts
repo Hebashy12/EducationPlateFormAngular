@@ -105,7 +105,8 @@ quizs:IGetQuiz[]=[]
   }
 
   isSectionVisible(sectionId: number): boolean {
-    return this.sections.find(s => s.sectionId == sectionId)?.isPassSection || false;
+    // return this.sections.find(s => s.sectionId == sectionId)?.isPassSection || false;
+    return true;
   }
 
   showVideo(videoId: number) {

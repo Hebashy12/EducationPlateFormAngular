@@ -1,11 +1,8 @@
-
 import { Component ,ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
-
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Message {
@@ -13,7 +10,6 @@ interface Message {
   sender: 'user' | 'bot';
   timestamp: Date;
   isCode?: boolean;
-
 }
 
 @Component({
@@ -23,22 +19,19 @@ interface Message {
   styleUrl: './chat-bot.component.css'
 })
 export class ChatBotComponent {
-
   @ViewChild('chatContainer') private chatContainer!: ElementRef;
-
 
   messages: Message[] = [];
   userInput = '';
   isLoading = false;
   errorMessage: string | null = null;
 
-
   constructor(
     private http: HttpClient,
     private sanitizer: DomSanitizer
   ) {}
 
-  private apiKey = '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'; // Remember to secure this properly
+  private apiKey = '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'; // Remember to secure this properly
   private apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
 
   ngAfterViewChecked() {
@@ -54,7 +47,6 @@ export class ChatBotComponent {
   sendMessage() {
     if (!this.userInput.trim() || this.isLoading) return;
 
-
     this.addMessage(this.userInput, 'user');
     const prompt = this.userInput;
     this.userInput = '';
@@ -63,9 +55,7 @@ export class ChatBotComponent {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.apiKey}`,
       'HTTP-Referer': '<YOUR_SITE_URL>',
-
       'X-Title': '<YOUR_SITE_NAME>',
-
       'Content-Type': 'application/json'
     });
 
@@ -81,11 +71,9 @@ export class ChatBotComponent {
 
     this.http.post(this.apiUrl, body, { headers }).subscribe({
       next: (response: any) => {
-
         const reply = response.choices?.[0]?.message?.content || "I didn't get that";
         const formattedReply = this.formatText(reply);
         this.addMessage(formattedReply, 'bot');
-
         this.isLoading = false;
       },
       error: (error) => {
@@ -97,16 +85,13 @@ export class ChatBotComponent {
   }
 
   private addMessage(content: string, sender: 'user' | 'bot') {
-
     const formattedContent = sender === 'bot' ? this.formatText(content) : content;
     this.messages.push({
       content: this.sanitizer.bypassSecurityTrustHtml(formattedContent),
-
       sender,
       timestamp: new Date()
     });
   }
-
 
   private formatText(text: string): string {
     let formatted = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
@@ -160,5 +145,4 @@ export class ChatBotComponent {
       this.sendMessage();
     }
   }
-
 }
