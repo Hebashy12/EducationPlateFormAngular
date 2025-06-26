@@ -5,9 +5,9 @@ import { CommonModule } from '@angular/common';
 
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { AuthService, User } from './Services/auth.service';
+import { AuthService, User } from './services/auth.service';
 import { jwtDecode } from 'jwt-decode';
-import { ToastrModule } from 'ngx-toastr';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({

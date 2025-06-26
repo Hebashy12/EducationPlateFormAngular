@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Course } from '../../Services/course.service';
+import { Course } from '../../services/course.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CategoryService } from '../../Services/category.service';
+import { CategoryService } from '../../services/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 export type CategoryDTO = {

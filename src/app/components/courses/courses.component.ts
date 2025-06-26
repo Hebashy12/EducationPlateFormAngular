@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Category } from '../add-course/add-course.component';
-import { Course } from '../../Services/course.service';
+import { Course } from '../../services/course.service';
 
 @Component({
   selector: 'app-courses',

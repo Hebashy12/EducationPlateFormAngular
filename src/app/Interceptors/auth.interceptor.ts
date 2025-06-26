@@ -1,10 +1,11 @@
 import { HttpHeaders, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService, User } from '../Services/auth.service';
+import { AuthService, User } from '../services/auth.service';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-const API_URL = import.meta.env.NG_APP_API_URL ?? 'https://localhost:7098/';
+const API_URL = import.meta.env.NG_APP_API_URL ?? 'https://education-platform.runasp.net/';
+// const API_URL = import.meta.env.NG_APP_API_URL ?? 'https://localhost:7098/';
 
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {

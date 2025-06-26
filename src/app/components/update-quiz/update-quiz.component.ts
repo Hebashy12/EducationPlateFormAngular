@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { QuizeService } from '../../Services/quiz.service';
-import { QuestionsService } from '../../Services/questions.service';
+import { QuizeService } from '../../services/quiz.service';
+import { QuestionsService } from '../../services/questions.service';
 import { Question,Quiz } from '../add-quiz/add-quiz.component';
 import { ChangeDetectorRef } from '@angular/core';
 

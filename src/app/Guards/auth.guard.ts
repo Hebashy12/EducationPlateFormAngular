@@ -1,6 +1,6 @@
 import { computed, inject } from '@angular/core';
 import { CanActivateFn, MaybeAsync, Router } from '@angular/router';
-import { AuthService, User } from '../Services/auth.service';
+import { AuthService, User } from '../services/auth.service';
 import { catchError, filter, map, Observable, of } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { toObservable } from '@angular/core/rxjs-interop';

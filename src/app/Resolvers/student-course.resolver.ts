@@ -1,7 +1,7 @@
 import { ResolveFn } from '@angular/router';
 
 import { inject } from '@angular/core';
-import { StudentCourseService } from '../Services/student-course.service';
+import { StudentCourseService } from '../services/student-course.service';
 import { filter } from 'rxjs';
 import { IGetStudentCourse } from '../models/studentCourse/iget-student-course';
 

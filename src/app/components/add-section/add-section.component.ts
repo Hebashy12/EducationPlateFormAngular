@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SectionService } from '../../Services/section.service';
+import { SectionService } from '../../services/section.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Course } from '../../Services/course.service';
+import { Course } from '../../services/course.service';
 
 export type SectionDTO = {
   sectionName: string;

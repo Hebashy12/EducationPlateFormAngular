@@ -5,15 +5,15 @@ import { RouterModule } from '@angular/router';
 
 import { IGetSection } from '../../models/sectionModel/iget-section';
 import { IGetVideo } from '../../models/videoModel/iget-video';
-import { Course } from '../../Services/course.service';
+import { Course } from '../../services/course.service';
 import { Category } from '../add-course/add-course.component';
-import { VideoService } from '../../Services/video.service';
-import { SectionService } from '../../Services/section.service';
-import { QuizeService } from '../../Services/quiz.service';
+import { VideoService } from '../../services/video.service';
+import { SectionService } from '../../services/section.service';
+import { QuizeService } from '../../services/quiz.service';
 
 
-import { AuthService } from '../../Services/auth.service';
-import { PaymentService } from '../../Services/payment.service';
+import { AuthService } from '../../services/auth.service';
+import { PaymentService } from '../../services/payment.service';
 import { IGetStudentCourse } from '../../models/studentCourse/iget-student-course';
 
 @Component({

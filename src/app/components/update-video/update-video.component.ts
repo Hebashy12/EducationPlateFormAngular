@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VideoService } from '../../Services/video.service';
+import { VideoService } from '../../services/video.service';
 export type Section = {
   sectionId: number;
   sectionName: string;

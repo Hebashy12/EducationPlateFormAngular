@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Course, CourseService } from '../../Services/course.service';
+import { Course, CourseService } from '../../services/course.service';
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Course , CourseService } from '../../Services/course.service';
+import { Course , CourseService } from '../../services/course.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({

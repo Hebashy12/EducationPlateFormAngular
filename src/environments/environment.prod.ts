@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:5048//'
+  apiUrl: 'https://education-platform.runasp.net/'
 };

@@ -3,7 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { inject } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { AuthService, User } from '../../Services/auth.service';
+import { AuthService, User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',

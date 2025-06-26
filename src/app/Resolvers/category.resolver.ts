@@ -1,7 +1,7 @@
 // course.resolver.ts
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { Course , CourseService } from '../Services/course.service';
+import { Course , CourseService } from '../services/course.service';
 import { Category } from '../components/add-course/add-course.component';
 import { filter } from 'rxjs';
 

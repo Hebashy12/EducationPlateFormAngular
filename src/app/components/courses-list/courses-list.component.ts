@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Course, CourseService } from '../../Services/course.service';
+import { Course, CourseService } from '../../services/course.service';
 
 @Component({
   selector: 'app-courses-list',

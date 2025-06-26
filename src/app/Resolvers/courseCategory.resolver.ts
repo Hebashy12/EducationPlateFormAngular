@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
 
-import { CategoryService } from '../Services/category.service';
+import { CategoryService } from '../services/category.service';
 import { Category } from '../components/update-course/update-course.component';
 import { filter } from 'rxjs';
 

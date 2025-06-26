@@ -1,7 +1,7 @@
 // course.resolver.ts
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { Course , CourseService } from '../Services/course.service';
+import { Course , CourseService } from '../services/course.service';
 import { filter, map } from 'rxjs';
 
 export const courseResolver: ResolveFn<(null|Course)> = (route,state) => {

@@ -9,7 +9,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 
 import { CommonModule } from '@angular/common'; // ✅ For *ngIf, *ngFor
-import { AuthService } from '../../Services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import passwordMatchValidator from '../../customValidators/passwordMatchValidator';
 
 @Component({

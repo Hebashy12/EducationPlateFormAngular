@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { QuizeService } from '../../Services/quiz.service';
+import { QuizeService } from '../../services/quiz.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Section } from '../update-video/update-video.component';
-import { QuestionsService } from '../../Services/questions.service';
+import { QuestionsService } from '../../services/questions.service';
  export type QuizForm = {
   title: FormControl<string | null>;
   passingScore: FormControl<number | null>;

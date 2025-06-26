@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { VideoService } from '../../Services/video.service';
+import { VideoService } from '../../services/video.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 export type Section = {
@@ -70,7 +70,7 @@ export class AddVideoComponent implements OnInit {
   constructor() {}
 
   private readonly router = inject(Router);
- 
+
 private readonly route = inject(ActivatedRoute);
 loading:boolean = false;
 

@@ -3,11 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { VideoService } from '../../Services/video.service';
-import { QuizeService } from '../../Services/quiz.service';
+import { VideoService } from '../../services/video.service';
+import { QuizeService } from '../../services/quiz.service';
 import { IGetVideo } from '../../models/videoModel/iget-video';
 import { IGetQuizWithQuestions } from '../../models/quize/iget-quiz-with-questions';
-import { Course } from '../../Services/course.service';
+import { Course } from '../../services/course.service';
 import { IGetSection } from '../../models/sectionModel/iget-section';
 import { IGetQuiz } from '../../models/quize/iget-quiz';
 
